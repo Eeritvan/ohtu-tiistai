@@ -1,3 +1,3 @@
 # ohtu-tiistai
 
-Jukan muistiinpanotesti
+Eetun muistiinpanotesti
