@@ -6,4 +6,4 @@ class Todo:
 
     def __str__(self):
         is_done = "done" if self.done else "not done"
-        return f"{self.content}, {is_done}"
+        return f"{self.content}"
