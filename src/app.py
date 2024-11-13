@@ -16,10 +16,24 @@ def new():
 
 @app.route("/create_reference", methods=["POST"])
 def reference_creation():
+    author = request.form.get("author")
     title = request.form.get("title")
+    booktitle = request.form.get("booktitle")
+    year = request.form.get("year")
+
+    editor = request.form.get("editor")
+    volume = request.form.get("volume")
+    number = request.form.get("number")
+    series = request.form.get("series")
+    pages = request.form.get("pages")
+    address = request.form.get("address")
+    month = request.form.get("month")
+    organisation = request.form.get("organisation")
+    publisher = request.form.get("publisher")
 
     try:
-        validate_reference(title)
+        #TODO this needs to be done better, so function does get less parameters
+        validate_reference(author, title, booktitle, year, editor, volume, number, series, pages, address, month, organisation, publisher)
         create_reference(title)
         return redirect("/")
     except Exception as error:
