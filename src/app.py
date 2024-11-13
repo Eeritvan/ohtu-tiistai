@@ -7,8 +7,10 @@ from util import validate_todo
 @app.route("/")
 def index():
     todos = get_todos()
-    unfinished = len([todo for todo in todos if not todo.done])
-    return render_template("index.html", todos=todos, unfinished=unfinished) 
+    todos_all = len([todo for todo in todos])
+    return render_template("index.html", todos=todos, unfinished=todos_all)
+#    unfinished = len([todo for todo in todos if not todo.done])
+#    return render_template("index.html", todos=todos, unfinished=unfinished)
 
 @app.route("/new_todo")
 def new():
