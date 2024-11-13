@@ -1,9 +1,9 @@
 class Reference:
-    def __init__(self, id, content, done):
+    def __init__(self, id, title, done):
         self.id = id
-        self.content = content
+        self.title = title
         self.done = done
 
     def __str__(self):
         #is_done = "done" if self.done else "not done"
-        return f"{self.content}"
+        return f"{self.title}"

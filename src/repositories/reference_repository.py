@@ -13,7 +13,7 @@ def set_done(reference_id):
     db.session.execute(sql, { "id": reference_id })
     db.session.commit()
 
-def create_reference(content):
+def create_reference(title):
     sql = text("INSERT INTO todos (content) VALUES (:content)")
-    db.session.execute(sql, { "content": content })
+    db.session.execute(sql, { "content": title })
     db.session.commit()

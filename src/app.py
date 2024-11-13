@@ -16,11 +16,11 @@ def new():
 
 @app.route("/create_reference", methods=["POST"])
 def reference_creation():
-    content = request.form.get("content")
+    title = request.form.get("title")
 
     try:
-        validate_reference(content)
-        create_reference(content)
+        validate_reference(title)
+        create_reference(title)
         return redirect("/")
     except Exception as error:
         flash(str(error))

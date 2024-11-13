@@ -13,7 +13,7 @@ At start there are no references
 After adding a reference, there is one
     Go To  ${HOME_URL}
     Click Link  Create new reference
-    Input Text  content  Buy milk
+    Input Text  title  Buy milk
     Click Button  Create
     Page Should Contain  Saved references: 1
     Page Should Contain  Buy milk
@@ -21,10 +21,10 @@ After adding a reference, there is one
 After adding two references and marking one done, there is 2
     Go To  ${HOME_URL}
     Click Link  Create new reference
-    Input Text  content  Buy milk
+    Input Text  title  Buy milk
     Click Button  Create
     Click Link  Create new reference
-    Input Text  content  Clean house
+    Input Text  title  Clean house
     Click Button  Create
 #    Click Button  //li[div[contains(text(), 'Buy milk')]]/form/button
     Page Should Contain  Saved references: 2
