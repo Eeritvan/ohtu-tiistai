@@ -4,27 +4,30 @@ class UserInputError(Exception):
     pass
 
 #TODO this needs to be fixed, so input is less params and more flexible for other reference types
-def validate_reference(author, title, booktitle, year, editor, volume, number, series, pages, address, month, organisation, publisher):
+def validate_reference(author, title, booktitle, year, editor):
+    #volume, number, series, pages, address, month, organisation, publisher
+
     fields_validation_length = {"author": author, "title": title, "book title": booktitle}
 
     if len(editor)>0:
         fields_validation_length["editor"] = editor
-    if len(volume)>0:
-        fields_validation_length["volume"] = volume
-    if len(number)>0:
-        fields_validation_length["number"] = number
-    if len(series)>0:
-        fields_validation_length["series"] = series
-    if len(pages)>0:
-        fields_validation_length["pages"] = pages
-    if len(address)>0:
-        fields_validation_length["address"] = address
-    if len(month)>0:
-        fields_validation_length["month"] =  month
-    if len(organisation)>0:
-        fields_validation_length["organisation"] =  organisation
-    if len(publisher)>0:
-        fields_validation_length["publisher"] =  publisher
+
+    # if len(volume)>0:
+    #     fields_validation_length["volume"] = volume
+    # if len(number)>0:
+    #     fields_validation_length["number"] = number
+    # if len(series)>0:
+    #     fields_validation_length["series"] = series
+    # if len(pages)>0:
+    #     fields_validation_length["pages"] = pages
+    # if len(address)>0:
+    #     fields_validation_length["address"] = address
+    # if len(month)>0:
+    #     fields_validation_length["month"] =  month
+    # if len(organisation)>0:
+    #     fields_validation_length["organisation"] =  organisation
+    # if len(publisher)>0:
+    #     fields_validation_length["publisher"] =  publisher
 
     for key, content in fields_validation_length.items():
 
