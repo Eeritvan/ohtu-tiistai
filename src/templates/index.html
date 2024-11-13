@@ -1,15 +1,15 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Todo app
+Reference app
 {% endblock %}
 
 {% block body %}
 
-<h2>Todo app</h2>
+<h2>Reference app</h2>
 
 <div>
-  things still unfinished: {{ unfinished }}
+  Saved references: {{ unfinished }}
 </div>
 
 <ul>
@@ -18,17 +18,17 @@ Todo app
       <div>
         {{ todo }} 
       </div>
-      {% if not todo.done %}
+      <!--{% if not todo.done %}
         <form action="/toggle_todo/{{ todo.id }}" method="post" style="margin-left: 10px;">
           <button type="submit">mark as done</button>
         </form>
-      {% endif %}
+      {% endif %} -->
     </li>
   {% endfor %}
 </ul>
 
 <div>
-  <a href="/new_todo">Create new todo</a>
+  <a href="/new_todo">Create new reference</a>
 </div>
 
 {% endblock %}
