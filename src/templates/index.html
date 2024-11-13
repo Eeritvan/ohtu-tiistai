@@ -13,22 +13,17 @@ Reference app
 </div>
 
 <ul>
-  {% for todo in todos %}
+  {% for reference in references %}
     <li style="display: flex">
       <div>
-        {{ todo }} 
+        {{ reference }} 
       </div>
-      <!--{% if not todo.done %}
-        <form action="/toggle_todo/{{ todo.id }}" method="post" style="margin-left: 10px;">
-          <button type="submit">mark as done</button>
-        </form>
-      {% endif %} -->
     </li>
   {% endfor %}
 </ul>
 
 <div>
-  <a href="/new_todo">Create new reference</a>
+  <a href="/new_reference">Create new reference</a>
 </div>
 
 {% endblock %}

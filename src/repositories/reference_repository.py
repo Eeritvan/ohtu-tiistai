@@ -1,19 +1,19 @@
 from config import db
 from sqlalchemy import text
 
-from entities.todo import Todo
+from entities.reference import Reference
 
-def get_todos():
+def get_references():
     result = db.session.execute(text("SELECT id, content, done FROM todos"))
-    todos = result.fetchall()
-    return [Todo(todo[0], todo[1], todo[2]) for todo in todos] 
+    references = result.fetchall()
+    return [Reference(reference[0], reference[1], reference[2]) for reference in references] 
 
-def set_done(todo_id):
+def set_done(reference_id):
     sql = text("UPDATE todos SET done = TRUE WHERE id = :id")
-    db.session.execute(sql, { "id": todo_id })
+    db.session.execute(sql, { "id": reference_id })
     db.session.commit()
 
-def create_todo(content):
+def create_reference(content):
     sql = text("INSERT INTO todos (content) VALUES (:content)")
     db.session.execute(sql, { "content": content })
     db.session.commit()
