@@ -44,5 +44,8 @@ def validate_reference(author, title, booktitle, year, editor):
                 f"Reference {key} length must be smaller than 100"
             )
 
-        if re.search(r'\b(?:14\d{2}|15\d{2}|16\d{2}|17\d{2}|18\d{2}|19\d{2}|20\d{2})\b', year) is None:
+        if re.search(
+            r'\b(?:14\d{2}|15\d{2}|16\d{2}|17\d{2}|18\d{2}|19\d{2}|20\d{2})\b', 
+            year
+        ) is None:
             raise UserInputError("Reference year must be a four-digit number.")
