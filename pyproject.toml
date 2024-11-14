@@ -15,12 +15,10 @@ python-dotenv = "^1.0.1"
 getenv = "^0.2.0"
 psycopg2-binary = "^2.9.10"
 requests = "^2.32.3"
-psycopg2 = "^2.9.10"
-robot = "^20071211"
-
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
+pylint = "^3.3.1"
 
 [build-system]
 requires = ["poetry-core"]
