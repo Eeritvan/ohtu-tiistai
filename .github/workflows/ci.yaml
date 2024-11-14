@@ -37,11 +37,11 @@ jobs:
       - name: Install Poetry
         run: pip install poetry
       - name: Install dependencies
-        run: poetry install    
+        run: poetry install
       - name: Run pylint
         run: poetry run pylint src
       - name: Run unit tests
-        run: poetry run pytest src/tests
+        run: poetry run coverage run --branch -m pytest
       - name: Setup chromedriver
         uses: nanasess/setup-chromedriver@master
       - run: |
