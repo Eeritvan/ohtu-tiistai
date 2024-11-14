@@ -8,3 +8,5 @@ report.html
 *.png
 .coverage
 htmlcov
+.vscode
+.pytest_cache
