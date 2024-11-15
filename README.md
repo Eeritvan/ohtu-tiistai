@@ -6,21 +6,28 @@
 ### [backlog](https://github.com/users/Eeritvan/projects/5/views/1)
 ### [sprint-backlog](https://github.com/users/Eeritvan/projects/5/views/2)
 
+
+## Contents
+- [Running locally](#running-locally)
+- [Definition of done](#definition-of-done)
+
 ## Running locally
 **Prerequisites**
 - Poetry version 1.6.1 or later installed
 
 **Installation**
 1. Clone this repository
-2. Navigate to the cloned directory and create a `.env` file:
+2. Create a new Postgresql database with `CREATE DATABASE newdbname;`
+3. Navigate to the cloned directory and import the schema to the new database, e.g. `psql -d newdbname -f schema.sql`
+4. Create a `.env` file:
 ```
 DATABASE_URL=<YOUR PSQL URL>
 TEST_ENV=false
 SECRET_KEY=<YOUR SECRET KEY>
 ```
-3. Run `poetry install` to install dependencies
-4. Run `poetry run python3 src/index.py` from the root of the directory.
-5. Navigate to the URL `http://127.0.0.1:5001/`
+5. Run `poetry install` to install dependencies
+6. Run `poetry run python3 src/index.py` from the root of the directory.
+7. Navigate to the URL `http://127.0.0.1:5001/`
 
 ## Definition of done
 - Code is available in the GitHub repository
