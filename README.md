@@ -17,16 +17,15 @@
 
 **Installation**
 1. Clone this repository
-2. Create a new Postgresql database with `CREATE DATABASE newdbname;`
-3. Navigate to the cloned directory and import the schema to the new database, e.g. `psql -d newdbname -f schema.sql`
-4. Create a `.env` file:
+2. Navigate to the cloned directory and create a `.env` file:
 ```
 DATABASE_URL=<YOUR PSQL URL>
 TEST_ENV=false
 SECRET_KEY=<YOUR SECRET KEY>
 ```
-5. Run `poetry install` to install dependencies
-6. Run `poetry run python3 src/index.py` from the root of the directory.
+3. Run `poetry install` to install dependencies and enter virtual environment with `poetry shell`
+4. Run `python3 src/db_helper.py` from the root of the directory to setup the database
+6. Run `python3 src/index.py` to start the webapp server
 7. Navigate to the URL `http://127.0.0.1:5001/`
 
 ## Definition of done
