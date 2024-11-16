@@ -1,7 +1,7 @@
 from sqlalchemy import text
 from config import db, app
 
-TABLE_NAME = "todos"
+TABLE_NAME = "sources"
 
 def table_exists(name):
     sql_table_existence = text(
@@ -35,8 +35,11 @@ def setup_db():
     sql = text(
         f"CREATE TABLE {TABLE_NAME} ("
         "  id SERIAL PRIMARY KEY, "
-        "  content TEXT NOT NULL,"
-        "  done BOOLEAN DEFAULT FALSE"
+        "  type VARCHAR(50) NOT NULL, "
+        "  author VARCHAR(255) NOT NULL, "
+        "  title VARCHAR(255) NOT NULL, "
+        "  year INT NOT NULL, "
+        "  details JSONB"
         ")"
     )
 
