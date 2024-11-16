@@ -7,7 +7,7 @@ def validate_reference(validate_set):
 
     for key, content in validate_set.items():
 
-        if key == "author" and "title" and "booktitle":
+        if key in ["author", "title", "booktitle"]:
         # Mandatory: author, title, booktitle, year
             if len(content) < 3:
                 raise UserInputError(
@@ -18,7 +18,7 @@ def validate_reference(validate_set):
                 raise UserInputError(
                     f"Reference {key} length must be smaller than 255"
                 )
-        elif(key == "editor" or "address" or "organisation" or "publisher"):
+        elif key in ["editor", "address", "organisation", "publisher"]:
         # Optional: editor, address, organisation, publisher
         # More checking needed?
             if len(content)>0:
