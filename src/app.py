@@ -2,8 +2,8 @@ from flask import redirect, render_template, request, jsonify, flash
 from db_helper import reset_db
 from repositories.reference_repository import (
     get_references,
-    create_reference,
-    set_done
+    create_reference
+ #   set_done
 )
 from config import app, test_env
 from util import validate_reference
@@ -41,16 +41,17 @@ def reference_creation():
         # volume, number, series, pages, address, month, organisation, publisher
 
         validate_reference(author, title, booktitle, year, editor)
-        create_reference(title)
+    #    create_reference(author,title, booktitle, year, editor)
+        create_reference(author,title, year)
         return redirect("/")
     except Exception as error:
         flash(str(error))
         return  redirect("/new_reference")
 
-@app.route("/toggle_reference/<reference_id>", methods=["POST"])
-def toggle_reference(reference_id):
-    set_done(reference_id)
-    return redirect("/")
+# @app.route("/toggle_reference/<reference_id>", methods=["POST"])
+# def toggle_reference(reference_id):
+#     set_done(reference_id)
+#     return redirect("/")
 
 # testausta varten oleva reitti
 if test_env:
