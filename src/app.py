@@ -21,27 +21,40 @@ def new():
 
 @app.route("/create_reference", methods=["POST"])
 def reference_creation():
+    # This variable list is uneccessary if create_reference() is changed
     author = request.form.get("author")
     title = request.form.get("title")
     booktitle = request.form.get("booktitle")
     year = request.form.get("year")
-
     editor = request.form.get("editor")
-    # volume = request.form.get("volume")
-    # number = request.form.get("number")
-    # series = request.form.get("series")
-    # pages = request.form.get("pages")
-    # address = request.form.get("address")
-    # month = request.form.get("month")
-    # organisation = request.form.get("organisation")
-    # publisher = request.form.get("publisher")
+    volume = request.form.get("volume")
+    number = request.form.get("number")
+    series = request.form.get("series")
+    pages = request.form.get("pages")
+    address = request.form.get("address")
+    month = request.form.get("month")
+    organisation = request.form.get("organisation")
+    publisher = request.form.get("publisher")
+
+    #Adding all input in a dict for sending it to validation
+    validate_set = {}
+    validate_set["author"] = request.form.get("author")
+    validate_set["title"] = request.form.get("title")
+    validate_set["booktitle"] = request.form.get("booktitle")
+    validate_set["year"] = request.form.get("year")
+    validate_set["editor"] = request.form.get("editor")
+    validate_set["volume"] = request.form.get("volume")
+    validate_set["number"] = request.form.get("number")
+    validate_set["series"] = request.form.get("series")
+    validate_set["pages"] = request.form.get("pages")
+    validate_set["address"] = request.form.get("address")
+    validate_set["month"] = request.form.get("month")
+    validate_set["organisation"] = request.form.get("organisation")
+    validate_set["publisher"] = request.form.get("publisher")
 
     try:
-        #TODO this needs to be done better, so function does get less parameters
-        # volume, number, series, pages, address, month, organisation, publisher
-
-        validate_reference(author, title, booktitle, year, editor)
-    #    create_reference(author,title, booktitle, year, editor)
+        validate_reference(validate_set)
+    #Change this also to validate_set and remove variable list above?
         create_reference(author,title, year)
         return redirect("/")
     except Exception as error:
