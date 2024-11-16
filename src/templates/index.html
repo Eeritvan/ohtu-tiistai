@@ -16,7 +16,12 @@ Reference app
   {% for reference in references %}
     <li style="display: flex">
       <div>
-        {{ reference}}
+        Reference type: {{reference.type}}
+        Reference author: {{reference.author}}
+        Reference title: {{reference.title}}
+        Reference year: {{reference.year}}
+        <br>
+
       </div>
     </li>
   {% endfor %}
