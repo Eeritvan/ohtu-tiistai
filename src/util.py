@@ -46,3 +46,5 @@ def validate_reference(validate_set):
                 r'\b(?:14\d{2}|15\d{2}|16\d{2}|17\d{2}|18\d{2}|19\d{2}|20\d{2})\b', content) is None:
                 raise UserInputError("Reference year must be a four-digit number.")
 
+def raise_error(message):
+    raise UserInputError(message)
