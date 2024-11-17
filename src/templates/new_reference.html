@@ -26,18 +26,18 @@ Create a new reference
   <br>
 
   <label for="author">Author:</label>
-  <input type="text" name="author" value="{{ author }}">
+  <input type="text" name="author" value="{{ author }}" required>
   <br>
 
   <label for="title">Title:</label>
-  <input type="text" name="title" value="{{ title }}">
+  <input type="text" name="title" value="{{ title }}" required>
   <br>
 
   <label for="booktitle">Book title:</label>
-  <input type="text" name="booktitle" value="{{ booktitle }}">
+  <input type="text" name="booktitle" value="{{ booktitle }}" required>
   <br>
   <label for="year">Year:</label>
-  <input type="text" name="year" value="{{ year }}">
+  <input type="number" min = 1900 max = 2024 maxlength="4" name="year" value="{{ year }}" required>
   <br>
 
   <h4>Optional fields</h4>
@@ -48,11 +48,11 @@ Create a new reference
   <br>
 
   <label for="volume">Volume:</label>
-  <input type="text" name="volume" value="{{ volume }}">
+  <input type="number" min = 1 name="volume" value="{{ volume }}">
   <br>
 
   <label for="number">Number:</label>
-  <input type="text" name="number" value="{{ number }}">
+  <input type="number" name="number" value="{{ number }}">
   <br>
 
   <label for="series">Series:</label>
@@ -68,7 +68,7 @@ Create a new reference
   <br>
 
   <label for="month">Month:</label>
-  <input type="text" name="month" value="{{ month }}">
+  <input type="number" min = 1 max = 12 name="month" value="{{ month }}">
   <br>
 
   <label for="organisation">Organisation:</label>
