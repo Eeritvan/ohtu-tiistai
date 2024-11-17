@@ -16,10 +16,23 @@ Reference app
   {% for reference in references %}
     <li style="display: flex">
       <div>
-        Reference type: {{reference.type}}
-        Reference author: {{reference.author}}
-        Reference title: {{reference.title}}
-        Reference year: {{reference.year}}
+        {{reference.title}}
+        <ul>
+          <li> Type: {{reference.type}}</li>
+          <li> Author: {{reference.author}}</li>
+          <li> Title: {{reference.title}}</li>
+          <li> Year: {{reference.year}}</li>
+          <li> Booktitle: {{reference.booktitle}}</li>
+          <li> Editor: {{reference.editor}}</li>
+          <li> Volume: {{reference.volume}}</li>
+          <li> Number: {{reference.number}}</li>
+          <li> Series: {{reference.series}}</li>
+          <li> Pages: {{reference.pages}}</li>
+          <li> Address: {{reference.address}}</li>
+          <li> Month: {{reference.month}}</li>
+          <li> Organisation: {{reference.organisation}}</li>
+          <li> Publisher: {{reference.publisher}}</li>
+        </ul>
         <br>
 
       </div>
