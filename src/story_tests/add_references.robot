@@ -26,6 +26,27 @@ After each added reference the counter in the main page should increase by one
     Page Should Contain  Test Title1
     Page Should Contain  Test Book title2
 
+Filling Each Input Should Succeed
+    Go To Add Reference Page
+    Input Text  author  Test Author
+    Input Text  title  Test Title
+    Input Text  booktitle  Test Book title
+    Input Text  year  2020
+    Input Text  editor  Test Editor
+    Input Text  volume  12
+    Input Text  number  12
+    Input Text  series  Test Series
+    Input Text  pages  Test Pages
+    Input Text  address  Test Address
+    Input Text  month  12
+    Input Text  organisation  Test Organisation
+    Input Text  publisher  Test Publisher
+    Submit Reference
+    Submit Should Succeed
+    Page Should Contain  Test Editor
+    Page Should Contain  12
+    Page Should Contain  Test Organisation
+
 *** Keywords ***
 Go To Add Reference Page
     Go To  ${ADD_REFERENCE_URL}
@@ -38,3 +59,8 @@ Main Page Should Be Open
 
 Submit Should Succeed
     Main Page Should Be Open
+
+Submit Should Fail With Message
+    [Arguments]  ${message}
+    Login Page Should Be Open
+    Page Should Contain  ${message}
