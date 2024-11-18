@@ -10,6 +10,7 @@ def validate_year(year: int):
             "Reference year must be a four-digit positive integer."
         )
 
+#TODO validate month
 def validate_reference(validate_set):
     for key, content in validate_set.items():
         if key in ["author", "title", "booktitle"]:
