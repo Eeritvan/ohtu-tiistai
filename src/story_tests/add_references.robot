@@ -47,20 +47,41 @@ Filling Each Input Should Succeed
     Page Should Contain  12
     Page Should Contain  Test Organisation
 
+Adding Too Short Author Should Fail
+    Go To Add Reference Page
+    Input Text  author  ab
+    Input Text  title  Too Short
+    Input Text  booktitle  Too Short
+    Input Text  year  1920
+    Submit Reference
+    Submit Should Fail With Message  Reference author length must be greater than 3
+
+Adding Too Short Title Should Fail
+    Go To Add Reference Page
+    Input Text  author  Too Short
+    Input Text  title  ab
+    Input Text  booktitle  Too Short
+    Input Text  year  1920
+    Submit Reference
+    Submit Should Fail With Message  Reference title length must be greater than 3
+
 *** Keywords ***
+Main Page Should Be Open
+    Title Should Be  Reference app
+
+New Reference Page Should Be Open
+    Title Should Be  Create a new reference
+
 Go To Add Reference Page
     Go To  ${ADD_REFERENCE_URL}
 
 Submit Reference
     Click Button  Create
 
-Main Page Should Be Open
-    Title Should Be  Reference app
-
 Submit Should Succeed
     Main Page Should Be Open
 
 Submit Should Fail With Message
     [Arguments]  ${message}
-    Login Page Should Be Open
+    New Reference Page Should Be Open
     Page Should Contain  ${message}
