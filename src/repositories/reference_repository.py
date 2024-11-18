@@ -1,9 +1,6 @@
 from sqlalchemy import text
 from config import db
 
-from entities.reference import Reference
-
-
 def get_references():
     result = db.session.execute(text(
         '''

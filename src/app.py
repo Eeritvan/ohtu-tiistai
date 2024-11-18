@@ -3,7 +3,6 @@ from db_helper import reset_db
 from repositories.reference_repository import (
     get_references,
     create_reference
- #   set_done
 )
 from config import app, test_env
 from util import validate_reference, raise_error
@@ -21,29 +20,21 @@ def new():
 
 @app.route("/create_reference", methods=["POST"])
 def reference_creation():
-    validate_set = {}
-    validate_set["author"] = request.form.get("author")
-    validate_set["title"] = request.form.get("title")
-    validate_set["booktitle"] = request.form.get("booktitle")
-    validate_set["year"] = request.form.get("year")
-    validate_set["editor"] = request.form.get("editor")
-    validate_set["volume"] = request.form.get("volume")
-    validate_set["number"] = request.form.get("number")
-    validate_set["series"] = request.form.get("series")
-    validate_set["pages"] = request.form.get("pages")
-    validate_set["address"] = request.form.get("address")
-    validate_set["month"] = request.form.get("month")
-    validate_set["organisation"] = request.form.get("organisation")
-    validate_set["publisher"] = request.form.get("publisher")
+    fields = [
+        "author", "title", "booktitle", "year", "editor",
+        "volume", "number", "series", "pages", "address",
+        "month", "organisation", "publisher"
+    ]
+    validate_set = {field: request.form.get(field) for field in fields}
 
     try:
         validate_reference(validate_set)
         if create_reference(validate_set):
-            return redirect("/")
-        raise_error("The title already exists.")
+            raise_error("The title already exists.")
+        return redirect("/")
     except Exception as error:
         flash(str(error))
-        return  redirect("/new_reference")
+        return redirect("/new_reference")
 
 # @app.route("/toggle_reference/<reference_id>", methods=["POST"])
 # def toggle_reference(reference_id):

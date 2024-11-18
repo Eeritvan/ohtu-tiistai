@@ -17,7 +17,8 @@ disable=raw-checker-failed,
         missing-class-docstring,
         fixme,
         broad-exception-caught,
-        too-few-public-methods
+        too-few-public-methods,
+        bare-except
 
 [FORMAT]
 
