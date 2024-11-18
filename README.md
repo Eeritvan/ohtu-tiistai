@@ -5,6 +5,7 @@
 
 ### [backlog](https://github.com/users/Eeritvan/projects/5/views/1)
 ### [sprint-backlog](https://github.com/users/Eeritvan/projects/5/views/2)
+### [burndown](https://helsinkifi-my.sharepoint.com/:x:/g/personal/jkuusto_ad_helsinki_fi/EfSoYL13xWhPjvn_zf2wny0B3ATpEZ6BFviF9YFYQLmAfQ?e=2bQM5q)
 
 
 ## Contents
