@@ -4,9 +4,7 @@ class UserInputError(Exception):
     pass
 
 def validate_reference(validate_set):
-
     for key, content in validate_set.items():
-
         if key in ["author", "title", "booktitle"]:
         # Mandatory: author, title, booktitle, year
             if len(content) < 3:

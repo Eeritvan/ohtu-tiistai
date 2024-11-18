@@ -38,61 +38,27 @@ def get_references():
 
 def create_reference(references: dict):
     ref_type = "inproceedings"
+    fields = {"type": ref_type}
+
+    for key, content in references.items():
+        if content:
+            fields[key] = content
 
     try:
-        sql = text('''
+        columns = ', '.join(fields)
+        placeholders = ', '.join(f":{key}" for key in fields)
+
+        sql = text(f'''
                     INSERT INTO sources (
-                    type,
-                    author,
-                    title,
-                    year,
-                    booktitle,
-                    editor,
-                    volume,
-                    number,
-                    series,
-                    pages,
-                    address,
-                    month,
-                    organisation,
-                    publisher)
+                    {columns}
+                    )
 
                     VALUES (
-                    :type,
-                    :author,
-                    :title,
-                    :year,
-                    :booktitle,
-                    :editor,
-                    :volume,
-                    :number,
-                    :series,
-                    :pages,
-                    :address,
-                    :month,
-                    :organisation,
-                    :publisher)
-
+                    {placeholders}
+                   )
                     ''')
-        db.session.execute(sql, {
-                "type" : ref_type,
-                "author" : references['author'],
-                "title" : references['title'],
-                "year" : references['year'],
-                "booktitle" : references['booktitle'],
-                "editor" : references['editor'],
-                "volume" : references['volume'],
-                "number" : references['number'],
-                "series" : references['series'],
-                "pages" : references['pages'],
-                "address" : references['address'],
-                "month" : references['month'],
-                "organisation" : references['organisation'],
-                "publisher": references['publisher']
-                })
+        db.session.execute(sql, fields)
         db.session.commit()
     except:
         return False
-    return True
-
-
+    return False
