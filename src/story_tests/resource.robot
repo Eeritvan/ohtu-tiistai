@@ -5,6 +5,7 @@ Library  SeleniumLibrary
 ${SERVER}     localhost:5001
 ${DELAY}      0.5 seconds
 ${HOME_URL}   http://${SERVER}
+${ADD_REFERENCE_URL}  http://${SERVER}/new_reference
 ${RESET_URL}  http://${SERVER}/reset_db
 ${BROWSER}    chrome
 ${HEADLESS}   false
@@ -26,4 +27,3 @@ Open And Configure Browser
 
 Reset References
     Go To  ${RESET_URL}
-
