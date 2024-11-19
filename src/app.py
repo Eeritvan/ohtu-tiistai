@@ -29,7 +29,7 @@ def reference_creation():
 
     try:
         validate_reference(validate_set)
-        if create_reference(validate_set):
+        if not create_reference(validate_set):
             raise_error("The title already exists.")
         return redirect("/")
     except Exception as error:

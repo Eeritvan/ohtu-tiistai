@@ -58,4 +58,4 @@ def create_reference(references: dict):
         db.session.commit()
     except:
         return False
-    return False
+    return True
