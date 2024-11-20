@@ -2,7 +2,8 @@ from flask import redirect, render_template, request, jsonify, flash
 from db_helper import reset_db
 from repositories.reference_repository import (
     get_references,
-    create_reference
+    create_reference,
+    delete_reference
 )
 from config import app, test_env
 from util import validate_reference, raise_error
@@ -37,9 +38,12 @@ def reference_creation():
         return redirect("/new_reference")
 
 @app.route("/delete_reference/<reference_id>", methods=["POST"])
-def toggle_reference(reference_id):
-    print(reference_id)
-    flash("testi")
+def del_reference(reference_id):
+    try:
+        deleted_title = delete_reference(reference_id)
+        flash(f"reference: '{deleted_title}' deleted successfully")
+    except Exception as error:
+        flash(str(error))
     return redirect("/")
 
 # testausta varten oleva reitti
