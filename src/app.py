@@ -36,10 +36,10 @@ def reference_creation():
         flash(str(error))
         return redirect("/new_reference")
 
-# @app.route("/toggle_reference/<reference_id>", methods=["POST"])
-# def toggle_reference(reference_id):
-#     set_done(reference_id)
-#     return redirect("/")
+@app.route("/delete_reference/<reference_id>", methods=["POST"])
+def toggle_reference(reference_id):
+    print(reference_id)
+    return redirect("/")
 
 # testausta varten oleva reitti
 if test_env:
