@@ -1,5 +1,6 @@
 from sqlalchemy import text
 from config import db
+from util import UserInputError
 
 def get_references():
     result = db.session.execute(text(
@@ -59,3 +60,12 @@ def create_reference(references: dict):
     except:
         return False
     return True
+
+def delete_reference(reference_id: int):
+    try:
+        sql = text("DELETE FROM sources WHERE id = :id RETURNING title")
+        result = db.session.execute(sql, {'id': reference_id})
+        db.session.commit()
+        return result.fetchone()[0]
+    except Exception as e:
+        raise UserInputError("deletion failed") from e

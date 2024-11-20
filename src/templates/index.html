@@ -8,10 +8,19 @@ Reference app
 
 <h2>Reference app</h2>
 
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+  <ul>
+  {% for message in messages %}
+    <li>{{ message }}</li>
+  {% endfor %}
+  </ul>
+{% endif %}
+{% endwith %}
+
 <div>
   Saved references: {{ unfinished }}
 </div>
-
 <ul>
   {% for reference in references %}
     <li style="display: flex">
@@ -32,11 +41,13 @@ Reference app
           <li> Month: {{reference.month}}</li>
           <li> Organisation: {{reference.organisation}}</li>
           <li> Publisher: {{reference.publisher}}</li>
-        </ul>
-        <br>
-
+        </ul>        
+        <form action="/delete_reference/{{reference.id}}" method="POST">
+          <button type="submit"> delete </button>
+        </form>
       </div>
     </li>
+    <br>
   {% endfor %}
 </ul>
 
