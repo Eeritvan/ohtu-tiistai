@@ -39,6 +39,7 @@ def reference_creation():
 @app.route("/delete_reference/<reference_id>", methods=["POST"])
 def toggle_reference(reference_id):
     print(reference_id)
+    flash("testi")
     return redirect("/")
 
 # testausta varten oleva reitti
