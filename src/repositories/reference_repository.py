@@ -1,6 +1,7 @@
 from sqlalchemy import text
 from config import db
 from util import UserInputError
+from entities.reference import Inproceedings
 
 def get_references():
     result = db.session.execute(text(
@@ -26,8 +27,23 @@ def get_references():
 
         '''))
     references = result.fetchall()
-
-    return references
+    return [Inproceedings(
+        db_id=ref[0],
+        type=ref[1],
+        author=ref[2],
+        title=ref[3],
+        year=ref[4],
+        booktitle=ref[5],
+        editor=ref[6],
+        volume=ref[7],
+        number=ref[8],
+        series=ref[9],
+        pages=ref[10],
+        address=ref[11],
+        month=ref[12],
+        organisation=ref[13],
+        publisher=ref[14]
+        ) for ref in references]
 
 # def set_done(reference_id):
 #     sql = text("UPDATE todos SET done = TRUE WHERE id = :id")
