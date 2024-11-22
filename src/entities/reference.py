@@ -1,7 +1,7 @@
 class Reference:
-    def __init__(self, db_id, type, author, title, year):
+    def __init__(self, db_id, ref_type, author, title, year):
         self.id = db_id
-        self.type = type
+        self.type = ref_type
         self.author = author
         self.title = title
         self.year = year
@@ -14,10 +14,10 @@ class Reference:
             f"title: {self.title}\n"
             f"year: {self.year}"
         )
-    
+
 class Inproceedings(Reference):
-    def __init__(self, db_id, type, author, title, year, **kwargs):
-        super().__init__(db_id, type, author, title, year)
+    def __init__(self, db_id, ref_type, author, title, year, **kwargs):
+        super().__init__(db_id, ref_type, author, title, year)
         self.booktitle = kwargs.get('booktitle', None)
         self.editor = kwargs.get('editor', None)
         self.volume = kwargs.get('volume', None)

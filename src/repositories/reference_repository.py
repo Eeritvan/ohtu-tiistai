@@ -29,7 +29,7 @@ def get_references():
     references = result.fetchall()
     return [Inproceedings(
         db_id=ref[0],
-        type=ref[1],
+        ref_type=ref[1],
         author=ref[2],
         title=ref[3],
         year=ref[4],
