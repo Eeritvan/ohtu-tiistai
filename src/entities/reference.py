@@ -1,5 +1,6 @@
 class Reference:
-#   Kun kannassa on citekey, vaihda käyttöön versiot, joista se on nyt kommentoitu pois!
+#   Kun kannassa on citekey, vaihda käyttöön versiot,
+#   joista se on nyt kommentoitu pois!
 #    def __init__(self, db_id, ref_type, citekey):
     def __init__(self, db_id, ref_type):
         self.id = db_id
@@ -34,6 +35,11 @@ class Inproceedings(Reference):
             "publisher": kwargs.get('publisher', None)
         }
         self.mandatory_fields = ["author", "title", "booktitle", "year"]
+
+    def fields_not_none(self):
+        field_values_filtered = {k: v for k, v in self.field_values.items()
+                                 if v is not None}
+        return field_values_filtered
 
     def __str__(self):
         return (
