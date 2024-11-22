@@ -1,4 +1,5 @@
 from datetime import datetime
+import re
 
 class UserInputError(Exception):
     pass
@@ -42,6 +43,36 @@ def validate_reference(validate_set):
                 raise UserInputError(
                     f"Reference {key} length must be smaller than 255"
                 )
+
+
+#TODO: work-in-progress
+def filter_title_words(title):
+    stopwords = {
+        'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'has',
+        'he', 'in', 'is', 'it', 'its', 'of', 'on', 'that', 'the', 'to', 'was',
+        'were', 'will', 'with'
+    }
+
+    words = title.split()
+    lista = []
+    for word in words:
+        if word.lower() not in stopwords:
+            lista.append(word)
+    return lista[:3]
+
+def clean_text(text):
+    return re.sub(r'[^a-zA-Z ]', '', text).strip()
+
+def generate_citekey(i):
+    cleaned_author = clean_text(i.author)
+    cleaned_title = clean_text(i.title)
+    year = i.year
+
+    author_last_name = cleaned_author.split()[-1][:15].capitalize()
+    filtered_title = filter_title_words(cleaned_title)
+    title_part = "".join(filtered_title)[:15]
+
+    return f"{author_last_name}{year}{title_part}"
 
 def raise_error(message):
     raise UserInputError(message)
