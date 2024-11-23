@@ -60,3 +60,6 @@ class Inproceedings(Reference):
             f"organisation: {self.field_values['organisation']}\n"
             f"publisher: {self.field_values['publisher']}"
             )
+
+    def __getattr__(self, field):
+        return self.field_values[field]
