@@ -3,7 +3,8 @@ from db_helper import reset_db
 from repositories.reference_repository import (
     get_references,
     create_reference,
-    delete_reference
+    delete_reference,
+    get_reference_by_id
 )
 from config import app, test_env
 from util import validate_reference, raise_error, generate_citekey
@@ -47,6 +48,22 @@ def del_reference(reference_id):
     except Exception as error:
         flash(str(error))
     return redirect("/")
+
+@app.route("/export_bibtex/<reference_id>", methods=["GET"])
+def export_bibtex(reference_id):
+    reference = get_reference_by_id(reference_id)
+    if not reference:
+        flash("Reference not found")
+        return redirect("/")
+
+    citekey = reference.citekey if reference.citekey else "None"
+    bibtex_entry = f"@inproceedings{{{citekey},\n"
+    for key, value in reference.field_values.items():
+        if value is not None:
+            bibtex_entry += f"    {key} = {{{value}}},\n"
+    bibtex_entry = bibtex_entry.rstrip(",\n") + "\n}"
+
+    return render_template("bibtex.html", bibtex_entry=bibtex_entry)
 
 # testausta varten oleva reitti
 if test_env:

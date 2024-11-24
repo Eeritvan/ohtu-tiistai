@@ -1,5 +1,5 @@
 class Reference:
-    def __init__(self, db_id, ref_type, citekey):
+    def __init__(self, db_id, ref_type, citekey=None):
         self.id = db_id
         self.ref_type = ref_type
         self.citekey = citekey
@@ -12,7 +12,7 @@ class Reference:
         )
 
 class Inproceedings(Reference):
-    def __init__(self, db_id, ref_type, citekey, **kwargs):
+    def __init__(self, db_id, ref_type, citekey=None, **kwargs):
         super().__init__(db_id, ref_type, citekey)
         self.field_values = {
             "author": kwargs.get('author', None),

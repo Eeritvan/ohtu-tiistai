@@ -43,7 +43,11 @@ Reference app
           <li> Publisher: {{reference.publisher}}</li>
         </ul>        
         <form action="/delete_reference/{{reference.id}}" method="POST">
-          <button type="submit"> delete </button>
+          <button type="submit"> Delete </button>
+        </form>
+        </form>
+        <form action="/export_bibtex/{{reference.id}}" method="GET">
+          <button type="submit">Export BibTeX</button>
         </form>
       </div>
     </li>

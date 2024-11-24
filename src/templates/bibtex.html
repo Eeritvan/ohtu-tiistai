@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}
+BibTeX Representation
+{% endblock %}
+{% block body %}
+<h2>BibTeX Representation</h2>
+<pre>{{ bibtex_entry }}</pre>
+<form action="/" method="GET">
+    <button type="submit">Back</button>
+  </form>
+{% endblock %}
