@@ -1,6 +1,5 @@
 from flask import redirect, render_template, request, jsonify, flash
 from db_helper import reset_db
-from entities.reference import Inproceedings
 from repositories.reference_repository import (
     get_references,
     create_reference,
