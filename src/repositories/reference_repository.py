@@ -8,6 +8,7 @@ def get_references():
         '''
                 SELECT
                 id,
+                citekey,
                 type,
                 author,
                 title,
@@ -29,20 +30,21 @@ def get_references():
     references = result.fetchall()
     return [Inproceedings(
         db_id=ref[0],
-        ref_type=ref[1],
-        author=ref[2],
-        title=ref[3],
-        year=ref[4],
-        booktitle=ref[5],
-        editor=ref[6],
-        volume=ref[7],
-        number=ref[8],
-        series=ref[9],
-        pages=ref[10],
-        address=ref[11],
-        month=ref[12],
-        organisation=ref[13],
-        publisher=ref[14]
+        citekey=ref[1],
+        ref_type=ref[2],
+        author=ref[3],
+        title=ref[4],
+        year=ref[5],
+        booktitle=ref[6],
+        editor=ref[7],
+        volume=ref[8],
+        number=ref[9],
+        series=ref[10],
+        pages=ref[11],
+        address=ref[12],
+        month=ref[13],
+        organisation=ref[14],
+        publisher=ref[15]
         ) for ref in references]
 
 def get_reference_by_id(reference_id):

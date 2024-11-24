@@ -1,7 +1,5 @@
-# Original implementations without citekey are commented out
 class Reference:
     def __init__(self, db_id, ref_type, citekey=None):
-#    def __init__(self, db_id, ref_type):
         self.id = db_id
         self.ref_type = ref_type
         self.citekey = citekey
@@ -15,8 +13,6 @@ class Reference:
 
 class Inproceedings(Reference):
     def __init__(self, db_id, ref_type, citekey=None, **kwargs):
-#    def __init__(self, db_id, ref_type, **kwargs,):
-#        super().__init__(db_id, ref_type)
         super().__init__(db_id, ref_type, citekey)
         self.field_values = {
             "author": kwargs.get('author', None),

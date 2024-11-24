@@ -7,7 +7,7 @@ from repositories.reference_repository import (
     get_reference_by_id
 )
 from config import app, test_env
-from util import validate_reference, raise_error
+from util import validate_reference, raise_error, generate_citekey
 
 @app.route("/")
 def index():
@@ -27,10 +27,12 @@ def reference_creation():
         "volume", "number", "series", "pages", "address",
         "month", "organisation", "publisher"
     ]
+
     validate_set = {field: request.form.get(field) for field in fields}
 
     try:
         validate_reference(validate_set)
+        validate_set["citekey"] = generate_citekey(validate_set)
         if not create_reference(validate_set):
             raise_error("The title already exists.")
         return redirect("/")
