@@ -44,8 +44,6 @@ def validate_reference(validate_set):
                     f"Reference {key} length must be smaller than 255"
                 )
 
-
-#TODO: work-in-progress
 def filter_title_words(title):
     stopwords = {
         'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'has',
@@ -57,16 +55,16 @@ def filter_title_words(title):
     lista = []
     for word in words:
         if word.lower() not in stopwords:
-            lista.append(word)
+            lista.append(word.capitalize())
     return lista[:3]
 
 def clean_text(text):
     return re.sub(r'[^a-zA-Z ]', '', text).strip()
 
 def generate_citekey(i):
-    cleaned_author = clean_text(i.author)
-    cleaned_title = clean_text(i.title)
-    year = i.year
+    cleaned_author = clean_text(i["author"])
+    cleaned_title = clean_text(i["title"])
+    year = i["year"]
 
     author_last_name = cleaned_author.split()[-1][:15].capitalize()
     filtered_title = filter_title_words(cleaned_title)
