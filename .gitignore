@@ -10,3 +10,5 @@ report.html
 htmlcov
 .vscode
 .pytest_cache
+selenium-screenshot*
+.coveragerc
