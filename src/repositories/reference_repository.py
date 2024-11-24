@@ -45,6 +45,49 @@ def get_references():
         publisher=ref[14]
         ) for ref in references]
 
+def get_reference_by_id(reference_id):
+    result = db.session.execute(text(
+        '''
+                SELECT
+                id,
+                type,
+                author,
+                title,
+                year,
+                booktitle,
+                editor,
+                volume,
+                number,
+                series,
+                pages,
+                address,
+                month,
+                organisation,
+                publisher
+                FROM sources
+                WHERE id = :id
+        '''), {'id': reference_id})
+    ref = result.fetchone()
+    if ref:
+        return Inproceedings(
+            db_id=ref[0],
+            ref_type=ref[1],
+            author=ref[2],
+            title=ref[3],
+            year=ref[4],
+            booktitle=ref[5],
+            editor=ref[6],
+            volume=ref[7],
+            number=ref[8],
+            series=ref[9],
+            pages=ref[10],
+            address=ref[11],
+            month=ref[12],
+            organisation=ref[13],
+            publisher=ref[14]
+        )
+    return None
+
 # def set_done(reference_id):
 #     sql = text("UPDATE todos SET done = TRUE WHERE id = :id")
 #     db.session.execute(sql, { "id": reference_id })
