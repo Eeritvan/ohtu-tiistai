@@ -1,24 +1,23 @@
+# Original implementations without citekey are commented out
 class Reference:
-#   Kun kannassa on citekey, vaihda käyttöön versiot,
-#   joista se on nyt kommentoitu pois!
-#    def __init__(self, db_id, ref_type, citekey):
-    def __init__(self, db_id, ref_type):
+    def __init__(self, db_id, ref_type, citekey=None):
+#    def __init__(self, db_id, ref_type):
         self.id = db_id
         self.ref_type = ref_type
-#        self.citekey = citekey
+        self.citekey = citekey
 
     def __str__(self):
         return (
             f"id: {self.id}\n"
             f"type: {self.ref_type}\n"
-#            f"citekey: {self.citekey}\n"
+            f"citekey: {self.citekey}\n"
         )
 
 class Inproceedings(Reference):
-#    def __init__(self, db_id, ref_type, citekey, **kwargs):
-    def __init__(self, db_id, ref_type, **kwargs,):
-        super().__init__(db_id, ref_type)
-#        super().__init__(db_id, ref_type, citekey)
+    def __init__(self, db_id, ref_type, citekey=None, **kwargs):
+#    def __init__(self, db_id, ref_type, **kwargs,):
+#        super().__init__(db_id, ref_type)
+        super().__init__(db_id, ref_type, citekey)
         self.field_values = {
             "author": kwargs.get('author', None),
             "title": kwargs.get('title', None),
@@ -44,7 +43,7 @@ class Inproceedings(Reference):
     def __str__(self):
         return (
             f"id: {self.id}\n"
-#            f"citekey: {self.citekey}\n"
+            f"citekey: {self.citekey}\n"
             f"type: {self.ref_type}\n"
             f"author: {self.field_values['author']}\n"
             f"title: {self.field_values['title']}\n"

@@ -54,7 +54,8 @@ def export_bibtex(reference_id):
         flash("Reference not found")
         return redirect("/")
 
-    bibtex_entry = f"@inproceedings{{{reference.id},\n"
+    citekey = reference.citekey if reference.citekey else "None"
+    bibtex_entry = f"@inproceedings{{{citekey},\n"
     for key, value in reference.field_values.items():
         if value is not None:
             bibtex_entry += f"    {key} = {{{value}}},\n"
