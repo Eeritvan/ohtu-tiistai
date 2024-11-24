@@ -46,6 +46,10 @@ def del_reference(reference_id):
         flash(str(error))
     return redirect("/")
 
+@app.route("/export_bibtex/<reference_id>", methods=["GET"])
+def export_bibtex(reference_id):
+    return render_template("bibtex.html")
+
 # testausta varten oleva reitti
 if test_env:
     @app.route("/reset_db")
