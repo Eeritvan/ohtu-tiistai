@@ -75,7 +75,30 @@ def edit_reference(reference_id):
         return render_template("edit_reference.html", reference=non_empty,
                                                       id=reference.id)
     # POST / SUBMITTING EDITS LEADS HERE
-    # TODO: validate data
+    if request.method == "POST":
+        reference = get_references(reference_id)
+        if not reference:
+            flash("Reference not found")
+            return redirect("/")
+
+        fields = [
+        "author", "title", "booktitle", "year", "editor",
+        "volume", "number", "series", "pages", "address",
+        "month", "organisation", "publisher"
+        ]
+
+        validate_set = {field: request.form.get(field) for field in fields}
+
+        try:
+            validate_reference(validate_set)
+        except Exception as error:
+            flash(str(error))
+            return render_template(
+                "/edit_reference.html",
+                reference = validate_set,
+                id = reference_id
+            )
+        
     # TODO: update the database
     # TODO: generate new citekey
 
