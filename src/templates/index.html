@@ -41,7 +41,10 @@ Reference app
           <li> Month: {{reference.month}}</li>
           <li> Organisation: {{reference.organisation}}</li>
           <li> Publisher: {{reference.publisher}}</li>
-        </ul>        
+        </ul>
+        <form action="/edit_reference/{{reference.id}}" method="GET">
+          <button type="submit"> Edit </button>      
+        </form>
         <form action="/delete_reference/{{reference.id}}" method="POST">
           <button type="submit"> Delete </button>
         </form>
