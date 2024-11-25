@@ -3,53 +3,28 @@ from config import db
 from util import UserInputError
 from entities.reference import Inproceedings
 
-def get_references():
-    result = db.session.execute(text(
-        '''
-                SELECT
-                id,
-                citekey,
-                type,
-                author,
-                title,
-                year,
-                booktitle,
-                editor,
-                volume,
-                number,
-                series,
-                pages,
-                address,
-                month,
-                organisation,
-                publisher
+def inproceedings_helper(row):
+    return Inproceedings(
+        db_id=row[0],
+        citekey=row[1],
+        ref_type=row[2],
+        author=row[3],
+        title=row[4],
+        year=row[5],
+        booktitle=row[6],
+        editor=row[7],
+        volume=row[8],
+        number=row[9],
+        series=row[10],
+        pages=row[11],
+        address=row[12],
+        month=row[13],
+        organisation=row[14],
+        publisher=row[15]
+    )
 
-                FROM sources
-
-        '''))
-    references = result.fetchall()
-    return [Inproceedings(
-        db_id=ref[0],
-        citekey=ref[1],
-        ref_type=ref[2],
-        author=ref[3],
-        title=ref[4],
-        year=ref[5],
-        booktitle=ref[6],
-        editor=ref[7],
-        volume=ref[8],
-        number=ref[9],
-        series=ref[10],
-        pages=ref[11],
-        address=ref[12],
-        month=ref[13],
-        organisation=ref[14],
-        publisher=ref[15]
-        ) for ref in references]
-
-def get_reference_by_id(reference_id):
-    result = db.session.execute(text(
-        '''
+def get_references(reference_id=None):
+    query = '''
                 SELECT
                 id,
                 citekey,
@@ -68,34 +43,18 @@ def get_reference_by_id(reference_id):
                 organisation,
                 publisher
                 FROM sources
-                WHERE id = :id
-        '''), {'id': reference_id})
-    ref = result.fetchone()
-    if ref:
-        return Inproceedings(
-            db_id=ref[0],
-            citekey=ref[1],
-            ref_type=ref[2],
-            author=ref[3],
-            title=ref[4],
-            year=ref[5],
-            booktitle=ref[6],
-            editor=ref[7],
-            volume=ref[8],
-            number=ref[9],
-            series=ref[10],
-            pages=ref[11],
-            address=ref[12],
-            month=ref[13],
-            organisation=ref[14],
-            publisher=ref[15]
-        )
-    return None
+        '''
+    if reference_id:
+        query += ' WHERE id = :id'
+        result = db.session.execute(text(query), {'id': reference_id})
+        row = result.fetchone()
+        if row:
+            return inproceedings_helper(row)
+        return None
 
-# def set_done(reference_id):
-#     sql = text("UPDATE todos SET done = TRUE WHERE id = :id")
-#     db.session.execute(sql, { "id": reference_id })
-#     db.session.commit()
+    result = db.session.execute(text(query))
+    rows = result.fetchall()
+    return [inproceedings_helper(row) for row in rows]
 
 def create_reference(references: dict):
     ref_type = "inproceedings"

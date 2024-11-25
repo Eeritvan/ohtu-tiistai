@@ -4,10 +4,14 @@ from repositories.reference_repository import (
     get_references,
     create_reference,
     delete_reference,
-    get_reference_by_id
 )
 from config import app, test_env
-from util import validate_reference, raise_error, generate_citekey
+from util import (
+    validate_reference,
+    raise_error,
+    generate_citekey,
+    format_inproceedings
+)
 
 @app.route("/")
 def index():
@@ -51,18 +55,12 @@ def del_reference(reference_id):
 
 @app.route("/export_bibtex/<reference_id>", methods=["GET"])
 def export_bibtex(reference_id):
-    reference = get_reference_by_id(reference_id)
+    reference = get_references(reference_id)
     if not reference:
         flash("Reference not found")
         return redirect("/")
 
-    citekey = reference.citekey if reference.citekey else "None"
-    bibtex_entry = f"@inproceedings{{{citekey},\n"
-    for key, value in reference.field_values.items():
-        if value is not None:
-            bibtex_entry += f"    {key} = {{{value}}},\n"
-    bibtex_entry = bibtex_entry.rstrip(",\n") + "\n}"
-
+    bibtex_entry = format_inproceedings(reference)
     return render_template("bibtex.html", bibtex_entry=bibtex_entry)
 
 # testausta varten oleva reitti
