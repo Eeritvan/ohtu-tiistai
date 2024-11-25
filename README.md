@@ -31,7 +31,6 @@ SECRET_KEY=<YOUR SECRET KEY>
 
 ## Definition of done
 - Code is available in the GitHub repository
-- Story has Robot Framework tests
-- Story has unit tests
+- Story has tests
 - Code passes pylint checks
 - Code passes GitHub Actions tests
