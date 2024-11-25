@@ -63,6 +63,31 @@ def export_bibtex(reference_id):
     bibtex_entry = format_inproceedings(reference)
     return render_template("bibtex.html", bibtex_entry=bibtex_entry)
 
+@app.route("/edit_reference/<reference_id>", methods=["GET", "POST"])
+def edit_reference(reference_id):
+    if request.method == "GET":
+        reference = get_references(reference_id)
+        non_empty = reference.fields_not_none()
+        if not reference:
+            flash("Reference not found")
+            return redirect("/")
+        return render_template("edit_reference.html", reference=non_empty,
+                                                      id=reference.id)
+    
+    # POST / SUBMITTING EDITS LEADS HERE
+    # TODO: validate data
+    # TODO: update the database
+    # TODO: generate new citekey
+    fields = [
+        "author", "title", "booktitle", "year", "editor",
+        "volume", "number", "series", "pages", "address",
+        "month", "organisation", "publisher"
+    ]
+    information = {field: request.form.get(field) for field in fields}
+
+    flash(f"reference: '{information["title"]}' edited successfully")
+    return redirect("/")
+
 # testausta varten oleva reitti
 if test_env:
     @app.route("/reset_db")
