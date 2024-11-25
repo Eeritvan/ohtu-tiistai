@@ -68,10 +68,10 @@ def export_bibtex(reference_id):
 def edit_reference(reference_id):
     if request.method == "GET":
         reference = get_references(reference_id)
-        non_empty = reference.fields_not_none()
         if not reference:
             flash("Reference not found")
             return redirect("/")
+        non_empty = reference.fields_not_none()
         return render_template("edit_reference.html", reference=non_empty,
                                                       id=reference.id)
     # POST / SUBMITTING EDITS LEADS HERE
