@@ -73,7 +73,6 @@ def edit_reference(reference_id):
             return redirect("/")
         return render_template("edit_reference.html", reference=non_empty,
                                                       id=reference.id)
-    
     # POST / SUBMITTING EDITS LEADS HERE
     # TODO: validate data
     # TODO: update the database
