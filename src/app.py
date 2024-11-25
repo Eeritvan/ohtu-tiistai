@@ -5,6 +5,7 @@ from repositories.reference_repository import (
     create_reference,
     delete_reference,
 )
+from entities.reference import Inproceedings
 from config import app, test_env
 from util import (
     validate_reference,
@@ -77,14 +78,16 @@ def edit_reference(reference_id):
     # TODO: validate data
     # TODO: update the database
     # TODO: generate new citekey
-    fields = [
-        "author", "title", "booktitle", "year", "editor",
-        "volume", "number", "series", "pages", "address",
-        "month", "organisation", "publisher"
-    ]
-    information = {field: request.form.get(field) for field in fields}
 
-    flash(f"reference: '{information["title"]}' edited successfully")
+    updated_data = Inproceedings(
+            db_id=reference_id,
+            ref_type="inproceedings",
+            citekey=None,
+            **request.form
+        )
+    print(updated_data)
+
+    flash(f"reference: '{updated_data.title}' edited successfully")
     return redirect("/")
 
 # testausta varten oleva reitti
