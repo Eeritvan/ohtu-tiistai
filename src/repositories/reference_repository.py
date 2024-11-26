@@ -91,3 +91,49 @@ def delete_reference(reference_id: int):
         return result.fetchone()[0]
     except Exception as e:
         raise UserInputError("deletion failed") from e
+
+
+# def edit_reference_data(ref):
+
+
+#     ref_type = "inproceedings"
+#     print(ref)
+
+
+#     sql = text('''
+
+#                 UPDATE sources SET (citekey, type, author, title,
+#                 year, booktitle, editor, volume, number,
+#                 series, pages, address, month, organisation,
+#                 publisher)
+#                    = (
+#                 :citekey, :type, :author, :title, :year, :booktitle,
+#                 :editor, :volume, :number, :series, :pages, :address,
+#                 :month, :organisation, :publisher)
+
+#                 where id = :ref_id
+#             ''')
+#     db.session.execute(sql, {
+
+#                 'citekey':ref.citekey,
+#                 'type':ref_type,
+#                 'author':ref.author,
+#                 'title' :ref.title,
+#                 'year' :ref.year,
+#                 'booktitle' :ref.booktitle,
+#                 'editor' :ref.editor,
+#                 'volume' :ref.volume,
+#                 'number' :ref.number,
+#                 'series' :ref.series,
+#                 'pages' :ref.pages,
+#                 'address' :ref.address,
+#                 'month' :ref.month,
+#                 'organisation' :ref.organisation,
+#                 'publisher' :ref.publisher,
+#                 'ref_id':ref.id
+#         })
+#     db.session.commit()
+
+
+
+
