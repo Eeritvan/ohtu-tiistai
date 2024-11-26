@@ -3,7 +3,8 @@ from db_helper import reset_db
 from repositories.reference_repository import (
     get_references,
     create_reference,
-    delete_reference,
+    delete_reference
+    #edit_reference_data
 )
 from entities.reference import Inproceedings
 from config import app, test_env
@@ -98,17 +99,19 @@ def edit_reference(reference_id):
                 reference = validate_set,
                 id = reference_id
             )
-        
+
     # TODO: update the database
-    # TODO: generate new citekey
+    new_citekey = generate_citekey(validate_set)
 
     updated_data = Inproceedings(
             db_id=reference_id,
             ref_type="inproceedings",
-            citekey=None,
+            citekey=new_citekey,
             **request.form
         )
     print(updated_data)
+
+    #edit_reference_data(updated_data)
 
     flash(f"reference: '{updated_data.title}' edited successfully")
     return redirect("/")
