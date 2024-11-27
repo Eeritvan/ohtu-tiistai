@@ -1,5 +1,5 @@
 import unittest
-from util import generate_citekey
+from services.generate_citekey import generate_citekey
 
 class TestCitekeyGeneration(unittest.TestCase):
     def setUp(self):

@@ -1,5 +1,5 @@
 import unittest
-from util import format_inproceedings
+from services.format_inproceedings import format_inproceedings
 from entities.reference import Inproceedings
 
 class TestBibtexGeneration(unittest.TestCase):

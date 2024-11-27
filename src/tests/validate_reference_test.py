@@ -1,5 +1,5 @@
 import unittest
-from util import validate_reference, UserInputError
+from services.validate_reference import validate_reference, UserInputError
 
 class TestReferenceValidation(unittest.TestCase):
     # MISSING all form fields
