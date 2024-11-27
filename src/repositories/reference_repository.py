@@ -1,93 +1,128 @@
 from sqlalchemy import text
 from config import db
-from util import UserInputError
 from entities.reference import Inproceedings
 
-def inproceedings_helper(row):
-    return Inproceedings(
-        db_id=row[0],
-        citekey=row[1],
-        ref_type=row[2],
-        author=row[3],
-        title=row[4],
-        year=row[5],
-        booktitle=row[6],
-        editor=row[7],
-        volume=row[8],
-        number=row[9],
-        series=row[10],
-        pages=row[11],
-        address=row[12],
-        month=row[13],
-        organisation=row[14],
-        publisher=row[15]
-    )
+# Tarkista mikä on tälle oikeampi paikka
+class UserInputError(Exception):
+    pass
 
-def get_references(reference_id=None):
-    query = '''
-                SELECT
-                id,
-                citekey,
-                type,
-                author,
-                title,
-                year,
-                booktitle,
-                editor,
-                volume,
-                number,
-                series,
-                pages,
-                address,
-                month,
-                organisation,
-                publisher
-                FROM sources
-        '''
-    if reference_id:
-        query += ' WHERE id = :id'
-        result = db.session.execute(text(query), {'id': reference_id})
-        row = result.fetchone()
-        if row:
-            return inproceedings_helper(row)
-        return None
+class ReferenceRepository:
+    """Class responsible of database operations."""
 
-    result = db.session.execute(text(query))
-    rows = result.fetchall()
-    return [inproceedings_helper(row) for row in rows]
+    def __init__(self):
+        """Class constructor"""
 
-def create_reference(references: dict):
-    ref_type = "inproceedings"
-    fields = {"type": ref_type}
+    #TODO: Jotenkin ettei tarvitse luetella kaikkia kenttiä
+    def inproceedings_helper(self, row):
+        return Inproceedings(
+            db_id=row[0],
+            citekey=row[1],
+            ref_type=row[2],
+            author=row[3],
+            title=row[4],
+            year=row[5],
+            booktitle=row[6],
+            editor=row[7],
+            volume=row[8],
+            number=row[9],
+            series=row[10],
+            pages=row[11],
+            address=row[12],
+            month=row[13],
+            organisation=row[14],
+            publisher=row[15]
+        )
 
-    for key, content in references.items():
-        if content:
-            fields[key] = content
+    #TODO: Muuta toimimaan ilman helpperiä?
+    def get_references(self, reference_id=None):
+        """Selects one or all references from the database.
+        Returns:
+            list"""
+        query = '''
+                    SELECT
+                    id,
+                    citekey,
+                    type,
+                    author,
+                    title,
+                    year,
+                    booktitle,
+                    editor,
+                    volume,
+                    number,
+                    series,
+                    pages,
+                    address,
+                    month,
+                    organisation,
+                    publisher
+                    FROM sources
+            '''
+        if reference_id:
+            query += ' WHERE id = :id'
+            result = db.session.execute(text(query), {'id': reference_id})
+            row = result.fetchone()
+            if row:
+                return self.inproceedings_helper(row)
+            return None
 
-    try:
-        columns = ', '.join(fields)
-        placeholders = ', '.join(f":{key}" for key in fields)
+        result = db.session.execute(text(query))
+        rows = result.fetchall()
+        return [self.inproceedings_helper(row) for row in rows]
 
-        sql = text(f'''
-                    INSERT INTO sources (
-                    {columns}
-                    )
+    def create_reference(self, references: Inproceedings):
+        """Inserts reference to the database and 
+            updates database id to the object.
+            Returns:
+                Reference object with db_id
+        """
 
-                    VALUES (
-                    {placeholders}
-                   )
-                    ''')
-        db.session.execute(sql, fields)
-        db.session.commit()
-    except:
-        return False
-    return True
+        # Collecting values
+        fields = {
+            **references.field_values,
+            "type": references.ref_type,
+            "citekey": references.citekey,
+        }
 
-def delete_reference(reference_id: int):
-    try:
-        sql = text("DELETE FROM sources WHERE id = :id RETURNING title")
-        result = db.session.execute(sql, {'id': reference_id})
-        db.session.commit()
-        return result.fetchone()[0]
-    except Exception as e:
-        raise UserInputError("deletion failed") from e
+        # Convert relevant fields to integer and
+        # remove None or empty values
+        fields = {
+            key: int(content) if key in (
+                "year", "volume", "number", "month") else content 
+            for key, content in fields.items() if content
+        }
+
+        try:
+            columns = ', '.join(fields)
+            placeholders = ', '.join(f":{key}" for key in fields)
+
+            sql = text(f'''
+                        INSERT INTO sources (
+                        {columns}
+                        )
+                        VALUES (
+                        {placeholders}
+                        )
+                        RETURNING id''')
+            result = db.session.execute(sql, fields)
+            db.session.commit()
+        except Exception as e:
+            raise UserInputError("Insert failed") from e
+
+        # Update db_id to object
+        references.update_id(result.fetchone()[0])
+
+        return references
+
+
+    def delete_reference(self,reference_id: int):
+        """Deletes reference from database. 
+        Returns:
+          title of deleted content."""
+        try:
+            sql = text("DELETE FROM sources WHERE id = :id RETURNING title")
+            result = db.session.execute(sql, {'id': reference_id})
+            db.session.commit()
+            return result.fetchone()[0]
+        except Exception as e:
+            raise UserInputError("deletion failed") from e
