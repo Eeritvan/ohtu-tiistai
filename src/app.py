@@ -1,21 +1,15 @@
 from flask import redirect, render_template, request, jsonify, flash
 from db_helper import reset_db
-from repositories.reference_repository import (
-    get_references,
-    create_reference,
-    delete_reference,
-)
+from repositories.reference_repository import ReferenceRepository
 from config import app, test_env
-from util import (
-    validate_reference,
-    raise_error,
-    generate_citekey,
-    format_inproceedings
-)
+from services.reference_service import ReferenceService
+
 
 @app.route("/")
 def index():
-    references = get_references()
+    #PAJA: miten saisi defaultina, ettei tarvi toistaa
+    ref = ReferenceRepository()
+    references = ref.get_references()
     references_all = len(references)
     return render_template("index.html", references=references,
                                          unfinished=references_all)
@@ -26,18 +20,13 @@ def new():
 
 @app.route("/create_reference", methods=["POST"])
 def reference_creation():
-    fields = [
-        "author", "title", "booktitle", "year", "editor",
-        "volume", "number", "series", "pages", "address",
-        "month", "organisation", "publisher"
-    ]
-
-    validate_set = {field: request.form.get(field) for field in fields}
+    validate_set = dict(request.form.items())
 
     try:
-        validate_reference(validate_set)
-        validate_set["citekey"] = generate_citekey(validate_set)
-        if not create_reference(validate_set):
+        #PAJA: miten saisi defaultina, ettei tarvi toistaa
+        refserv = ReferenceService()
+        if not refserv.create_reference(validate_set):
+            #TODO puuttuu
             raise_error("The title already exists.")
         return redirect("/")
     except Exception as error:
