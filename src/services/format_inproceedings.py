@@ -1,7 +1,7 @@
 def format_inproceedings(reference):
-    citekey = reference.citekey if reference.citekey else "None"
+    citekey = reference.citekey
     bibtex_entry = f"@inproceedings{{{citekey},\n"
-    for key, value in reference.field_values.items():
+    for key, value in reference.__dict__.items():
         if value is not None:
             bibtex_entry += f"    {key} = {{{value}}},\n"
     bibtex_entry = bibtex_entry.rstrip(",\n") + "\n}"

@@ -1,9 +1,9 @@
 from flask import redirect, render_template, request, jsonify, flash, Response
 from db_helper import reset_db
-from repositories.reference_repository import ReferenceRepository
 from config import app, test_env
 from services.reference_service import ReferenceService
 from entities.reference import Inproceedings
+from services.format_inproceedings import format_inproceedings
 
 ref_repo = ReferenceService()
 
@@ -41,7 +41,7 @@ def export_bibtex(reference_id):
         flash("Reference not found")
         return redirect("/")
 
-    bibtex_entry = ref_repo.format_inproceedings(reference)
+    bibtex_entry = format_inproceedings(reference)
     return render_template("bibtex.html", bibtex_entry=bibtex_entry,
                            reference_id=reference_id)
 
@@ -52,7 +52,7 @@ def download_bibtex(reference_id):
         flash("Reference not found")
         return redirect("/")
 
-    bibtex_entry = ref_repo.format_inproceedings(reference)
+    bibtex_entry = format_inproceedings(reference)
     response = Response(bibtex_entry, mimetype='text/plain')
     response.headers.set("Content-Disposition", "attachment",
                          filename="Reference.bib")
