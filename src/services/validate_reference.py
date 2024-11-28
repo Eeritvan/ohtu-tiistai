@@ -35,7 +35,11 @@ def validate_reference(reference):
     validate_year(int(reference.year))
     validate_month(reference.month)
 
-    optional_fields = ["editor", "address", "organisation", "publisher", "series"]
+    optional_fields = ["editor",
+                       "address",
+                       "organisation",
+                       "publisher",
+                       "series"]
     for field in optional_fields:
         value = getattr(reference, field)
         if value and len(value) < 3:

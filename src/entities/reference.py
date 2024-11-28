@@ -17,7 +17,6 @@ class Reference:
             f"citekey: {self.citekey}\n"
         )
 
-
 class Inproceedings(Reference):
     def __init__(self, **kwargs):
         super().__init__(
@@ -48,7 +47,7 @@ class Inproceedings(Reference):
                 filtered_reference[key] = value
 
         return filtered_reference
-    
+
     def filter_bibtex_fields(self) -> dict:
         reference_dict = self.__dict__
         filtered_reference = {}
