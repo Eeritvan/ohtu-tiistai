@@ -42,7 +42,7 @@ Adding Duplicate Title Should Fail
     Input Text  booktitle  Test
     Input Text  year  2020
     Submit Reference
-    Submit Should Fail With Message  The title already exists.
+    Submit Should Fail With Message  Title 'Test' already exists
     Go To Home Page
     Page Should Contain  Saved references: 1
 
