@@ -37,8 +37,8 @@ def validate_reference(reference):
                 f"Reference {field} length must be smaller than 255"
             )
 
-    month = int(reference.month)
-    if month < 1 or month > 12:
+    month = reference.month
+    if month and (int(month) < 1 or int(month) > 12):
         raise UserInputError(
             f"Reference month must be a number between 1 and 12"
         )
@@ -46,4 +46,3 @@ def validate_reference(reference):
 # TODO: not used anywhere
 #def raise_error(message):
 #   raise UserInputError(message)
-#

@@ -42,7 +42,7 @@ class ReferenceRepository:
                     SELECT
                     id,
                     citekey,
-                    type,
+                    ref_type,
                     author,
                     title,
                     year,
@@ -70,27 +70,13 @@ class ReferenceRepository:
         rows = result.fetchall()
         return [self.inproceedings_helper(row) for row in rows]
 
-    def create_reference(self, references: Inproceedings):
+    def create_reference(self, reference: Inproceedings):
         """Inserts reference to the database and 
             updates database id to the object.
             Returns:
                 Reference object with db_id
         """
-
-        # Collecting values
-        fields = {
-            **references.field_values,
-            "type": references.ref_type,
-            "citekey": references.citekey,
-        }
-
-        # Convert relevant fields to integer and
-        # remove None or empty values
-        fields = {
-            key: int(content) if key in (
-                "year", "volume", "number", "month") else content 
-            for key, content in fields.items() if content
-        }
+        fields = reference.filter_non_empty()
 
         try:
             columns = ', '.join(fields)
@@ -104,16 +90,10 @@ class ReferenceRepository:
                         {placeholders}
                         )
                         RETURNING id''')
-            result = db.session.execute(sql, fields)
+            db.session.execute(sql, fields)
             db.session.commit()
         except Exception as e:
-            raise UserInputError("Insert failed") from e
-
-        # Update db_id to object
-        references.update_id(result.fetchone()[0])
-
-        return references
-
+            raise UserInputError(f"Title '{reference.title}' already exists") from e
 
     def delete_reference(self,reference_id: int):
         """Deletes reference from database. 

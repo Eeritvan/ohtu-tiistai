@@ -4,8 +4,24 @@ BibTeX Representation
 {% endblock %}
 {% block body %}
 <h2>BibTeX Representation</h2>
-<pre>{{ bibtex_entry }}</pre>
+
+<pre id="bibtex-content">{{ bibtex_entry }}</pre>
+<button onclick="copyToClipboard()">Copy to Clipboard</button>
+<form action="/download_bibtex/{{ reference_id }}" method="GET">
+  <button type="submit">Download File</button>
+</form>
 <form action="/" method="GET">
-    <button type="submit">Back</button>
-  </form>
+  <button type="submit">Back</button>
+</form>
+
+<script>
+  function copyToClipboard() {
+      const bibtexContent = document.getElementById('bibtex-content').innerText;
+      navigator.clipboard.writeText(bibtexContent).then(function() {
+          alert('Copied to clipboard!');
+      }, function(err) {
+          alert('Failed to copy: ', err);
+      });
+  }
+</script>
 {% endblock %}

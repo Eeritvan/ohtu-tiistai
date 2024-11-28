@@ -1,13 +1,7 @@
 from entities.reference import Inproceedings
 from repositories.reference_repository import ReferenceRepository
-
-# Siirretty util.pystä
 from services.validate_reference import validate_reference
 from services.generate_citekey import generate_citekey
-
-
-class UsernameExistsError(Exception):
-    pass
 
 class ReferenceService:
     """Class responsible of the app logic"""
@@ -20,8 +14,7 @@ class ReferenceService:
         """
         self._reference_repository = ReferenceRepository()
 
-    #PAJA: onko dict oikea tapa tuoda tänne tiedot?
-    def create_reference(self, validate_set:dict):
+    def create_referencee(self, reference: Inproceedings):
         """Creates new Reference/Inproceedings object.
         Funcions:
             validate_reference: validates input fields
@@ -31,20 +24,20 @@ class ReferenceService:
             Inproceedings object
         """
 
-        #TODO Lisättävä tähän raise error?
-        validate_reference(validate_set)
-        validate_set["citekey"] = generate_citekey(validate_set)
-
-        result = self._reference_repository.create_reference(
-            Inproceedings(**validate_set))
-
-        return result
+        try:
+            validate_reference(reference)
+            reference.citekey = generate_citekey(reference)
+            self._reference_repository.create_reference(reference)
+        except Exception as e:
+            raise NameError(e) from e
 
     #TODO
     def get_references(self, reference_id=None):
         """Pyytää tekemään selectin tietokantaan"""
+        print("all-refs")
         # return list of Inproceedings?
 
     #TODO
     def delete_reference(self,reference_id: int):
         """Pyytää poiston tietokannasta ja saa titlen palautuksena"""
+        print("delete")
