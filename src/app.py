@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request, jsonify, flash
+from flask import redirect, render_template, request, jsonify, flash, Response
 from db_helper import reset_db
 from repositories.reference_repository import (
     get_references,
@@ -58,7 +58,21 @@ def export_bibtex(reference_id):
         return redirect("/")
 
     bibtex_entry = format_inproceedings(reference)
-    return render_template("bibtex.html", bibtex_entry=bibtex_entry)
+    return render_template("bibtex.html", bibtex_entry=bibtex_entry,
+                           reference_id=reference_id)
+
+@app.route("/download_bibtex/<reference_id>", methods=["GET"])
+def download_bibtex(reference_id):
+    reference = get_references(reference_id)
+    if not reference:
+        flash("Reference not found")
+        return redirect("/")
+
+    bibtex_entry = format_inproceedings(reference)
+    response = Response(bibtex_entry, mimetype='text/plain')
+    response.headers.set("Content-Disposition", "attachment",
+                         filename="Reference.bib")
+    return response
 
 # testausta varten oleva reitti
 if test_env:
