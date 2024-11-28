@@ -39,7 +39,7 @@ def validate_reference(reference):
             raise UserInputError(
                 f"Reference {field} length must be greater than 3"
             )
-        if len(value) > 255:
+        if value and len(value) > 255:
             raise UserInputError(
                 f"Reference {field} length must be smaller than 255"
             )
