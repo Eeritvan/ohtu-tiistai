@@ -10,38 +10,40 @@ def validate_year(year: int):
             "Reference year must be a four-digit positive integer."
         )
 
-#TODO validate month
-def validate_reference(validate_set):
-    for key, content in validate_set.items():
-        if key in ["author", "title", "booktitle"]:
-            if len(content) < 3:
-                raise UserInputError(
-                    f"Reference {key} length must be greater than 3"
-                )
+def validate_reference(reference):
+    mandatory_fields = ['author', 'title', 'booktitle']
+    for field in mandatory_fields:
+        value = getattr(reference, field)
+        if len(value) < 3:
+            raise UserInputError(
+                f"Reference {field} length must be greater than 3"
+            )
+        elif len(value) > 255:
+            raise UserInputError(
+                f"Reference {field} length must be smaller than 255"
+            )
 
-            if len(content) > 255:
-                raise UserInputError(
-                    f"Reference {key} length must be smaller than 255"
-                )
+    validate_year(int(reference.year))
 
-        elif key == "year":
-            validate_year(int(content))
+    optional_fields = ["editor", "address", "organisation", "publisher"]
+    for field in optional_fields:
+        value = getattr(reference, field)
+        if value and len(value) < 3:
+            raise UserInputError(
+                f"Reference {field} length must be greater than 3"
+            )
+        elif len(value) > 255:
+            raise UserInputError(
+                f"Reference {field} length must be smaller than 255"
+            )
 
-        elif key in ["editor", "address", "organisation", "publisher"]:
-            if content and len(content) < 3:
-                raise UserInputError(
-                    f"Reference {key} length must be greater than 3"
-                )
-            if len(content) > 255:
-                raise UserInputError(
-                    f"Reference {key} length must be smaller than 255"
-                )
+    month = int(reference.month)
+    if month < 1 or month > 12:
+        raise UserInputError(
+            f"Reference month must be a number between 1 and 12"
+        )
 
-        else: # volume, number, series, pages
-            if content and len(content) > 255:
-                raise UserInputError(
-                    f"Reference {key} length must be smaller than 255"
-                )
-
-def raise_error(message):
-    raise UserInputError(message)
+# TODO: not used anywhere
+#def raise_error(message):
+#   raise UserInputError(message)
+#
