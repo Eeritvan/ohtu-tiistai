@@ -14,7 +14,7 @@ class ReferenceService:
         """
         self._reference_repository = ReferenceRepository()
 
-    def create_referencee(self, reference: Inproceedings):
+    def create_reference(self, reference: Inproceedings) -> None:
         """Creates new Reference/Inproceedings object.
         Funcions:
             validate_reference: validates input fields
@@ -27,17 +27,14 @@ class ReferenceService:
         try:
             validate_reference(reference)
             reference.citekey = generate_citekey(reference)
-            self._reference_repository.create_reference(reference)
+            self._reference_repository.db_create_reference(reference)
         except Exception as e:
             raise NameError(e) from e
 
-    #TODO
-    def get_references(self, reference_id=None):
-        """Pyytää tekemään selectin tietokantaan"""
-        print("all-refs")
-        # return list of Inproceedings?
+    def get_references(self, reference_id=None) -> list:
+        return self._reference_repository.db_get_references(reference_id)
 
     #TODO
-    def delete_reference(self,reference_id: int):
+    def delete_reference(self,reference_id: int) -> str:
         """Pyytää poiston tietokannasta ja saa titlen palautuksena"""
         print("delete")

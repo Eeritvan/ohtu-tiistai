@@ -5,7 +5,7 @@ from config import app, test_env
 from services.reference_service import ReferenceService
 from entities.reference import Inproceedings
 
-ref_repo = ReferenceRepository()
+ref_repo = ReferenceService()
 
 @app.route("/")
 def index():
@@ -18,10 +18,8 @@ def index():
 def new(reference=None):
     if request.method == "POST":
         reference = Inproceedings(**request.form)
-        refserv = ReferenceService()
-
         try:
-            refserv.create_referencee(reference)
+            ref_repo.create_reference(reference)
             return redirect("/")
         except Exception as error:
             flash(str(error))
