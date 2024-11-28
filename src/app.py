@@ -41,26 +41,6 @@ def new(validate_set=None):
             flash(str(error))
     return render_template("new_reference.html", reference=validate_set)
 
-#@app.route("/create_reference", methods=["POST"])
-#def reference_creation():
-#    fields = [
-#        "author", "title", "booktitle", "year", "editor",
-#        "volume", "number", "series", "pages", "address",
-#        "month", "organisation", "publisher"
-#    ]
-#
-#    validate_set = {field: request.form.get(field) for field in fields}
-#
-#    try:
-#        validate_reference(validate_set)
-#        validate_set["citekey"] = generate_citekey(validate_set)
-#        if not create_reference(validate_set):
-#            raise_error("The title already exists.")
-#        return redirect("/")
-#    except Exception as error:
-#        flash(str(error))
-#        return redirect("/new_reference")
-
 @app.route("/delete_reference/<reference_id>", methods=["POST"])
 def del_reference(reference_id):
     try:
