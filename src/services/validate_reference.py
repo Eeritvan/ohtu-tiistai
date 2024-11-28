@@ -16,6 +16,9 @@ def validate_month(month):
             "Reference month must be a number between 1 and 12"
         )
 
+# TODO: volume
+# TODO: number
+# TODO: pages
 def validate_reference(reference):
     mandatory_fields = ['author', 'title', 'booktitle']
     for field in mandatory_fields:
@@ -32,7 +35,7 @@ def validate_reference(reference):
     validate_year(int(reference.year))
     validate_month(reference.month)
 
-    optional_fields = ["editor", "address", "organisation", "publisher"]
+    optional_fields = ["editor", "address", "organisation", "publisher", "series"]
     for field in optional_fields:
         value = getattr(reference, field)
         if value and len(value) < 3:

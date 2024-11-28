@@ -19,10 +19,11 @@ class TestBibtexGeneration(unittest.TestCase):
             booktitle="Clean Code",
             pages="100-110",
         )
+
         generated_format = format_inproceedings(information)
 
         # a bit odd formatting but this cant be changed without the test breaking
-        expected_format ="""@inproceedings{Martin2008CleanCode,
+        expected_format = """@inproceedings{Martin2008CleanCode,
     author = {Robert C. Martin},
     title = {Clean Code},
     year = {2008},
