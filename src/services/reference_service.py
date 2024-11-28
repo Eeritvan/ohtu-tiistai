@@ -32,7 +32,7 @@ class ReferenceService:
             raise NameError(e) from e
 
     def get_references(self, reference_id=None) -> list:
-        return self._reference_repository.db_get_references(reference_id)
+        return self._reference_repository._db_get_references(reference_id)
 
     def delete_reference(self,reference_id: int) -> str:
-        return self._reference_repository.db_delete_reference(reference_id)
+        return self._reference_repository._db_delete_reference(reference_id)

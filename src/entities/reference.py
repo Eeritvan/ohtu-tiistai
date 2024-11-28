@@ -9,10 +9,6 @@ class Reference:
         self.ref_type = ref_type
         self.citekey = citekey
 
-    def update_id(self, db_id):
-        """Updates the value of database id"""
-        self.id = db_id
-
     def __str__(self):
         """Creates a string which contains attribute values."""
         return (
@@ -72,6 +68,3 @@ class Inproceedings(Reference):
             f"organisation: {self.organisation}\n"
             f"publisher: {self.publisher}"
             )
-
-    def __getattr__(self, field):
-        return self.field_values[field]

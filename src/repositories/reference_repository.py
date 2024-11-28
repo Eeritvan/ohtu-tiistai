@@ -34,7 +34,7 @@ class ReferenceRepository:
         )
 
     #TODO: Muuta toimimaan ilman helpperiä?
-    def db_get_references(self, reference_id=None):
+    def _db_get_references(self, reference_id=None):
         """Selects one or all references from the database.
         Returns:
             list"""
@@ -70,7 +70,7 @@ class ReferenceRepository:
         rows = result.fetchall()
         return [self._inproceedings_helper(row) for row in rows]
 
-    def db_create_reference(self, reference: Inproceedings):
+    def _db_create_reference(self, reference: Inproceedings):
         """Inserts reference to the database and 
             updates database id to the object.
             Returns:
@@ -95,7 +95,7 @@ class ReferenceRepository:
         except Exception as e:
             raise UserInputError(f"Title '{reference.title}' already exists") from e
 
-    def db_delete_reference(self,reference_id: int):
+    def _db_delete_reference(self,reference_id: int):
         """Deletes reference from database. 
         Returns:
           title of deleted content."""
