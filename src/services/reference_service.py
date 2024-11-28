@@ -34,7 +34,5 @@ class ReferenceService:
     def get_references(self, reference_id=None) -> list:
         return self._reference_repository.db_get_references(reference_id)
 
-    #TODO
     def delete_reference(self,reference_id: int) -> str:
-        """Pyytää poiston tietokannasta ja saa titlen palautuksena"""
-        print("delete")
+        return self._reference_repository.db_delete_reference(reference_id)
