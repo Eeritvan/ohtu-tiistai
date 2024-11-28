@@ -48,6 +48,17 @@ class Inproceedings(Reference):
                 filtered_reference[key] = value
 
         return filtered_reference
+    
+    def filter_bibtex_fields(self) -> dict:
+        reference_dict = self.__dict__
+        filtered_reference = {}
+
+        for key, value in reference_dict.items():
+            if key not in {'ref_type', 'id', 'citekey'}:
+                if value not in ("", None):
+                    filtered_reference[key] = value
+
+        return filtered_reference
 
     def __str__(self):
         return (
