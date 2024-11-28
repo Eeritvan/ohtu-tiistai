@@ -10,6 +10,12 @@ def validate_year(year: int):
             "Reference year must be a four-digit positive integer."
         )
 
+def validate_month(month):
+    if month and (int(month) < 1 or int(month) > 12):
+        raise UserInputError(
+            "Reference month must be a number between 1 and 12"
+        )
+
 def validate_reference(reference):
     mandatory_fields = ['author', 'title', 'booktitle']
     for field in mandatory_fields:
@@ -18,12 +24,13 @@ def validate_reference(reference):
             raise UserInputError(
                 f"Reference {field} length must be greater than 3"
             )
-        elif len(value) > 255:
+        if len(value) > 255:
             raise UserInputError(
                 f"Reference {field} length must be smaller than 255"
             )
 
     validate_year(int(reference.year))
+    validate_month(reference.month)
 
     optional_fields = ["editor", "address", "organisation", "publisher"]
     for field in optional_fields:
@@ -32,13 +39,7 @@ def validate_reference(reference):
             raise UserInputError(
                 f"Reference {field} length must be greater than 3"
             )
-        elif len(value) > 255:
+        if len(value) > 255:
             raise UserInputError(
                 f"Reference {field} length must be smaller than 255"
             )
-
-    month = reference.month
-    if month and (int(month) < 1 or int(month) > 12):
-        raise UserInputError(
-            f"Reference month must be a number between 1 and 12"
-        )

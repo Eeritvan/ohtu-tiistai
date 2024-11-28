@@ -1,6 +1,6 @@
 class Reference:
-    """Parent class for all reference types. 
-    Stores basic values which are common to all types. 
+    """Parent class for all reference types.
+    Stores basic values which are common to all types.
         """
 
     def __init__(self, ref_type, db_id=None, citekey=None):
@@ -42,11 +42,11 @@ class Inproceedings(Reference):
     def filter_non_empty(self) -> dict:
         reference_dict = self.__dict__
         filtered_reference = {}
-    
+
         for key, value in reference_dict.items():
             if value not in ("", None):
                 filtered_reference[key] = value
-    
+
         return filtered_reference
 
     def __str__(self):

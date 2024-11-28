@@ -18,7 +18,8 @@ disable=raw-checker-failed,
         fixme,
         broad-exception-caught,
         too-few-public-methods,
-        bare-except
+        bare-except,
+        too-many-instance-attributes
 
 [FORMAT]
 

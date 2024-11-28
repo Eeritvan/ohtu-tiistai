@@ -2,8 +2,8 @@ from flask import redirect, render_template, request, jsonify, flash, Response
 from db_helper import reset_db
 from config import app, test_env
 from services.reference_service import ReferenceService
-from entities.reference import Inproceedings
 from services.format_inproceedings import format_inproceedings
+from entities.reference import Inproceedings
 
 ref_repo = ReferenceService()
 
