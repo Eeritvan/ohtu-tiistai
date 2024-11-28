@@ -42,7 +42,3 @@ def validate_reference(reference):
         raise UserInputError(
             f"Reference month must be a number between 1 and 12"
         )
-
-# TODO: not used anywhere
-#def raise_error(message):
-#   raise UserInputError(message)

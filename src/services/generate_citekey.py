@@ -1,8 +1,5 @@
 import re
 
-class UserInputError(Exception):
-    pass
-
 def filter_title_words(title):
     stopwords = {
         'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'has',
@@ -31,6 +28,3 @@ def generate_citekey(reference):
     title_part = "".join(filtered_title)[:15]
 
     return f"{author_last_name}{year}{title_part}"
-
-def raise_error(message):
-    raise UserInputError(message)
