@@ -16,7 +16,6 @@ class TestReferenceValidation(unittest.TestCase):
             booktitle = "juokse",
             year = 2020
         )
-        print(validate_set1)
 
         validate_reference(validate_set1)
 

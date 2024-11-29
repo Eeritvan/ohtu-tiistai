@@ -102,8 +102,6 @@ class ReferenceRepository:
                 fields[key] = None
         placeholders = ', '.join(f"{key} = :{key}" for key in fields)
 
-        print(fields)
-
         try:
             sql = text(f'''
                         UPDATE sources
