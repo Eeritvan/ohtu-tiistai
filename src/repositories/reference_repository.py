@@ -12,7 +12,6 @@ class ReferenceRepository:
     def __init__(self):
         """Class constructor"""
 
-    #TODO: Jotenkin ettei tarvitse luetella kaikkia kenttiä
     def _inproceedings_helper(self, row):
         return Inproceedings(
             db_id=row[0],
@@ -33,7 +32,6 @@ class ReferenceRepository:
             publisher=row[15]
         )
 
-    #TODO: Muuta toimimaan ilman helpperiä?
     def db_get_references(self, reference_id=None):
         """Selects one or all references from the database.
         Returns:

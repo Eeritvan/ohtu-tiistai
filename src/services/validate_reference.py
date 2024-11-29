@@ -16,10 +16,7 @@ def validate_month(month):
             "Reference month must be a number between 1 and 12"
         )
 
-# TODO: volume
-# TODO: number
-# TODO: pages
-def validate_reference(reference):
+def validate_reference(reference): # pylint: disable=too-many-statements
     mandatory_fields = ['author', 'title', 'booktitle']
     for field in mandatory_fields:
         value = getattr(reference, field)
@@ -50,3 +47,18 @@ def validate_reference(reference):
             raise UserInputError(
                 f"Reference {field} length must be smaller than 255"
             )
+
+    if reference.pages and len(reference.pages) > 255:
+        raise UserInputError(
+            "Reference pages length must be smaller than 255"
+        )
+
+    if reference.volume and int(reference.volume) < 0:
+        raise UserInputError(
+            "Reference volume length must be positive integer"
+        )
+
+    if reference.number and int(reference.number) < 0:
+        raise UserInputError(
+            "Reference number length must be positive integer"
+        )

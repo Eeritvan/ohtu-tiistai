@@ -3,6 +3,9 @@ from repositories.reference_repository import ReferenceRepository
 from services.validate_reference import validate_reference
 from services.generate_citekey import generate_citekey
 
+class UserInputError(Exception):
+    pass
+
 class ReferenceService:
     """Class responsible of the app logic"""
 
@@ -29,8 +32,7 @@ class ReferenceService:
             reference.citekey = generate_citekey(reference)
             self._reference_repository.db_create_reference(reference)
         except Exception as e:
-            #TODO: change this to usererror
-            raise NameError(e) from e
+            raise UserInputError(e) from e
 
     def edit_reference(self, reference):
         try:
@@ -38,8 +40,7 @@ class ReferenceService:
             reference.citekey = generate_citekey(reference)
             self._reference_repository.db_edit_reference(reference)
         except Exception as e:
-            #TODO: change this to usererror
-            raise NameError(e) from e
+            raise UserInputError(e) from e
 
     def get_references(self, reference_id=None) -> list:
         return self._reference_repository.db_get_references(reference_id)
