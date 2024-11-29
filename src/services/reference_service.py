@@ -36,7 +36,7 @@ class ReferenceService:
         try:
             validate_reference(reference)
             reference.citekey = generate_citekey(reference)
-            self._reference_repository.db_update_reference(reference)
+            self._reference_repository.db_edit_reference(reference)
         except Exception as e:
             #TODO: change this to usererror
             raise NameError(e) from e

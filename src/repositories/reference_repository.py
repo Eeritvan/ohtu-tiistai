@@ -97,16 +97,21 @@ class ReferenceRepository:
                 f"Title '{reference.title}' already exists"
             ) from e
 
-    def db_update_reference(self, reference):
-        fields = reference.filter_non_empty()
-        placeholders = ', '.join(f"{key} = :{key}" for key in fields)        
+    def db_edit_reference(self, reference):
+        fields = reference.__dict__
+        for key, value in fields.items():
+            if value == '':
+                fields[key] = None
+        placeholders = ', '.join(f"{key} = :{key}" for key in fields)
+
+        print(fields)
 
         try:
             sql = text(f'''
                         UPDATE sources
                         SET {placeholders}
                         WHERE id =:id''')
-            
+
             db.session.execute(sql, fields)
             db.session.commit()
         except Exception as e:

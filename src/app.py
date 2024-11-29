@@ -4,7 +4,6 @@ from entities.reference import Inproceedings
 from config import app, test_env
 from services.reference_service import ReferenceService
 from services.format_inproceedings import format_inproceedings
-from entities.reference import Inproceedings
 
 ref_repo = ReferenceService()
 
@@ -68,7 +67,6 @@ def edit_reference(reference_id):
             return redirect("/")
         non_empty = reference.filter_non_empty()
         return render_template("edit_reference.html", reference=non_empty)
-    # POST / SUBMITTING EDITS LEADS HERE
     if request.method == "POST":
         reference = Inproceedings(db_id = reference_id,
                                   **request.form)
@@ -76,11 +74,9 @@ def edit_reference(reference_id):
             flash("Reference not found")
             return redirect("/")
 
-
         try:
             ref_repo.edit_reference(reference)
             flash(f"reference: '{reference.title}' edited successfully")
-            return redirect("/")
         except Exception as error:
             flash(str(error))
             return render_template(
@@ -88,6 +84,7 @@ def edit_reference(reference_id):
                 reference = reference,
                 id = reference_id
             )
+    return redirect("/")
 
 # testausta varten oleva reitti
 if test_env:
