@@ -29,6 +29,16 @@ class ReferenceService:
             reference.citekey = generate_citekey(reference)
             self._reference_repository.db_create_reference(reference)
         except Exception as e:
+            #TODO: change this to usererror
+            raise NameError(e) from e
+
+    def edit_reference(self, reference):
+        try:
+            validate_reference(reference)
+            reference.citekey = generate_citekey(reference)
+            self._reference_repository.db_update_reference(reference)
+        except Exception as e:
+            #TODO: change this to usererror
             raise NameError(e) from e
 
     def get_references(self, reference_id=None) -> list:

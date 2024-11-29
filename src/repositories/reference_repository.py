@@ -95,7 +95,24 @@ class ReferenceRepository:
         except Exception as e:
             raise UserInputError(
                 f"Title '{reference.title}' already exists"
-                ) from e
+            ) from e
+
+    def db_update_reference(self, reference):
+        fields = reference.filter_non_empty()
+        placeholders = ', '.join(f"{key} = :{key}" for key in fields)        
+
+        try:
+            sql = text(f'''
+                        UPDATE sources
+                        SET {placeholders}
+                        WHERE id =:id''')
+            
+            db.session.execute(sql, fields)
+            db.session.commit()
+        except Exception as e:
+            raise UserInputError(
+                f"Title '{reference.title}' already exists"
+            ) from e
 
     def db_delete_reference(self,reference_id: int):
         """Deletes reference from database. 

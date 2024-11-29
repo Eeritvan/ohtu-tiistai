@@ -70,44 +70,24 @@ def edit_reference(reference_id):
         return render_template("edit_reference.html", reference=non_empty)
     # POST / SUBMITTING EDITS LEADS HERE
     if request.method == "POST":
-        reference = get_references(reference_id)
+        reference = Inproceedings(db_id = reference_id,
+                                  **request.form)
         if not reference:
             flash("Reference not found")
             return redirect("/")
 
-        fields = [
-        "author", "title", "booktitle", "year", "editor",
-        "volume", "number", "series", "pages", "address",
-        "month", "organisation", "publisher"
-        ]
-
-        validate_set = {field: request.form.get(field) for field in fields}
 
         try:
-            validate_reference(validate_set)
+            ref_repo.edit_reference(reference)
+            flash(f"reference: '{reference.title}' edited successfully")
+            return redirect("/")
         except Exception as error:
             flash(str(error))
             return render_template(
                 "/edit_reference.html",
-                reference = validate_set,
+                reference = reference,
                 id = reference_id
             )
-
-    # TODO: update the database
-    new_citekey = generate_citekey(validate_set)
-
-    updated_data = Inproceedings(
-            db_id=reference_id,
-            ref_type="inproceedings",
-            citekey=new_citekey,
-            **request.form
-        )
-    print(updated_data)
-
-    #edit_reference_data(updated_data)
-
-    flash(f"reference: '{updated_data.title}' edited successfully")
-    return redirect("/")
 
 # testausta varten oleva reitti
 if test_env:
