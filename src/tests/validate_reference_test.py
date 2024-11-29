@@ -88,6 +88,59 @@ class TestReferenceValidation(unittest.TestCase):
         )
         validate_reference(validate_set1)
 
+    def test_invalid_page_data(self):
+        """Page field is filled with invalid number"""
+
+        with self.assertRaises(UserInputError):
+            testfield1 = "test" * 200
+            validate_set1 = Inproceedings(
+                author = "testtest",
+                title = "testtest",
+                booktitle = "testtest",
+                year = 2000,
+                pages = testfield1
+            )
+            validate_reference(validate_set1)
+
+    def test_invalid_volume_data(self):
+        """Volume field is filled with invalid number"""
+
+        with self.assertRaises(UserInputError):
+            validate_set1 = Inproceedings(
+                author = "testtest",
+                title = "testtest",
+                booktitle = "testtest",
+                year = 2000,
+                volume = -20
+            )
+            validate_reference(validate_set1)
+
+    def test_invalid_number_data(self):
+        """Number field is filled with invalid number"""
+
+        with self.assertRaises(UserInputError):
+            validate_set1 = Inproceedings(
+                author = "testtest",
+                title = "testtest",
+                booktitle = "testtest",
+                year = 2000,
+                number = -20
+            )
+            validate_reference(validate_set1)
+
+    def test_invalid_month(self):
+        """Month field is filled with invalid number"""
+
+        with self.assertRaises(UserInputError):
+            validate_set1 = Inproceedings(
+                author = "testtest",
+                title = "testtest",
+                booktitle = "testtest",
+                year = 2000,
+                month = 55
+            )
+            validate_reference(validate_set1)
+
     def test_invalid_optional_fields(self):
         """Some field is filled with invalid data"""
 
