@@ -1,5 +1,6 @@
 from flask import redirect, render_template, request, jsonify, flash, Response
 from db_helper import reset_db
+from entities.reference import Inproceedings
 from config import app, test_env
 from services.reference_service import ReferenceService
 from services.format_inproceedings import format_inproceedings
@@ -57,6 +58,56 @@ def download_bibtex(reference_id):
     response.headers.set("Content-Disposition", "attachment",
                          filename="Reference.bib")
     return response
+
+@app.route("/edit_reference/<reference_id>", methods=["GET", "POST"])
+def edit_reference(reference_id):
+    if request.method == "GET":
+        reference = ref_repo.get_references(reference_id)
+        if not reference:
+            flash("Reference not found")
+            return redirect("/")
+        non_empty = reference.filter_non_empty()
+        return render_template("edit_reference.html", reference=non_empty)
+    # POST / SUBMITTING EDITS LEADS HERE
+    if request.method == "POST":
+        reference = get_references(reference_id)
+        if not reference:
+            flash("Reference not found")
+            return redirect("/")
+
+        fields = [
+        "author", "title", "booktitle", "year", "editor",
+        "volume", "number", "series", "pages", "address",
+        "month", "organisation", "publisher"
+        ]
+
+        validate_set = {field: request.form.get(field) for field in fields}
+
+        try:
+            validate_reference(validate_set)
+        except Exception as error:
+            flash(str(error))
+            return render_template(
+                "/edit_reference.html",
+                reference = validate_set,
+                id = reference_id
+            )
+
+    # TODO: update the database
+    new_citekey = generate_citekey(validate_set)
+
+    updated_data = Inproceedings(
+            db_id=reference_id,
+            ref_type="inproceedings",
+            citekey=new_citekey,
+            **request.form
+        )
+    print(updated_data)
+
+    #edit_reference_data(updated_data)
+
+    flash(f"reference: '{updated_data.title}' edited successfully")
+    return redirect("/")
 
 # testausta varten oleva reitti
 if test_env:
