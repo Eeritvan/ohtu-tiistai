@@ -5,85 +5,93 @@ Create a new reference
 {% endblock %}
 
 {% block body %}
+<div class="container">
+  <div class="jumbotron text-center">
+    <h2>Create a new reference</h2>
 
-<h2>Create a new reference</h2>
-
-<form action="/new_reference" method="post">
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
+    <form class="form-container" action="/new_reference" method="post">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
       <ul>
-      {% for message in messages %}
+        {% for message in messages %}
         <li>{{ message }}</li>
-      {% endfor %}
+        {% endfor %}
       </ul>
-    {% endif %}
-  {% endwith %}
+      {% endif %}
+      {% endwith %}
+      <h3>Reference type: Inproceedings</h3>
+      <br>
 
-  <h3>Reference type: Inproceedings</h3>
-  <br>
+      <h4>Mandatory fields</h4>
+      <br>
+      <div class="form-group">
+        <label class="col-sm-2" for="author">Author:</label>
+        <input type="text" name="author" value="{{ reference.author }}" required>
+      </div>
 
-  <h4>Mandatory fields</h4>
-  <br>
+      <div class="form-group">
+        <label class="col-sm-2" for="title">Title:</label>
+        <input type="text" name="title" value="{{ reference.title }}" required>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2" for="booktitle">Book title:</label>
+        <input type="text" name="booktitle" value="{{ reference.booktitle }}" required>
+      </div>
 
-  <label for="author">Author:</label>
-  <input type="text" name="author" value="{{ reference.author }}" required>
-  <br>
+      <div class="form-group">
+        <label class="col-sm-2" for="year">Year:</label>
+        <input type="number" min=0 max=2024 maxlength="4" name="year" value="{{ reference.year }}" required>
+      </div>
+      <br>
 
-  <label for="title">Title:</label>
-  <input type="text" name="title" value="{{ reference.title }}" required>
-  <br>
 
-  <label for="booktitle">Book title:</label>
-  <input type="text" name="booktitle" value="{{ reference.booktitle }}" required>
-  <br>
-  <label for="year">Year:</label>
-  <input type="number" min = 0 max = 2024 maxlength="4" name="year" value="{{ reference.year }}" required>
-  <br>
+      <h4>Optional fields</h4>
+      <br>
 
-  <h4>Optional fields</h4>
-  <br>
+      <label class="col-sm-2" for="editor">Editor:</label>
+      <input type="text" name="editor" value="{{ reference.editor }}">
+      <br>
 
-  <label for="editor">Editor:</label>
-  <input type="text" name="editor" value="{{ reference.editor }}">
-  <br>
+      <label class="col-sm-2" for="volume">Volume:</label>
+      <input type="number" min=1 name="volume" value="{{ reference.volume }}">
+      <br>
 
-  <label for="volume">Volume:</label>
-  <input type="number" min = 1 name="volume" value="{{ reference.volume }}">
-  <br>
+      <label class="col-sm-2" for="number">Number:</label>
+      <input type="number" name="number" value="{{ reference.number }}">
+      <br>
 
-  <label for="number">Number:</label>
-  <input type="number" name="number" value="{{ reference.number }}">
-  <br>
+      <label class="col-sm-2" for="series">Series:</label>
+      <input type="text" name="series" value="{{ reference.series }}">
+      <br>
 
-  <label for="series">Series:</label>
-  <input type="text" name="series" value="{{ reference.series }}">
-  <br>
+      <label class="col-sm-2" for="pages">Pages:</label>
+      <input type="text" name="pages" value="{{ reference.pages }}">
+      <br>
 
-  <label for="pages">Pages:</label>
-  <input type="text" name="pages" value="{{ reference.pages }}">
-  <br>
+      <label class="col-sm-2" for="address">Address:</label>
+      <input type="text" name="address" value="{{ reference.address }}">
+      <br>
 
-  <label for="address">Address:</label>
-  <input type="text" name="address" value="{{ reference.address }}">
-  <br>
+      <label class="col-sm-2" for="month">Month:</label>
+      <input type="number" min=1 max=12 name="month" value="{{ reference.month }}">
+      <br>
 
-  <label for="month">Month:</label>
-  <input type="number" min = 1 max = 12 name="month" value="{{ reference.month }}">
-  <br>
+      <label class="col-sm-2" for="organisation">Organisation:</label>
+      <input type="text" name="organisation" value="{{ reference.organisation }}">
+      <br>
 
-  <label for="organisation">Organisation:</label>
-  <input type="text" name="organisation" value="{{ reference.organisation }}">
-  <br>
+      <label class="col-sm-2" for="publisher">Publisher:</label>
+      <input type="text" name="publisher" value="{{ reference.publisher }}">
+      <br>&nbsp;
 
-  <label for="publisher">Publisher:</label>
-  <input type="text" name="publisher" value="{{ reference.publisher }}">
-  <br>&nbsp;
-
-  <br>
-  <button type="submit">
-    Create
-  </button>
-</form>
+      <br>
+      <button type="submit" class="btn btn-dark">
+        Create
+      </button>
+    </form>
+  </div>
+</div>
+</class>
 
 <br>&nbsp;<br>
 <div>
