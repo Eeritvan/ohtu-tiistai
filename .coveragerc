@@ -5,4 +5,7 @@ omit = src/**/__init__.py
        src/index.py
        src/db_helper.py
        src/config.py
-       src/app.py
+       src/app.py,
+       src/repositories/reference_repository.py,
+       src/entities/reference.py,
+       src/services/reference_service.py

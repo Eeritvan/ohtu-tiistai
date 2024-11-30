@@ -1,50 +1,33 @@
 from flask import redirect, render_template, request, jsonify, flash, Response
 from db_helper import reset_db
-from repositories.reference_repository import (
-    get_references,
-    create_reference,
-    delete_reference,
-)
+from entities.reference import Inproceedings
 from config import app, test_env
-from util import (
-    validate_reference,
-    raise_error,
-    generate_citekey,
-    format_inproceedings
-)
+from services.reference_service import ReferenceService
+
+ref_repo = ReferenceService()
 
 @app.route("/")
 def index():
-    references = get_references()
+    references = ref_repo.get_references()
     references_all = len(references)
     return render_template("index.html", references=references,
                                          unfinished=references_all)
 
 @app.route("/new_reference", methods=["GET", "POST"])
-def new(validate_set=None):
+def new(reference=None):
     if request.method == "POST":
-        fields = [
-            "author", "title", "booktitle", "year", "editor",
-            "volume", "number", "series", "pages", "address",
-            "month", "organisation", "publisher"
-        ]
-
-        validate_set = {field: request.form.get(field) for field in fields}
-
+        reference = Inproceedings(**request.form)
         try:
-            validate_reference(validate_set)
-            validate_set["citekey"] = generate_citekey(validate_set)
-            if not create_reference(validate_set):
-                raise_error("The title already exists.")
+            ref_repo.create_reference(reference)
             return redirect("/")
         except Exception as error:
             flash(str(error))
-    return render_template("new_reference.html", reference=validate_set)
+    return render_template("new_reference.html", reference=reference)
 
 @app.route("/delete_reference/<reference_id>", methods=["POST"])
 def del_reference(reference_id):
     try:
-        deleted_title = delete_reference(reference_id)
+        deleted_title = ref_repo.delete_reference(reference_id)
         flash(f"reference: '{deleted_title}' deleted successfully")
     except Exception as error:
         flash(str(error))
@@ -52,27 +35,55 @@ def del_reference(reference_id):
 
 @app.route("/export_bibtex/<reference_id>", methods=["GET"])
 def export_bibtex(reference_id):
-    reference = get_references(reference_id)
+    reference = ref_repo.get_references(reference_id)
     if not reference:
         flash("Reference not found")
         return redirect("/")
 
-    bibtex_entry = format_inproceedings(reference)
+    bibtex_entry = ref_repo.get_reference_bibtex(reference)
     return render_template("bibtex.html", bibtex_entry=bibtex_entry,
                            reference_id=reference_id)
 
 @app.route("/download_bibtex/<reference_id>", methods=["GET"])
 def download_bibtex(reference_id):
-    reference = get_references(reference_id)
+    reference = ref_repo.get_references(reference_id)
     if not reference:
         flash("Reference not found")
         return redirect("/")
 
-    bibtex_entry = format_inproceedings(reference)
+    bibtex_entry = ref_repo.get_reference_bibtex(reference)
     response = Response(bibtex_entry, mimetype='text/plain')
     response.headers.set("Content-Disposition", "attachment",
                          filename="Reference.bib")
     return response
+
+@app.route("/edit_reference/<reference_id>", methods=["GET", "POST"])
+def edit_reference(reference_id):
+    if request.method == "GET":
+        reference = ref_repo.get_references(reference_id)
+        if not reference:
+            flash("Reference not found")
+            return redirect("/")
+        non_empty = reference.filter_non_empty()
+        return render_template("edit_reference.html", reference=non_empty)
+    if request.method == "POST":
+        reference = Inproceedings(db_id = reference_id,
+                                  **request.form)
+        if not reference:
+            flash("Reference not found")
+            return redirect("/")
+
+        try:
+            ref_repo.edit_reference(reference)
+            flash(f"reference: '{reference.title}' edited successfully")
+        except Exception as error:
+            flash(str(error))
+            return render_template(
+                "/edit_reference.html",
+                reference = reference,
+                id = reference_id
+            )
+    return redirect("/")
 
 # testausta varten oleva reitti
 if test_env:
