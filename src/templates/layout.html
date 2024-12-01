@@ -1,23 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-
-  <style>
-    input {
-      width: 400px;
-    }
-  </style>
-
+  <link rel="stylesheet" href="{{ url_for('static', filename='layout.css') }}" />
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <title>{% block title %}{% endblock %}</title>
 </head>
-
 <body>
   <nav class="navbar navbar-expand-sm navbar-light">
-    <a class="navbar-brand" href="/">Refrence App</a>
+    <a class="navbar-brand" href="/">Reference App</a>
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" href="/">List references</a>
