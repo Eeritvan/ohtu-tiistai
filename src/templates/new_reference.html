@@ -6,7 +6,7 @@ Create a new reference
 
 {% block body %}
 <div class="container">
-  <div class="jumbotron text-center">
+  <div class="jumbotron text-center bg-light">
     <h2>Create a new reference</h2>
 
     <form class="form-container" action="/new_reference" method="post">
@@ -38,13 +38,11 @@ Create a new reference
         <label class="col-sm-2" for="booktitle">Book title:</label>
         <input type="text" name="booktitle" value="{{ reference.booktitle }}" required>
       </div>
-
       <div class="form-group">
         <label class="col-sm-2" for="year">Year:</label>
-        <input type="number" min=0 max=2024 maxlength="4" name="year" value="{{ reference.year }}" required>
+        <input type="number" min=1900 max=2024 maxlength="4" name="year" value="{{ reference.year }}" required>
       </div>
       <br>
-
 
       <h4>Optional fields</h4>
       <br>
@@ -84,19 +82,12 @@ Create a new reference
       <label class="col-sm-2" for="publisher">Publisher:</label>
       <input type="text" name="publisher" value="{{ reference.publisher }}">
       <br>&nbsp;
-
       <br>
-      <button type="submit" class="btn btn-dark">
-        Create
+      <button type="submit" class="btn btn-outline-success">
+        Create new reference
       </button>
     </form>
   </div>
 </div>
 </class>
-
-<br>&nbsp;<br>
-<div>
-  <a href="/">List references</a>
-</div>
-
 {% endblock %}
