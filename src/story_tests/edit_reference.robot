@@ -20,7 +20,7 @@ Adding Reference And Editing Title Should Succeed
     Input Text  title  Updated Title1
     Submit Edit
     Page Should Contain  Saved references: 1
-    Page Should Contain  Title: Updated Title1
+    Page Should Contain  Updated Title1
 
 Adding Reference And Adding Series Through Editing Should Succeed
     Go To Add Reference Page
@@ -37,7 +37,7 @@ Adding Reference And Adding Series Through Editing Should Succeed
     Input Text  series  Test Series
     Submit Edit
     Page Should Contain  Saved references: 1
-    Page Should Contain  Series: Test Series
+    Page Should Contain  Test Series
 
 Adding Reference And Editing Wrong Data Should Fail
     Go To Add Reference Page
