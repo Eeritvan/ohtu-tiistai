@@ -10,56 +10,109 @@ Reference app
 
 {% with messages = get_flashed_messages() %}
 {% if messages %}
-  <ul>
+<ul>
   {% for message in messages %}
-    <li>{{ message }}</li>
+  <li>{{ message }}</li>
   {% endfor %}
-  </ul>
+</ul>
 {% endif %}
 {% endwith %}
 
+<div id="referencelist">
 <div>
+  <br>
   Saved references: {{ unfinished }}
 </div>
-<ul>
+<ul class="list-group">
   {% for reference in references %}
-    <li style="display: flex">
-      <div>
-        {{reference.title}}
-        <ul>
-          <li> Type: {{reference.ref_type}}</li>
-          <li> Author: {{reference.author}}</li>
-          <li> Title: {{reference.title}}</li>
-          <li> Year: {{reference.year}}</li>
-          <li> Booktitle: {{reference.booktitle}}</li>
-          <li> Editor: {{reference.editor}}</li>
-          <li> Volume: {{reference.volume}}</li>
-          <li> Number: {{reference.number}}</li>
-          <li> Series: {{reference.series}}</li>
-          <li> Pages: {{reference.pages}}</li>
-          <li> Address: {{reference.address}}</li>
-          <li> Month: {{reference.month}}</li>
-          <li> Organisation: {{reference.organisation}}</li>
-          <li> Publisher: {{reference.publisher}}</li>
-        </ul>
-        <form action="/edit_reference/{{reference.id}}" method="GET">
-          <button type="submit"> Edit </button>      
-        </form>
-        <form action="/delete_reference/{{reference.id}}" method="POST">
-          <button type="submit"> Delete </button>
-        </form>
+  <li class="list-group-item d-flex justify-content-between align-items-center" style="display: flex">
+    <div>
+      <br>
+      <h4 class="mb-1"> {{reference.title}}</h4>
+      <br>
+
+      <dl class="row">
+
+        <dt class="col-sm-2"> Type </dt>
+        <dd class="col-sm-10"> {{reference.ref_type}}</dd>
+
+        <dt class="col-sm-2"> Author </dt>
+        <dd class="col-sm-10"> {{reference.author}}</dd>
+
+        <dt class="col-sm-2"> Title </dt>
+        <dd class="col-sm-10"> {{reference.title}}</dd>
+
+        <dt class="col-sm-2"> Year </dt>
+        <dd class="col-sm-10"> {{reference.year}}</dd>
+
+        <dt class="col-sm-2"> Booktitle </dt>
+        <dd class="col-sm-10"> {{reference.booktitle}}</dd>
+
+
+        {% if reference.editor %}
+        <dt class="col-sm-2"> Editor </dt>
+        <dd class="col-sm-10"> {{reference.editor}}</dd>
+        {% endif %}
+
+        {% if reference.volume %}
+        <dt class="col-sm-2"> Volume </dt>
+        <dd class="col-sm-10"> {{reference.volume}}</dd>
+        {% endif %}
+
+        {% if reference.number %}
+        <dt class="col-sm-2"> Number </dt>
+        <dd class="col-sm-10"> {{reference.number}}</dd>
+        {% endif %}
+
+        {% if reference.series %}
+        <dt class="col-sm-2"> Series </dt>
+        <dd class="col-sm-10"> {{reference.series}}</dd>
+        {% endif %}
+
+        {% if reference.pages %}
+        <dt class="col-sm-2"> Pages </dt>
+        <dd class="col-sm-10"> {{reference.pages}}</dd>
+        {% endif %}
+
+        {% if reference.address%}
+        <dt class="col-sm-2"> Address </dt>
+        <dd class="col-sm-10"> {{reference.address}}</dd>
+        {% endif %}
+
+        {% if reference.month %}
+        <dt class="col-sm-2"> Month </dt>
+        <dd class="col-sm-10"> {{reference.month}}</dd>
+        {% endif %}
+
+        {% if reference.organisation %}
+        <dt class="col-sm-2"> Organisation </dt>
+        <dd class="col-sm-10"> {{reference.organisation}}</dd>
+        {% endif %}
+
+        {% if reference.publisher %}
+        <dt class="col-sm-2"> Publisher </dt>
+        <dd class="col-sm-10"> {{reference.publisher}}</dd>
+        {% endif %}
+
+
         </form>
         <form action="/export_bibtex/{{reference.id}}" method="GET">
-          <button type="submit">Export BibTeX</button>
+          <button type="submit" class="btn btn-light">Export BibTeX</button>
         </form>
-      </div>
-    </li>
-    <br>
+        <form action="/edit_reference/{{reference.id}}" method="GET">
+          <button type="submit" class="btn btn-light"> Edit </button>
+        </form>
+        <form action="/delete_reference/{{reference.id}}" method="POST">
+          <button type="submit" class="btn btn-light"> Delete </button>
+        </form>
+
+
+      </dl>
+
+    </div>
+  </li>
+  <br>
   {% endfor %}
 </ul>
-
-<div>
-  <a href="/new_reference">Create new reference</a>
 </div>
-
 {% endblock %}
