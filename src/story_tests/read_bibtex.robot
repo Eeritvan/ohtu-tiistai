@@ -18,6 +18,37 @@ After pressing bibtex-button opens bibtex-page
     Click Button  Export BibTeX
     Page Should Contain  BibTeX Representation
 
+Pressing bibtex-button generates citekey
+    Go To Add Reference Page
+    Input Text  author  Test Author
+    Input Text  title  Test Title
+    Input Text  booktitle  Test Book title
+    Input Text  year  2020
+    Submit Reference
+    Submit Should Succeed
+    Page Should Contain  Saved references: 1
+
+    Click Button  Export BibTeX
+    Page Should Contain  Author2020TestTitle
+
+BibTeX can be copied to clipboard
+    Go To Add Reference Page
+    Input Text  author  Test Author
+    Input Text  title  Test Title
+    Input Text  booktitle  Test Book title
+    Input Text  year  2020
+    Submit Reference
+    Submit Should Succeed
+    Page Should Contain  Saved references: 1
+
+    Click Button  Export BibTeX
+    Page Should Contain  BibTeX Representation
+    Copy to clipboard
+    Handle Alert
+    Go To Add Reference Page
+    Click Element  author
+    Paste Text
+    Textfield Should Contain  author  Author2020TestTitle
 
 *** Keywords ***
 Main Page Should Be Open
@@ -42,3 +73,9 @@ Submit Should Fail With Message
     [Arguments]  ${message}
     New Reference Page Should Be Open
     Page Should Contain  ${message}
+
+Copy to clipboard
+    Click Button  Copy to Clipboard
+
+Paste Text
+    Press Keys  None  CTRL+v
