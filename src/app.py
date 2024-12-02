@@ -24,6 +24,17 @@ def new(reference=None):
             flash(str(error))
     return render_template("new_reference.html", reference=reference)
 
+@app.route("/search_reference")
+def search_reference():
+    references = ref_repo.get_references()
+    filters = {
+        "author": request.args.get("author", ''),
+        "title": request.args.get("title", ''),
+        "booktitle": request.args.get("booktitle", ''),
+    }
+    return render_template("filter_reference.html", references=references,
+                                                    filters=filters)
+
 @app.route("/delete_reference/<reference_id>", methods=["POST"])
 def del_reference(reference_id):
     try:
