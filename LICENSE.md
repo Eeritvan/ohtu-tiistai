@@ -1,6 +1,6 @@
-MIT License
+## MIT License
 
-Copyright (c) 2024 Tiistai Team
+Copyright (c) 2024 Tiistai Team: [Eeritvan](https://github.com/Eeritvan/), [mcpaulafi](https://github.com/mcpaulafi), [mateppon](https://github.com/mateppon), [jkuusto](https://github.com/jkuusto) and [TrollRoll2](https://github.com/TrollRoll2)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
