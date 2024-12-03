@@ -5,12 +5,13 @@ Search reference
 {% endblock %}
 
 {% block body %}
+<br>
+<h2 id="pagetitle">Search references</h2>
+<br>
+<h6 id="countreftitle">Saved references: {{ total }}</h6>
+<br>
 
-<h2>Search references</h2>
-
-<h5>Total references: {{ total }}</h5>
-
-
+<div class="jumbotron text-center bg-light" id="searchbox">
 <form class="form-container" action="/search_reference">
     {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -23,6 +24,7 @@ Search reference
     {% endwith %}
 
     <h4>Filters:</h4>
+    <br>
 
     <label class="col-sm-1" for="author">Author:</label>
     <input type="text" name="author" value="{{ author }}">
@@ -35,15 +37,16 @@ Search reference
     <label class="col-sm-1" for="booktitle">Book title:</label>
     <input type="text" name="booktitle" value="{{ booktitle }}">
     <br>
-    
+
     <label class="col-sm-1" for="year">Year:</label>
-    <input type="number" min=0 max=2024 name="year" value="{{ year }}">
+    <input type="number" min=1900 max=2024 name="year" value="{{ year }}">
     <br>
-    
-    <button type="submit">
+    <br>
+    <button type="submit" class="btn btn-dark">
         Search
     </button>
 </form>
+</div>
 
 <div id="referencelist">
   <div>
@@ -121,8 +124,9 @@ Search reference
         <dd class="col-sm-10"> {{reference.publisher}}</dd>
         {% endif %}
 
-
         </form>
+        <br>
+        <br>
         <form action="/export_bibtex/{{reference.id}}" method="GET">
           <button type="submit" class="btn btn-light">Export BibTeX</button>
         </form>
