@@ -36,3 +36,7 @@ SECRET_KEY=<YOUR SECRET KEY>
 - Story has tests
 - Code passes pylint checks
 - Code passes GitHub Actions tests
+
+
+
+
