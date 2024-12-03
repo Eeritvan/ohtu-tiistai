@@ -1,3 +1,26 @@
+# Kolmannen sprintin retropektiivi 3.12.2024 
+
+## Start, Stop, Continue, More of, Less of Wheel
+
+### Start:
+- Tasaisemmin töitä eri päiville
+- Kerro jos on liikaa töitä
+- Varoita kun olet tekemässä mainiin jotain
+
+### Stop:
+- Tunne pitäisi tehdä enemmän kuin tarpeen
+
+### Continue:
+- Sama tyyli loppudemoon (Jukka, Patrik backup)
+- Kommunikointi sujuu
+
+### More of:
+- Pull requesteja
+
+### Less of:
+- Liian korkeat laatustandardit
+
+
 # Toisen sprintin retrospektiivi
 
 ## Start, Stop, Continue, More of, Less of Wheel
