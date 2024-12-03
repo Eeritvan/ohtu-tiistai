@@ -7,6 +7,7 @@ ${DELAY}      0.5 seconds
 ${HOME_URL}   http://${SERVER}
 ${ADD_REFERENCE_URL}  http://${SERVER}/new_reference
 ${RESET_URL}  http://${SERVER}/reset_db
+${SEARCH_REF}  http://${SERVER}/search_reference
 ${BROWSER}    chrome
 ${HEADLESS}   false
 
