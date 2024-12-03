@@ -27,13 +27,26 @@ def new(reference=None):
 @app.route("/search_reference")
 def search_reference():
     references = ref_repo.get_references()
+    references_all = len(references)
     filters = {
         "author": request.args.get("author", ''),
         "title": request.args.get("title", ''),
         "booktitle": request.args.get("booktitle", ''),
+        "year": request.args.get("year", '')
     }
+
+    if any(filters.values()):
+        references = [
+            ref for ref in references
+            if filters["author"] in ref.author
+            and filters["title"] in ref.title
+            and filters["booktitle"] in ref.booktitle
+            and (filters["year"] == '' or str(filters["year"]) == str(ref.year))
+        ]
+
     return render_template("filter_reference.html", references=references,
-                                                    filters=filters)
+                                                    filters=filters,
+                                                    total=references_all)
 
 @app.route("/delete_reference/<reference_id>", methods=["POST"])
 def del_reference(reference_id):

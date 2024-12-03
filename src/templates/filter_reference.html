@@ -6,11 +6,10 @@ Search reference
 
 {% block body %}
 
-<h2>Search among references</h2>
+<h2>Search references</h2>
 
-<div>
-    Saved references: {{ references|length }}
-</div>
+<h5>Total references: {{ total }}</h5>
+
 
 <form class="form-container" action="/search_reference">
     {% with messages = get_flashed_messages() %}
@@ -37,16 +36,22 @@ Search reference
     <input type="text" name="booktitle" value="{{ booktitle }}">
     <br>
     
+    <label class="col-sm-1" for="year">Year:</label>
+    <input type="number" min=0 max=2024 name="year" value="{{ year }}">
+    <br>
+    
     <button type="submit">
         Search
     </button>
 </form>
 
-
 <div id="referencelist">
+  <div>
+    <br>
+    <h4>Matching references: {{ references|length }}</h4>
+  </div>
 <ul class="list-group">
   {% for reference in references %}
-  {% if filters.author in reference.author and filters.title in reference.title and filters.booktitle in reference.booktitle %}
   <li class="list-group-item d-flex justify-content-between align-items-center" style="display: flex">
     <div>
       <br>
@@ -134,7 +139,7 @@ Search reference
     </div>
   </li>
   <br>
-  {% endif %}
+
   {% endfor %}
 </ul>
 </div>
