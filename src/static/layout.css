@@ -2,8 +2,27 @@
 input {
   width: 400px;
 }
-#referencelist {
 
-    margin-left: 50px;
-    margin-right: 50px;
+#referencelist {
+  margin-left: 400px;
+  margin-right: 400px;
+}
+
+#searchbox {
+  margin-left: 400px;
+  margin-right: 400px;
+}
+#countreftitle {
+  margin-left: 400px;
+
+}
+#pagetitle {
+  margin-top: 50px;
+  margin-left: 400px;
+
+}
+#bibtexbox {
+  margin-left: 400px;
+  margin-right: 400px;
+  padding-left: 20%;
 }

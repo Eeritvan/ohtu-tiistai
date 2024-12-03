@@ -6,7 +6,7 @@ Reference app
 
 {% block body %}
 
-<h2>Reference app</h2>
+<h2 id="pagetitle">All references</h2>
 
 {% with messages = get_flashed_messages() %}
 {% if messages %}
@@ -22,6 +22,7 @@ Reference app
 <div>
   <br>
   Saved references: {{ unfinished }}
+  <br>
 </div>
 <ul class="list-group">
   {% for reference in references %}
