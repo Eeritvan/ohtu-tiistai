@@ -57,6 +57,37 @@ def del_reference(reference_id):
         flash(str(error))
     return redirect("/")
 
+@app.route("/export_bibtex/all", methods=["GET"])
+def export_bibtex_all():
+    references = ref_repo.get_references()
+    if not references:
+        flash("Reference not found")
+        return redirect("/")
+
+    bibtex_entries = [
+        ref_repo.get_reference_bibtex(reference)
+        for reference in references
+    ]
+    bibtex_entry = '\n\n'.join(bibtex_entries)
+    return render_template("bibtex.html", bibtex_entry=bibtex_entry,
+                           reference_id="all")
+
+@app.route("/export_bibtex/filtered", methods=["GET"])
+def export_bibtex_filtered():
+    ids = request.args.get('reference_ids')
+    if not ids:
+        flash("References not found")
+        return redirect("/")
+
+    reference_ids = ids.split(",")
+    bibtex_entries = [
+        ref_repo.get_reference_bibtex(ref_repo.get_references(reference_id))
+        for reference_id in reference_ids
+    ]
+    bibtex_entry = '\n\n'.join(bibtex_entries)
+    return render_template("bibtex.html", bibtex_entry=bibtex_entry,
+                           reference_id=f"filtered:{ids}")
+
 @app.route("/export_bibtex/<reference_id>", methods=["GET"])
 def export_bibtex(reference_id):
     reference = ref_repo.get_references(reference_id)
@@ -70,12 +101,17 @@ def export_bibtex(reference_id):
 
 @app.route("/download_bibtex/<reference_id>", methods=["GET"])
 def download_bibtex(reference_id):
-    reference = ref_repo.get_references(reference_id)
-    if not reference:
-        flash("Reference not found")
-        return redirect("/")
+    if reference_id == "all":
+        bibtex_entry = ref_repo.get_bibtex_entries_for_all()
+    elif "filtered" in reference_id:
+        bibtex_entry = ref_repo.get_bibtex_entries_for_filtered(reference_id)
+    else:
+        reference = ref_repo.get_references(reference_id)
+        if not reference:
+            flash("Reference not found")
+            return redirect("/")
+        bibtex_entry = ref_repo.get_reference_bibtex(reference)
 
-    bibtex_entry = ref_repo.get_reference_bibtex(reference)
     response = Response(bibtex_entry, mimetype='text/plain')
     response.headers.set("Content-Disposition", "attachment",
                          filename="Reference.bib")
