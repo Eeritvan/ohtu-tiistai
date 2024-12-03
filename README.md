@@ -3,6 +3,8 @@
 [![Status badge](https://github.com/eeritvan/ohtu-tiistai/workflows/CI/badge.svg)](https://github.com/Eeritvan/ohtu-tiistai/actions)
 [![codecov](https://codecov.io/gh/Eeritvan/ohtu-tiistai/graph/badge.svg?token=2Z2LTYD1MI)](https://codecov.io/gh/Eeritvan/ohtu-tiistai)
 
+This project uses [Bootstrap](https://getbootstrap.com/) for styling and layout.
+
 ### [backlog](https://github.com/users/Eeritvan/projects/5/views/1)
 ### [sprint-backlog](https://github.com/users/Eeritvan/projects/5/views/2)
 ### [burndown](https://helsinkifi-my.sharepoint.com/:x:/g/personal/jkuusto_ad_helsinki_fi/EfSoYL13xWhPjvn_zf2wny0B3ATpEZ6BFviF9YFYQLmAfQ?e=2bQM5q)
