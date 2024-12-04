@@ -49,7 +49,9 @@ def setup_db():
         "  address TEXT,"
         "  month INTEGER,"
         "  organisation TEXT,"
-        "  publisher TEXT"
+        "  publisher TEXT,"
+        "  journal TEXT,"
+        "  note TEXT"
         ")"
     )
 
