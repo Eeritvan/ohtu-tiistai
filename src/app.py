@@ -59,23 +59,34 @@ def del_reference(reference_id):
 
 @app.route("/export_bibtex/<reference_id>", methods=["GET"])
 def export_bibtex(reference_id):
-    reference = ref_repo.get_references(reference_id)
-    if not reference:
-        flash("Reference not found")
-        return redirect("/")
-
-    bibtex_entry = ref_repo.get_reference_bibtex(reference)
+    if reference_id == "all":
+        bibtex_entry = ref_repo.get_bibtex_entries_for_all()
+    elif reference_id == "filtered":
+        ids = request.args.get('reference_ids')
+        reference_id=f"filtered:{ids}"
+        bibtex_entry = ref_repo.get_bibtex_entries_for_filtered(ids)
+    else:
+        reference = ref_repo.get_references(reference_id)
+        if not reference:
+            flash("Reference not found")
+            return redirect("/")
+        bibtex_entry = ref_repo.get_reference_bibtex(reference)
     return render_template("bibtex.html", bibtex_entry=bibtex_entry,
                            reference_id=reference_id)
 
 @app.route("/download_bibtex/<reference_id>", methods=["GET"])
 def download_bibtex(reference_id):
-    reference = ref_repo.get_references(reference_id)
-    if not reference:
-        flash("Reference not found")
-        return redirect("/")
+    if reference_id == "all":
+        bibtex_entry = ref_repo.get_bibtex_entries_for_all()
+    elif "filtered" in reference_id:
+        bibtex_entry = ref_repo.get_bibtex_entries_for_filtered(reference_id)
+    else:
+        reference = ref_repo.get_references(reference_id)
+        if not reference:
+            flash("Reference not found")
+            return redirect("/")
+        bibtex_entry = ref_repo.get_reference_bibtex(reference)
 
-    bibtex_entry = ref_repo.get_reference_bibtex(reference)
     response = Response(bibtex_entry, mimetype='text/plain')
     response.headers.set("Content-Disposition", "attachment",
                          filename="Reference.bib")

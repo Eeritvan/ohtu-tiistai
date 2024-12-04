@@ -53,6 +53,16 @@ Search reference
     <br>
     <h4>Matching references: {{ references|length }}</h4>
   </div>
+
+  {% if references|length != 0 %}
+  <div>
+    <form action="/export_bibtex/filtered" method="GET">
+      <input type="hidden" name="reference_ids" value="{{ references | map(attribute='id') | join(',') }}">
+      <button type="submit" class="btn btn-light"> Export filtered </button>
+    </form>
+  </div>
+  <br>
+  {% endif %}
 <ul class="list-group">
   {% for reference in references %}
   <li class="list-group-item d-flex justify-content-between align-items-center" style="display: flex">
