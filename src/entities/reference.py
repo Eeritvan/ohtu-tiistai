@@ -78,3 +78,105 @@ class Inproceedings(Reference):
             f"organisation: {self.organisation}\n"
             f"publisher: {self.publisher}"
             )
+
+class Article(Reference):
+    def __init__(self, **kwargs):
+        super().__init__(
+            kwargs.get('ref_type'),
+            kwargs.get('db_id', None),
+            kwargs.get('citekey', None)
+            )
+        self.author = kwargs.get('author', None)
+        self.title = kwargs.get('title', None)
+        self.year = kwargs.get('year', None)
+        self.journal = kwargs.get('journal', None)
+        self.volume = kwargs.get('volume', None)
+        self.number = kwargs.get('number', None)
+        self.pages = kwargs.get('pages', None)
+        self.month = kwargs.get('month', None)
+        self.note = kwargs.get('note', None)
+
+    def filter_non_empty(self) -> dict:
+        reference_dict = self.__dict__
+        filtered_reference = {}
+
+        for key, value in reference_dict.items():
+            if value not in ("", None):
+                filtered_reference[key] = value
+
+        return filtered_reference
+
+    def filter_bibtex_fields(self) -> dict:
+        reference_dict = self.__dict__
+        filtered_reference = {}
+
+        for key, value in reference_dict.items():
+            if key not in {'ref_type', 'id', 'citekey'}:
+                if value not in ("", None):
+                    filtered_reference[key] = value
+
+        return filtered_reference
+
+    def __str__(self):
+        return (
+            f"id: {self.id}\n"
+            f"citekey: {self.citekey}\n"
+            f"type: {self.ref_type}\n"
+            f"author: {self.author}\n"
+            f"title: {self.title}\n"
+            f"year: {self.year}\n"
+            f"journal: {self.journal}\n"
+            f"volume: {self.volume}\n"
+            f"number: {self.number}\n"
+            f"pages: {self.pages}\n"
+            f"month: {self.month}\n"
+            f"note: {self.note}\n"
+            )
+
+
+
+class Book(Reference):
+    def __init__(self, **kwargs):
+        super().__init__(
+            kwargs.get('ref_type'),
+            kwargs.get('db_id', None),
+            kwargs.get('citekey', None)
+            )
+        self.author = kwargs.get('author', None)
+        self.year = kwargs.get('year', None)
+        self.title = kwargs.get('title', None)
+        self.publisher = kwargs.get('publisher', None)
+        self.address = kwargs.get('address', None)
+
+    def filter_non_empty(self) -> dict:
+        reference_dict = self.__dict__
+        filtered_reference = {}
+
+        for key, value in reference_dict.items():
+            if value not in ("", None):
+                filtered_reference[key] = value
+
+        return filtered_reference
+
+    def filter_bibtex_fields(self) -> dict:
+        reference_dict = self.__dict__
+        filtered_reference = {}
+
+        for key, value in reference_dict.items():
+            if key not in {'ref_type', 'id', 'citekey'}:
+                if value not in ("", None):
+                    filtered_reference[key] = value
+
+        return filtered_reference
+
+    def __str__(self):
+        return (
+            f"id: {self.id}\n"
+            f"citekey: {self.citekey}\n"
+            f"type: {self.ref_type}\n"
+            f"author: {self.author}\n"
+            f"year: {self.year}\n"
+            f"title: {self.title}\n"
+            f"publisher: {self.publisher}"
+            f"address: {self.address}\n"
+            )
