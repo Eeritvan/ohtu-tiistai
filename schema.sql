@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.13 (Ubuntu 14.13-0ubuntu0.22.04.1)
--- Dumped by pg_dump version 14.13 (Ubuntu 14.13-0ubuntu0.22.04.1)
+-- Dumped from database version 15.4
+-- Dumped by pg_dump version 15.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -26,13 +26,27 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.sources (
     id integer NOT NULL,
-    type character varying(50) NOT NULL,
+    citekey character varying(50) NOT NULL,
+    ref_type character varying(50) NOT NULL,
     author character varying(255) NOT NULL,
     title character varying(255) NOT NULL,
     year integer NOT NULL,
-    details jsonb
+    booktitle text,
+    editor text,
+    volume integer,
+    number integer,
+    series text,
+    pages text,
+    address text,
+    month integer,
+    organisation text,
+    publisher text,
+    journal text,
+    note text
 );
 
+
+ALTER TABLE public.sources OWNER TO -;
 
 --
 -- Name: sources_id_seq; Type: SEQUENCE; Schema: public; Owner: -
@@ -47,42 +61,13 @@ CREATE SEQUENCE public.sources_id_seq
     CACHE 1;
 
 
+ALTER TABLE public.sources_id_seq OWNER TO -;
+
 --
 -- Name: sources_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.sources_id_seq OWNED BY public.sources.id;
-
-
---
--- Name: todos; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.todos (
-    id integer NOT NULL,
-    content text NOT NULL,
-    done boolean DEFAULT false
-);
-
-
---
--- Name: todos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.todos_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: todos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.todos_id_seq OWNED BY public.todos.id;
 
 
 --
@@ -93,10 +78,26 @@ ALTER TABLE ONLY public.sources ALTER COLUMN id SET DEFAULT nextval('public.sour
 
 
 --
--- Name: todos id; Type: DEFAULT; Schema: public; Owner: -
+-- Data for Name: sources; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.todos ALTER COLUMN id SET DEFAULT nextval('public.todos_id_seq'::regclass);
+COPY public.sources (id, citekey, ref_type, author, title, year, booktitle, editor, volume, number, series, pages, address, month, organisation, publisher, journal, note) FROM stdin;
+\.
+
+
+--
+-- Name: sources_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.sources_id_seq', 1, false);
+
+
+--
+-- Name: sources sources_citekey_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sources
+    ADD CONSTRAINT sources_citekey_key UNIQUE (citekey);
 
 
 --
@@ -108,11 +109,11 @@ ALTER TABLE ONLY public.sources
 
 
 --
--- Name: todos todos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: sources sources_title_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.todos
-    ADD CONSTRAINT todos_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.sources
+    ADD CONSTRAINT sources_title_key UNIQUE (title);
 
 
 --
