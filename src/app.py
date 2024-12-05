@@ -16,7 +16,7 @@ def index():
 @app.route("/new_reference", methods=["GET", "POST"])
 def new(reference=None):
     if request.method == "POST":
-        reference = Inproceedings(**request.form)
+        reference = ref_repo.create_ref_type_object(request.form)
         try:
             ref_repo.create_reference(reference)
             return redirect("/")

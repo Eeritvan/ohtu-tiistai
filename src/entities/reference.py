@@ -130,7 +130,7 @@ class Article(Reference):
             f"number: {self.number}\n"
             f"pages: {self.pages}\n"
             f"month: {self.month}\n"
-            f"note: {self.note}\n"
+            f"note: {self.note}"
             )
 
 
@@ -177,6 +177,6 @@ class Book(Reference):
             f"author: {self.author}\n"
             f"year: {self.year}\n"
             f"title: {self.title}\n"
-            f"publisher: {self.publisher}"
-            f"address: {self.address}\n"
+            f"publisher: {self.publisher}\n"
+            f"address: {self.address}"
             )

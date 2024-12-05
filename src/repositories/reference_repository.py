@@ -68,7 +68,7 @@ class ReferenceRepository:
         rows = result.fetchall()
         return [self._inproceedings_helper(row) for row in rows]
 
-    def db_create_reference(self, reference: Inproceedings):
+    def db_create_reference(self, reference):
         """Inserts reference to the database and 
             updates database id to the object.
             Returns:
