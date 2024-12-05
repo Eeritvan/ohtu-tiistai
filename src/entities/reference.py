@@ -18,7 +18,7 @@ class Reference:
         )
 
 class Inproceedings(Reference):
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs): # pylint: disable=too-many-statements
         super().__init__(
             kwargs.get('ref_type'),
             kwargs.get('db_id', None),
@@ -37,14 +37,27 @@ class Inproceedings(Reference):
         self.month = kwargs.get('month', None)
         self.organisation = kwargs.get('organisation', None)
         self.publisher = kwargs.get('publisher', None)
+        self.mandatory_fields = ["author", "title", "booktitle", "year"]
+        self.optional_fields = ["editor",
+                                "volume",
+                                "number",
+                                "series",
+                                "pages",
+                                "address",
+                                "month",
+                                "organization",
+                                "publisher"]
 
     def filter_non_empty(self) -> dict:
         reference_dict = self.__dict__
         filtered_reference = {}
 
         for key, value in reference_dict.items():
-            if value not in ("", None):
-                filtered_reference[key] = value
+            excluded_keys = ['mandatory_fields',
+                          'optional_fields']
+            if key not in excluded_keys:
+                if value not in ("", None):
+                    filtered_reference[key] = value
 
         return filtered_reference
 
@@ -53,7 +66,12 @@ class Inproceedings(Reference):
         filtered_reference = {}
 
         for key, value in reference_dict.items():
-            if key not in {'ref_type', 'id', 'citekey'}:
+            excluded_keys = ['ref_type',
+                          'id',
+                          'citekey',
+                          'mandatory_fields',
+                          'optional_fields']
+            if key not in excluded_keys:
                 if value not in ("", None):
                     filtered_reference[key] = value
 
@@ -95,14 +113,19 @@ class Article(Reference):
         self.pages = kwargs.get('pages', None)
         self.month = kwargs.get('month', None)
         self.note = kwargs.get('note', None)
+        self.mandatory_fields = ["author", "title", "journal", "year"]
+        self.optional_fields = ["volume", "number", "pages", "month", "note"]
 
     def filter_non_empty(self) -> dict:
         reference_dict = self.__dict__
         filtered_reference = {}
 
         for key, value in reference_dict.items():
-            if value not in ("", None):
-                filtered_reference[key] = value
+            excluded_keys = ['mandatory_fields',
+              'optional_fields']
+            if key not in excluded_keys:
+                if value not in ("", None):
+                    filtered_reference[key] = value
 
         return filtered_reference
 
@@ -111,7 +134,12 @@ class Article(Reference):
         filtered_reference = {}
 
         for key, value in reference_dict.items():
-            if key not in {'ref_type', 'id', 'citekey'}:
+            excluded_keys = ['ref_type',
+                          'id',
+                          'citekey',
+                          'mandatory_fields',
+                          'optional_fields']
+            if key not in excluded_keys:
                 if value not in ("", None):
                     filtered_reference[key] = value
 
@@ -147,14 +175,18 @@ class Book(Reference):
         self.title = kwargs.get('title', None)
         self.publisher = kwargs.get('publisher', None)
         self.address = kwargs.get('address', None)
+        self.mandatory_fields = ["author","year","title","publisher","address"]
 
     def filter_non_empty(self) -> dict:
         reference_dict = self.__dict__
         filtered_reference = {}
 
         for key, value in reference_dict.items():
-            if value not in ("", None):
-                filtered_reference[key] = value
+            excluded_keys = ['mandatory_fields',
+                          'optional_fields']
+            if key not in excluded_keys:
+                if value not in ("", None):
+                    filtered_reference[key] = value
 
         return filtered_reference
 
@@ -163,7 +195,12 @@ class Book(Reference):
         filtered_reference = {}
 
         for key, value in reference_dict.items():
-            if key not in {'ref_type', 'id', 'citekey'}:
+            excluded_keys = ['ref_type',
+                          'id',
+                          'citekey',
+                          'mandatory_fields',
+                          'optional_fields']
+            if key not in excluded_keys:
                 if value not in ("", None):
                     filtered_reference[key] = value
 

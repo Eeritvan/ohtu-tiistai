@@ -17,8 +17,16 @@ def validate_month(month):
         )
 
 def validate_reference(reference): # pylint: disable=too-many-statements
-    print(type(reference)) #TODO: jotain tänne
-    return
+    #TODO: paremmat tarkistukset tänne
+    if reference.ref_type == "article":
+        print(reference.mandatory_fields)
+        print(reference.optional_fields)
+        return
+    if reference.ref_type == "book":
+        print(reference.mandatory_fields)
+        # doesnt have any optional_fields
+        return
+
     mandatory_fields = ['author', 'title', 'booktitle']
     for field in mandatory_fields:
         value = getattr(reference, field)
