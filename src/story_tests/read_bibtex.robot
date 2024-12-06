@@ -50,6 +50,58 @@ BibTeX can be copied to clipboard
     Paste Text
     Textfield Should Contain  author  Author2020TestTitle
 
+After pressing Export all-button opens bibtex-page
+    Go To Add Reference Page
+    Input Text  author  Test Author1
+    Input Text  title  Test Title1
+    Input Text  booktitle  Test Book title1
+    Input Text  year  2020
+    Submit Reference
+    Submit Should Succeed
+    Page Should Contain  Saved references: 1
+    Go To Add Reference Page
+    Input Text  author  Test Author2
+    Input Text  title  Test Title2
+    Input Text  booktitle  Test Book title2
+    Input Text  year  2022
+    Submit Reference
+    Submit Should Succeed
+    Page Should Contain  Saved references: 2
+
+    Click Button  Export all
+    Page Should Contain  BibTeX Representation
+    Page Should Contain  Test Author1
+    Page Should Contain  Test Author2
+
+BibTeXs can be copied to clipboard
+    Go To Add Reference Page
+    Input Text  author  Test Author1
+    Input Text  title  Test Title1
+    Input Text  booktitle  Test Book title1
+    Input Text  year  2020
+    Submit Reference
+    Submit Should Succeed
+    Page Should Contain  Saved references: 1
+    Go To Add Reference Page
+    Input Text  author  Test Author2
+    Input Text  title  Test Title2
+    Input Text  booktitle  Test Book title2
+    Input Text  year  2022
+    Submit Reference
+    Submit Should Succeed
+    Page Should Contain  Saved references: 2
+
+    Click Button  Export all
+    Page Should Contain  BibTeX Representation
+    Copy to clipboard
+    Handle Alert
+    Go To Add Reference Page
+    Click Element  author
+    Paste Text
+    Textfield Should Contain  author  Author2020TestTitle
+    Textfield Should Contain  author  Author2022TestTitle
+
+
 *** Keywords ***
 Main Page Should Be Open
     Title Should Be  Reference app
