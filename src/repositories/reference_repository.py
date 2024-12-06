@@ -1,6 +1,6 @@
 from sqlalchemy import text
 from config import db
-from entities.reference import Inproceedings
+from entities.reference import Inproceedings, Book, Article
 
 # Tarkista mikä on tälle oikeampi paikka
 class UserInputError(Exception):
@@ -12,25 +12,53 @@ class ReferenceRepository:
     def __init__(self):
         """Class constructor"""
 
-    def _inproceedings_helper(self, row):
-        return Inproceedings(
-            db_id=row[0],
-            citekey=row[1],
-            ref_type=row[2],
-            author=row[3],
-            title=row[4],
-            year=row[5],
-            booktitle=row[6],
-            editor=row[7],
-            volume=row[8],
-            number=row[9],
-            series=row[10],
-            pages=row[11],
-            address=row[12],
-            month=row[13],
-            organisation=row[14],
-            publisher=row[15]
-        )
+    def _helper(self, row):
+        match (row[2]):
+            case 'article':
+                return Article(
+                    db_id=row[0],
+                    citekey=row[1],
+                    ref_type=row[2],
+                    author=row[3],
+                    title=row[4],
+                    year=row[5],
+                    volume=row[8],
+                    number=row[9],
+                    pages=row[11],
+                    month=row[13],
+                    journal=row[16],
+                    note=row[17]
+                )
+            case 'book':
+                return Book(
+                    db_id=row[0],
+                    citekey=row[1],
+                    ref_type=row[2],
+                    author=row[3],
+                    title=row[4],
+                    year=row[5],
+                    address=row[12],
+                    publisher=row[15]
+                )
+            case _:
+                return Inproceedings(
+                    db_id=row[0],
+                    citekey=row[1],
+                    ref_type=row[2],
+                    author=row[3],
+                    title=row[4],
+                    year=row[5],
+                    booktitle=row[6],
+                    editor=row[7],
+                    volume=row[8],
+                    number=row[9],
+                    series=row[10],
+                    pages=row[11],
+                    address=row[12],
+                    month=row[13],
+                    organisation=row[14],
+                    publisher=row[15]
+                )
 
     def db_get_references(self, reference_id=None):
         """Selects one or all references from the database.
@@ -53,7 +81,9 @@ class ReferenceRepository:
                     address,
                     month,
                     organisation,
-                    publisher
+                    publisher,
+                    journal,
+                    note
                     FROM sources
             '''
         if reference_id:
@@ -61,12 +91,12 @@ class ReferenceRepository:
             result = db.session.execute(text(query), {'id': reference_id})
             row = result.fetchone()
             if row:
-                return self._inproceedings_helper(row)
+                return self._helper(row)
             return None
 
         result = db.session.execute(text(query))
         rows = result.fetchall()
-        return [self._inproceedings_helper(row) for row in rows]
+        return [self._helper(row) for row in rows]
 
     def db_create_reference(self, reference):
         """Inserts reference to the database and 
