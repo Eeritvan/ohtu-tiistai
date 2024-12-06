@@ -24,6 +24,17 @@ Reference app
   Saved references: {{ unfinished }}
   <br>
 </div>
+
+{% if unfinished != 0 %}
+<div>
+  <form action="/export_bibtex/all" method="GET">
+    <button type="submit" class="btn btn-light">Export all</button>
+  </form>
+</div>
+<br>
+{% endif %}
+
+
 <ul class="list-group">
   {% for reference in references %}
   <li class="list-group-item d-flex justify-content-between align-items-center" style="display: flex">
@@ -31,7 +42,6 @@ Reference app
       <br>
       <h4 class="mb-1"> {{reference.title}}</h4>
       <br>
-
       <dl class="row">
 
         <dt class="col-sm-2"> Type </dt>

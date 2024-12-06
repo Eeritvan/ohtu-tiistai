@@ -51,3 +51,21 @@ class ReferenceService:
 
     def delete_reference(self,reference_id: int) -> str:
         return self._reference_repository.db_delete_reference(reference_id)
+
+    def get_bibtex_entries_for_all(self):
+        references = self.get_references()
+        bibtex_entries = [
+            self.get_reference_bibtex(reference)
+            for reference in references
+        ]
+        bibtex_entry = '\n\n'.join(bibtex_entries)
+        return bibtex_entry
+
+    def get_bibtex_entries_for_filtered(self, reference_id):
+        reference_ids = reference_id.replace("filtered:", "").split(",")
+        bibtex_entries = [
+            self.get_reference_bibtex(self.get_references(reference_id))
+            for reference_id in reference_ids
+        ]
+        bibtex_entry = '\n\n'.join(bibtex_entries)
+        return bibtex_entry
