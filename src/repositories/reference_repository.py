@@ -126,10 +126,14 @@ class ReferenceRepository:
             ) from e
 
     def db_edit_reference(self, reference):
-        fields = reference.__dict__
-        for key, value in fields.items():
-            if value == '':
-                fields[key] = None
+        old_fields = reference.__dict__
+        excluded_keys = ['mandatory_fields', 'optional_fields']
+        fields = {
+            key: (value if value != '' else None)
+            for key, value in old_fields.items()
+            if key not in excluded_keys
+        }
+
         placeholders = ', '.join(f"{key} = :{key}" for key in fields)
 
         try:

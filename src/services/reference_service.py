@@ -29,7 +29,7 @@ class ReferenceService:
         """
 
         try:
-            validate_reference(reference) #TODO: fix this
+            validate_reference(reference)
             reference.citekey = generate_citekey(reference)
             self._reference_repository.db_create_reference(reference)
         except Exception as e:
@@ -70,11 +70,11 @@ class ReferenceService:
         bibtex_entry = '\n\n'.join(bibtex_entries)
         return bibtex_entry
 
-    def create_ref_type_object(self, request):
+    def create_ref_type_object(self, request, db_id = None):
         match request["ref_type"]:
             case "inproceedings":
-                return Inproceedings(**request)
+                return Inproceedings(db_id = db_id, **request)
             case "book":
-                return Book(**request)
+                return Book(db_id = db_id, **request)
             case _:
-                return Article(**request)
+                return Article(db_id = db_id, **request)

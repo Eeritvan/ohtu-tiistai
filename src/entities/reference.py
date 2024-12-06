@@ -182,8 +182,7 @@ class Book(Reference):
         filtered_reference = {}
 
         for key, value in reference_dict.items():
-            excluded_keys = ['mandatory_fields',
-                          'optional_fields']
+            excluded_keys = ['mandatory_fields']
             if key not in excluded_keys:
                 if value not in ("", None):
                     filtered_reference[key] = value

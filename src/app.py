@@ -1,6 +1,5 @@
 from flask import redirect, render_template, request, jsonify, flash, Response
 from db_helper import reset_db
-from entities.reference import Inproceedings
 from config import app, test_env
 from services.reference_service import ReferenceService
 
@@ -102,8 +101,7 @@ def edit_reference(reference_id):
         non_empty = reference.filter_non_empty()
         return render_template("edit_reference.html", reference=non_empty)
     if request.method == "POST":
-        reference = Inproceedings(db_id = reference_id,
-                                  **request.form)
+        reference = ref_repo.create_ref_type_object(request.form, reference_id)
         if not reference:
             flash("Reference not found")
             return redirect("/")
