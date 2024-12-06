@@ -105,6 +105,17 @@ Reference app
         <dd class="col-sm-10"> {{reference.publisher}}</dd>
         {% endif %}
 
+        {% if reference.note %}
+        <dt class="col-sm-2"> note </dt>
+        <dd class="col-sm-10"> {{reference.note}}</dd>
+        {% endif %}
+
+        {% if reference.journal %}
+        <dt class="col-sm-2"> journal </dt>
+        <dd class="col-sm-10"> {{reference.journal}}</dd>
+        {% endif %}
+
+
 
         </form>
         <form action="/export_bibtex/{{reference.id}}" method="GET">

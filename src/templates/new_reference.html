@@ -20,7 +20,7 @@ Create a new reference
       {% endif %}
       {% endwith %}
       <h3>Reference type: Inproceedings</h3>
-      <input type="hidden" name="ref_type" value="article">
+      <input type="hidden" name="ref_type" value="inproceedings">
       <br>
 
       <h4>Mandatory fields</h4>
@@ -81,6 +81,16 @@ Create a new reference
 
       <label class="col-sm-2" for="publisher">Publisher:</label>
       <input type="text" name="publisher" value="{{ reference.publisher }}">
+      <br>
+
+      <label class="col-sm-2" for="note">note:</label>
+      <input type="text" name="note" value="{{ reference.note }}">
+      <br>
+
+      <label class="col-sm-2" for="journal">journal:</label>
+      <input type="text" name="journal" value="{{ reference.journal }}">
+      <br>
+
       <br>&nbsp;
       <br>
       <button type="submit" class="btn btn-outline-success">
