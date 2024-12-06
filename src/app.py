@@ -30,7 +30,7 @@ def search_reference():
     filters = {
         "author": request.args.get("author", ''),
         "title": request.args.get("title", ''),
-        "booktitle": request.args.get("booktitle", ''),
+        "type": request.args.get("ref_type", ''), 
         "year": request.args.get("year", '')
     }
 
@@ -39,7 +39,7 @@ def search_reference():
             ref for ref in references
             if filters["author"] in ref.author
             and filters["title"] in ref.title
-            and filters["booktitle"] in ref.booktitle
+            and filters["type"] in ref.ref_type
             and (filters["year"] == '' or str(filters["year"]) == str(ref.year))
         ]
 

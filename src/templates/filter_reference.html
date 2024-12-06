@@ -34,8 +34,8 @@ Search reference
     <input type="text" name="title" value="{{ title }}">
     <br>
 
-    <label class="col-sm-1" for="booktitle">Book title:</label>
-    <input type="text" name="booktitle" value="{{ booktitle }}">
+    <label class="col-sm-1" for="ref_type">type:</label>
+    <input type="text" name="ref_type" value="{{ ref_type }}">
     <br>
 
     <label class="col-sm-1" for="year">Year:</label>
@@ -132,6 +132,16 @@ Search reference
         {% if reference.publisher %}
         <dt class="col-sm-2"> Publisher </dt>
         <dd class="col-sm-10"> {{reference.publisher}}</dd>
+        {% endif %}
+
+        {% if reference.journal %}
+        <dt class="col-sm-2"> journal </dt>
+        <dd class="col-sm-10"> {{reference.journal}}</dd>
+        {% endif %}
+
+        {% if reference.note %}
+        <dt class="col-sm-2"> note </dt>
+        <dd class="col-sm-10"> {{reference.note}}</dd>
         {% endif %}
 
         </form>
