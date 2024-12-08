@@ -147,3 +147,9 @@ class ReferenceRepository:
         rows = result.fetchall()
         return rows
 
+    def add_tag(self, reference_id : int, tag_id : int):
+        sql = text('''INSERT INTO sources_tags(source_id, tag_id)
+                    VALUES (:source_id, :tag_id)
+                    ''')
+        db.session.execute(sql,{"source_id":reference_id, "tag_id":tag_id})
+        db.session.commit()
