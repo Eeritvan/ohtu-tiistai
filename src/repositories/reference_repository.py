@@ -170,3 +170,30 @@ class ReferenceRepository:
         rows = result.fetchall()
 
         return rows
+
+    # TODO: fix add tag by name
+    # def add_tagname(self, reference_id : int, tagname : str):
+    #     tag_id = self.get_tag_id(tagname)
+    #     print(tag_id)
+    #     sql = text('''INSERT INTO sources_tags(source_id, tag_id)
+    #                 VALUES (:source_id, :tag_id)
+    #                 ''')
+    #     db.session.execute(sql,{"source_id":reference_id, "tag_id":tag_id})
+    #     db.session.commit()
+
+
+    # def get_tag_id(self, tagname):
+    #     """Get id for tag by name"""
+    #     sql = text(
+    #         '''
+    #         SELECT id
+    #         FROM tags
+    #         WHERE tagname = :tagname
+    #         '''
+    #     )
+    #     result = db.session.execute(sql, {"tagname":tagname})
+    #     tag = result.fetchone()
+    #     print(tag.id)
+    #     return tag
+
+
