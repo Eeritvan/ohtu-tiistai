@@ -13,29 +13,32 @@ def index():
                                          unfinished=references_all)
 
 @app.route("/new_reference", methods=["GET", "POST"])
-def new(reference=None):
+def new():
+    selected_type = None
     if request.method == "POST":
-        reference = ref_repo.create_ref_type_object(request.form)
-        try:
-            ref_repo.create_reference(reference)
-            return redirect("/")
-        except Exception as error:
-            flash(str(error))
+        if 'select_type_submit' in request.form:
+            # Handle when type is selected and submitted
+            selected_type = request.form["select_type"]
+
+        elif 'create_reference_submit' in request.form:
+            # Handle when reference data is submitted
+            reference = ref_repo.create_ref_type_object(request.form)
+            try:
+                ref_repo.create_reference(reference)
+                return redirect("/")
+            except Exception as error:
+                flash(str(error))
+        else:
+            print("Unknown form submission")
+
     ref_types = [
         {"value": "inproceedings", "text": "Inproceeding"},
         {"value": "book", "text": "Book"},
         {"value": "article", "text": "Article"}
         ]
     return render_template("new_reference.html",
-                           reference=reference, ref_types= ref_types)
-
-
-@app.route("/select_reftype", methods = ["POST"])
-def select_reftype():
-    selected_type = request.form["select_type"]
-    print(selected_type)
-
-    return redirect("/new_reference")
+                            reference=None, ref_types= ref_types,
+                            ref_type=selected_type)
 
 
 @app.route("/search_reference")
