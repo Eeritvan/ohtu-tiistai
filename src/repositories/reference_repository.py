@@ -69,7 +69,7 @@ class ReferenceRepository:
         return [self._inproceedings_helper(row) for row in rows]
 
     def db_create_reference(self, reference: Inproceedings):
-        """Inserts reference to the database and 
+        """Inserts reference to the database and
             updates database id to the object.
             Returns:
                 Reference object with db_id
@@ -116,7 +116,7 @@ class ReferenceRepository:
             ) from e
 
     def db_delete_reference(self,reference_id: int):
-        """Deletes reference from database. 
+        """Deletes reference from database.
         Returns:
           title of deleted content."""
         try:
@@ -126,3 +126,16 @@ class ReferenceRepository:
             return result.fetchone()[0]
         except Exception as e:
             raise UserInputError("deletion failed") from e
+
+    def create_tag(self, color: str , tagname: str):
+        try:
+            sql = text('''INSERT INTO tags(tagname, color)
+                    VALUES (:tagname, :color)
+                    ''')
+            db.session.execute(sql,{"tagname":tagname, "color":color})
+            db.session.commit()
+        except Exception as e:
+            raise UserInputError(
+                f"Tagname '{tagname}' already exists"
+            ) from e
+

@@ -27,7 +27,6 @@ class ReferenceService:
         Returns:
             Inproceedings object
         """
-
         try:
             validate_reference(reference)
             reference.citekey = generate_citekey(reference)
@@ -51,3 +50,7 @@ class ReferenceService:
 
     def delete_reference(self,reference_id: int) -> str:
         return self._reference_repository.db_delete_reference(reference_id)
+
+    def create_new_tag(self, color : str, tagname: str):
+        self._reference_repository.create_tag(color, tagname)
+
