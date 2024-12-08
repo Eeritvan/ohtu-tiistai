@@ -171,8 +171,8 @@ class Book(Reference):
             kwargs.get('citekey', None)
             )
         self.author = kwargs.get('author', None)
-        self.year = kwargs.get('year', None)
         self.title = kwargs.get('title', None)
+        self.year = kwargs.get('year', None)
         self.publisher = kwargs.get('publisher', None)
         self.address = kwargs.get('address', None)
         self.mandatory_fields = ["author","year","title","publisher","address"]
@@ -211,8 +211,8 @@ class Book(Reference):
             f"citekey: {self.citekey}\n"
             f"type: {self.ref_type}\n"
             f"author: {self.author}\n"
-            f"year: {self.year}\n"
             f"title: {self.title}\n"
+            f"year: {self.year}\n"
             f"publisher: {self.publisher}\n"
             f"address: {self.address}"
             )

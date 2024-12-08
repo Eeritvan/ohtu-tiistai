@@ -2,7 +2,7 @@ from entities.reference import Inproceedings, Article, Book
 from repositories.reference_repository import ReferenceRepository
 from services.validate_reference import validate_reference
 from services.generate_citekey import generate_citekey
-from services.format_inproceedings import format_inproceedings
+from services.format_inproceedings import format_reference
 
 class UserInputError(Exception):
     pass
@@ -47,7 +47,7 @@ class ReferenceService:
         return self._reference_repository.db_get_references(reference_id)
 
     def get_reference_bibtex(self, reference) -> str:
-        return format_inproceedings(reference)
+        return format_reference(reference)
 
     def delete_reference(self,reference_id: int) -> str:
         return self._reference_repository.db_delete_reference(reference_id)
