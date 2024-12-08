@@ -139,3 +139,11 @@ class ReferenceRepository:
                 f"Tagname '{tagname}' already exists"
             ) from e
 
+    def get_tags(self):
+        sql = text('''Select id, tagname, color
+                   FROM tags
+                   ''')
+        result = db.session.execute(sql)
+        rows = result.fetchall()
+        return rows
+

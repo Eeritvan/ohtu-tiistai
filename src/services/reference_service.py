@@ -54,3 +54,6 @@ class ReferenceService:
     def create_new_tag(self, color : str, tagname: str):
         self._reference_repository.create_tag(color, tagname)
 
+    def get_all_tags(self):
+        return self._reference_repository.get_tags()
+
