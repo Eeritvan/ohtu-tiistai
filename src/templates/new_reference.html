@@ -8,7 +8,19 @@ Create a new reference
 <div class="container">
   <div class="jumbotron text-center bg-light">
     <h2>Create a new reference</h2>
+    <br>
 
+    <form action="/select_reftype" method="post">
+      <select name="select_type" id="ref_types">
+        {% for type in ref_types %}
+        <option value="{{ type.value }}">{{ type.text }}</option>
+        {% endfor %}
+      </select>
+      <input type="submit" class="btn btn-dark" name="selected" value="Select reference type">
+    </form>
+    <br>
+
+    <h3>Reference type: {{ref_type}}</h3>
     <form class="form-container" action="/new_reference" method="post">
       {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -19,7 +31,7 @@ Create a new reference
       </ul>
       {% endif %}
       {% endwith %}
-      <h3>Reference type: Inproceedings</h3>
+
       <input type="hidden" name="ref_type" value="inproceedings">
       <br>
 
