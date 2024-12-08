@@ -153,3 +153,20 @@ class ReferenceRepository:
                     ''')
         db.session.execute(sql,{"source_id":reference_id, "tag_id":tag_id})
         db.session.commit()
+
+    def get_ref_tags(self, reference_id):
+        sql = text(
+            '''
+            SELECT DISTINCT tagname, color
+
+            FROM sources_tags AS st
+                LEFT JOIN tags
+                ON st.tag_id = tags.id
+
+            WHERE st.source_id = :source_id
+            '''
+        )
+        result = db.session.execute(sql, {"source_id":reference_id})
+        rows = result.fetchall()
+
+        return rows
