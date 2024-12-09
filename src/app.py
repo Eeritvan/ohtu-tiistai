@@ -61,6 +61,7 @@ def manage_tags():
 
 @app.route("/delete_tag", methods=["POST"])
 def delete_tag():
+    print("deleted...")
     return redirect("/")
 
 @app.route("/search_reference")
