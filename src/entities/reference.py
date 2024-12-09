@@ -26,8 +26,8 @@ class Inproceedings(Reference):
             )
         self.author = kwargs.get('author', None)
         self.title = kwargs.get('title', None)
-        self.year = kwargs.get('year', None)
         self.booktitle = kwargs.get('booktitle', None)
+        self.year = kwargs.get('year', None)
         self.editor = kwargs.get('editor', None)
         self.volume = kwargs.get('volume', None)
         self.number = kwargs.get('number', None)
@@ -84,8 +84,8 @@ class Inproceedings(Reference):
             f"type: {self.ref_type}\n"
             f"author: {self.author}\n"
             f"title: {self.title}\n"
-            f"year: {self.year}\n"
             f"booktitle: {self.booktitle}\n"
+            f"year: {self.year}\n"
             f"editor: {self.editor}\n"
             f"volume: {self.volume}\n"
             f"number: {self.number}\n"
@@ -106,8 +106,8 @@ class Article(Reference):
             )
         self.author = kwargs.get('author', None)
         self.title = kwargs.get('title', None)
-        self.year = kwargs.get('year', None)
         self.journal = kwargs.get('journal', None)
+        self.year = kwargs.get('year', None)
         self.volume = kwargs.get('volume', None)
         self.number = kwargs.get('number', None)
         self.pages = kwargs.get('pages', None)
@@ -152,8 +152,8 @@ class Article(Reference):
             f"type: {self.ref_type}\n"
             f"author: {self.author}\n"
             f"title: {self.title}\n"
-            f"year: {self.year}\n"
             f"journal: {self.journal}\n"
+            f"year: {self.year}\n"
             f"volume: {self.volume}\n"
             f"number: {self.number}\n"
             f"pages: {self.pages}\n"
@@ -171,8 +171,8 @@ class Book(Reference):
             kwargs.get('citekey', None)
             )
         self.author = kwargs.get('author', None)
-        self.title = kwargs.get('title', None)
         self.year = kwargs.get('year', None)
+        self.title = kwargs.get('title', None)
         self.publisher = kwargs.get('publisher', None)
         self.address = kwargs.get('address', None)
         self.mandatory_fields = ["author","year","title","publisher","address"]
@@ -212,8 +212,8 @@ class Book(Reference):
             f"citekey: {self.citekey}\n"
             f"type: {self.ref_type}\n"
             f"author: {self.author}\n"
-            f"title: {self.title}\n"
             f"year: {self.year}\n"
+            f"title: {self.title}\n"
             f"publisher: {self.publisher}\n"
             f"address: {self.address}"
             )
