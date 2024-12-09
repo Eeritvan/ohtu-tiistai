@@ -3,7 +3,7 @@ from db_helper import reset_db
 from entities.reference import Inproceedings
 from config import app, test_env
 from services.reference_service import ReferenceService
-from services.validate_color import validate_color
+from services.validate_tag import validate_tag
 
 ref_repo = ReferenceService()
 
@@ -53,7 +53,7 @@ def manage_tags():
     if request.method == "POST":
         try:
             new_tag = request.form["name"]
-            validate_color(new_tag)
+            validate_tag(new_tag)
             # create a new tag here
             TAGS[new_tag] = '106, 90, 205' # here to test addition to the list
         except Exception as error:
