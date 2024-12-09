@@ -57,12 +57,9 @@ class ReferenceService:
     def get_all_tags(self):
         return self._reference_repository.get_tags()
 
-    def add_tag(self, ref_id : int, tag_id : int):
-        self._reference_repository.add_tag(ref_id, tag_id)
-
     def get_references_tags(self, reference_id : int):
         return self._reference_repository.get_ref_tags(reference_id)
 
-    def add_tagname(self, ref_id : int, tagname : str):
-        self._reference_repository.add_tag(ref_id, tagname)
+    def add_tag_to_ref(self, ref_id : int, tagname : str):
+        self._reference_repository.add_tagname(ref_id, tagname)
 
