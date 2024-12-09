@@ -45,7 +45,7 @@ class Inproceedings(Reference):
                                 "pages",
                                 "address",
                                 "month",
-                                "organization",
+                                "organisation",
                                 "publisher"]
 
     def filter_non_empty(self) -> dict:
@@ -176,13 +176,14 @@ class Book(Reference):
         self.publisher = kwargs.get('publisher', None)
         self.address = kwargs.get('address', None)
         self.mandatory_fields = ["author","year","title","publisher","address"]
+        self.optional_fields = []
 
     def filter_non_empty(self) -> dict:
         reference_dict = self.__dict__
         filtered_reference = {}
 
         for key, value in reference_dict.items():
-            excluded_keys = ['mandatory_fields']
+            excluded_keys = ['mandatory_fields', 'optional_fields']
             if key not in excluded_keys:
                 if value not in ("", None):
                     filtered_reference[key] = value

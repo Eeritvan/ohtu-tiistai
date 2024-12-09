@@ -121,6 +121,7 @@ class ReferenceRepository:
             db.session.execute(sql, fields)
             db.session.commit()
         except Exception as e:
+            print(e)
             raise UserInputError(
                 f"Title '{reference.title}' already exists"
             ) from e
