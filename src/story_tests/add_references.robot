@@ -6,42 +6,20 @@ Test Setup       Reset References
 
 *** Test Cases ***
 After each added reference the counter in the main page should increase by one
-    Go To Add Reference Page
-    Input Text  author  Test Author1
-    Input Text  title  Test Title1
-    Input Text  booktitle  Test Book title1
-    Input Text  year  2020
-    Submit Reference
+    Add New Valid Reference  Test Author1  Test Title1  Test Book title1  2020
     Submit Should Succeed
     Page Should Contain  Saved references: 1
-    
-    Go To Add Reference Page
-    Input Text  author  Test Author2
-    Input Text  title  Test Title2
-    Input Text  booktitle  Test Book title2
-    Input Text  year  1920
-    Submit Reference
+    Add New Valid Reference  Test Author2  Test Title2  Test Book title2  1920
     Submit Should Succeed
     Page Should Contain  Saved references: 2
     Page Should Contain  Test Title1
     Page Should Contain  Test Book title2
 
 Adding Duplicate Title Should Fail
-    Go To Add Reference Page
-    Input Text  author  Test
-    Input Text  title  Test
-    Input Text  booktitle  Test
-    Input Text  year  2020
-    Submit Reference
+    Add New Valid Reference  Test  Test  Test  2020
     Submit Should Succeed
     Page Should Contain  Saved references: 1
-    
-    Go To Add Reference Page
-    Input Text  author  Test
-    Input Text  title  Test
-    Input Text  booktitle  Test
-    Input Text  year  2020
-    Submit Reference
+    Add New Valid Reference  Test  Test  Test  2020
     Submit Should Fail With Message  Title 'Test' already exists
     Go To Home Page
     Page Should Contain  Saved references: 1
@@ -108,3 +86,12 @@ Submit Should Fail With Message
     [Arguments]  ${message}
     New Reference Page Should Be Open
     Page Should Contain  ${message}
+
+Add New Valid Reference
+    [Arguments]  ${author}  ${title}  ${booktitle}  ${year}
+    Go To Add Reference Page
+    Input Text  name=author  ${author}
+    Input Text  name=title  ${title}
+    Input Text  name=booktitle  ${booktitle}
+    Input Text  name=year  ${year}
+    Submit Reference
