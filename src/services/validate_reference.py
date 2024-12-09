@@ -16,36 +16,38 @@ def validate_month(month):
             "Reference month must be a number between 1 and 12"
         )
 
-def validate_reference(reference): # pylint: disable=too-many-statements
+def validate_reference(reference): # pylint: disable=too-many-statements, too-many-branches
     mandatory_fields = reference.mandatory_fields
     optional_fields = reference.optional_fields
 
     for field in mandatory_fields:
         value = getattr(reference, field)
-        if len(value) < 1:
-            raise UserInputError(
-                f"Reference {field} length must be greater than 1"
-            )
-        if len(value) > 255:
-            raise UserInputError(
-                f"Reference {field} length must be smaller than 255"
-            )
+        if not isinstance(value, int):
+            if len(value) < 1:
+                raise UserInputError(
+                    f"Reference {field} length must be greater than 1"
+                )
+            if len(value) > 255:
+                raise UserInputError(
+                    f"Reference {field} length must be smaller than 255"
+                )
 
     validate_year(int(reference.year))
     if 'month' in optional_fields:
         validate_month(reference.month)
 
-    if len(optional_fields) > 0:
+    if len(optional_fields) > 0: # pylint: disable=too-many-nested-blocks
         for field in optional_fields:
             value = getattr(reference, field)
-            if value and len(value) < 1:
-                raise UserInputError(
-                    f"Reference {field} length must be greater than 1"
-                )
-            if value and len(value) > 255:
-                raise UserInputError(
-                    f"Reference {field} length must be smaller than 255"
-                )
+            if not isinstance(value, int):
+                if value and len(value) < 1:
+                    raise UserInputError(
+                        f"Reference {field} length must be greater than 1"
+                    )
+                if value and len(value) > 255:
+                    raise UserInputError(
+                        f"Reference {field} length must be smaller than 255"
+                    )
 
     if (
         hasattr(reference, 'pages')
