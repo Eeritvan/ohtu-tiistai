@@ -37,3 +37,4 @@ SECRET_KEY=<YOUR SECRET KEY>
 - Code passes pylint checks
 - Code passes GitHub Actions tests
 
+
