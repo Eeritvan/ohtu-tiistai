@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block title %}
+BibTeX Representation
+{% endblock %}
+{% block body %}
+
+<h2 id="pagetitle">Manage tags</h2>
+
+
+<div class="container">
+  <form class="jumbotron text-center bg-light" action="/manage_tags" method="POST">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    {% endwith %}
+    <h3>Create a new tag</h3>
+    <br>
+    <label for="name">Tag name:</label>
+    <input style="width: 250px" type="text" minlength="2" maxlength="20" name="name" required>
+    <br>
+    <button type="submit" class="btn btn-outline-success"> Create </button>
+  </form>
+
+  <div class="jumbotron text-center bg-light">
+    <h3>Created tags</h3>
+    {% for tag_name, tag_color in tags.items() %}
+    <ul>
+      <li class="list-group-item d-flex justify-content-between align-items-center" style="width: 500px; margin: 0 auto;">
+        <span style="border-radius: 10px; background-color: rgba({{ tag_color }}, 0.4); padding: 3px; border: 2px solid rgba({{ tag_color }});">
+          {{ tag_name }}
+        </span>
+        <form action="/delete_tag/" method="POST">
+          <button type="submit" class="btn btn-danger"> Delete </button>
+        </form>
+      </li>
+    </ul>
+  {% endfor %}
+  <div>
+</div>
+
+{% endblock %}

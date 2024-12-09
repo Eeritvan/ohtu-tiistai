@@ -9,26 +9,26 @@ def generate_color(latest_id=None):
     Returns: name of the color as string"""
 
     colors = {
-    0: "Red",
-    1: "Green",
-    2: "Blue",
-    3: "Cyan",
-    4: "Magenta",
-    5: "Yellow",
-    6: "Orange",
-    7: "Purple",
-    8: "Lime",
-    9: "Teal",
-    10: "Navy",
-    11: "Maroon",
-    12: "Olive",
-    13: "Gray",
-    14: "Pink",
-    15: "Brown",
-    16: "Salmon",
-    17: "DarkGoldenRod",
-    18: "SlateBlue",
-    19: "DarkGreen"
+        0: "255, 0, 0",        # Red
+        1: "0, 128, 0",        # Green
+        2: "0, 0, 255",        # Blue
+        3: "0, 255, 255",      # Cyan
+        4: "255, 0, 255",      # Magenta
+        5: "255, 255, 0",      # Yellow
+        6: "255, 165, 0",      # Orange
+        7: "128, 0, 128",      # Purple
+        8: "0, 255, 0",        # Lime
+        9: "0, 128, 128",      # Teal
+        10: "0, 0, 128",       # Navy
+        11: "128, 0, 0",       # Maroon
+        12: "128, 128, 0",     # Olive
+        13: "128, 128, 128",   # Gray
+        14: "255, 192, 203",   # Pink
+        15: "165, 42, 42",     # Brown
+        16: "250, 128, 114",   # Salmon
+        17: "184, 134, 11",    # DarkGoldenRod
+        18: "106, 90, 205",    # SlateBlue
+        19: "0, 100, 0"        # DarkGreen
     }
 
     # Kysy tietokannasta viimeisin id

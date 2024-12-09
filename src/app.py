@@ -24,6 +24,45 @@ def new(reference=None):
             flash(str(error))
     return render_template("new_reference.html", reference=reference)
 
+
+## for testing and displaying different colors
+TAGS = {'Red': "255, 0, 0",
+        'Green': "0, 128, 0",
+        'lue': '0, 0, 255',
+        'Cyan': '0, 255, 255',
+        'Magenta': '255, 0, 255',
+        'Yellow': '255, 255, 0',
+        'Orange': '255, 165, 0',
+        'Purple': '128, 0, 128',
+        'Lime': '0, 255, 0',
+        'Teal': '0, 128, 128',
+        'Navy': '0, 0, 128',
+        'Maroon': '128, 0, 0',
+        'Olive': '128, 128, 0',
+        'Gray': '128, 128, 128',
+        'Pink': '255, 192, 203',
+        'Brown': '165, 42, 42',
+        'Salmon': '250, 128, 114',
+        'DarkGoldenRod': '184, 134, 11',
+        'SlateBlue': '106, 90, 205',
+        'DarkGreen': '0, 100, 0',
+        }
+
+@app.route("/manage_tags", methods=["GET", "POST"])
+def manage_tags():
+    if request.method == "POST":
+        new_tag = request.form["name"]
+        if len(new_tag) < 2:
+            flash("Tag must be at least 2 characters long")
+        elif len(new_tag) > 20:
+            flash("Tag must be less than 20 characters long")
+
+    return render_template("manage_tags.html", tags=TAGS) # tags=TAGS for colors
+
+@app.route("/delete_tag", methods=["POST"])
+def delete_tag():
+    return redirect("/")
+
 @app.route("/search_reference")
 def search_reference():
     references = ref_repo.get_references()
