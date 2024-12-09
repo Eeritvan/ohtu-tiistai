@@ -3,6 +3,7 @@ from db_helper import reset_db
 from entities.reference import Inproceedings
 from config import app, test_env
 from services.reference_service import ReferenceService
+from services.validate_color import validate_color
 
 ref_repo = ReferenceService()
 
@@ -24,8 +25,7 @@ def new(reference=None):
             flash(str(error))
     return render_template("new_reference.html", reference=reference)
 
-
-## for testing and displaying different colors
+## TEMPORARY DICTIONARY for testing and displaying different colors
 TAGS = {'Red': "255, 0, 0",
         'Green': "0, 128, 0",
         'lue': '0, 0, 255',
@@ -51,12 +51,15 @@ TAGS = {'Red': "255, 0, 0",
 @app.route("/manage_tags", methods=["GET", "POST"])
 def manage_tags():
     if request.method == "POST":
-        new_tag = request.form["name"]
-        if len(new_tag) < 2:
-            flash("Tag must be at least 2 characters long")
-        elif len(new_tag) > 20:
-            flash("Tag must be less than 20 characters long")
+        try:
+            new_tag = request.form["name"]
+            validate_color(new_tag)
+            # create a new tag here
+            TAGS[new_tag] = '106, 90, 205' # here to test addition to the list
+        except Exception as error:
+            flash(str(error))
 
+    # 'tags' is expecting a dictionary e.g. {'name': 'color', ...}
     return render_template("manage_tags.html", tags=TAGS) # tags=TAGS for colors
 
 @app.route("/delete_tag", methods=["POST"])
