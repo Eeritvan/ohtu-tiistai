@@ -213,10 +213,3 @@ class ReferenceRepository:
             return result.fetchone()[0]
         except Exception as e:
             raise UserInputError("deletion failed") from e
-
-
-
-
-
-
-

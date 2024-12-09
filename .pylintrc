@@ -1,6 +1,6 @@
 [MASTER]
 
-ignore=tests, example.py
+ignore=tests, example.py, db_helper.py
 
 [MESSAGE CONTROL]
 

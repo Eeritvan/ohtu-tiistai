@@ -62,4 +62,3 @@ class ReferenceService:
 
     def add_tag_to_ref(self, ref_id : int, tagname : str):
         self._reference_repository.add_tagname(ref_id, tagname)
-

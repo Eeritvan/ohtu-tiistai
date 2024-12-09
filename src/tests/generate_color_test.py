@@ -10,7 +10,7 @@ class TestColorGeneration(unittest.TestCase):
 
         #Id is given
         generated_color = generate_color(5)
-        expected_color = "Orange"
+        expected_color = "255, 165, 0" # code for orange
 
         self.assertEqual(generated_color, expected_color)
 
