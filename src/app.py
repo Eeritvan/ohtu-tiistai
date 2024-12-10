@@ -32,11 +32,6 @@ def new():
             try:
                 ref_repo.create_reference(reference)
                 return redirect("/")
-# Debug: replace return with this
-#                flash("Reference created successfully!")
-#                return render_template("new_reference.html",
-#                                       reference=reference, ref_types=ref_types,
-#                                       ref_type=selected_type)
 
             except Exception as error:
                 flash(str(error))
