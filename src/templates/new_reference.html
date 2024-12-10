@@ -10,13 +10,13 @@ Create a new reference
     <h2>Create a new reference</h2>
     <br>
     {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul>
-      {% for message in messages %}
-      <li class="error">{{ message }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
+      {% if messages %}
+      <ul>
+        {% for message in messages %}
+        <li class="error">{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
     {% endwith %}
 
 
@@ -26,10 +26,10 @@ Create a new reference
 
       <form class="form-container" action="/new_reference" name="ref_content" method="POST">
 
-        <br>
-        <input type="hidden" name="ref_type" value="{{ ref_type }}">
+      <br>
+      <input type="hidden" name="ref_type" value="{{ ref_type }}">
 
-        {% if ref_type == 'inproceedings' %}
+      {% if ref_type == 'inproceedings' %}
         <!--INPROCEEDINGS-->
 
         <h4>Mandatory fields</h4>
@@ -92,11 +92,6 @@ Create a new reference
         <input type="text" name="publisher" value="{{ reference.publisher }}">
         <br>
 
-        <br>&nbsp;
-        <br>
-        <input type="submit" class="btn btn-dark" name="create_reference_submit" value="Create">
-      </form>
-
       {% elif ref_type == 'book' %}
         <!--BOOK-->
 
@@ -125,11 +120,6 @@ Create a new reference
       <label class="col-sm-2" for="address">Address:</label>
       <input type="text" name="address" value="{{ reference.address }}">
       <br>
-
-      <br>&nbsp;
-      <br>
-      <input type="submit" class="btn btn-dark" name="create_reference_submit" value="Create">
-      </form>
 
       {% elif ref_type == 'article' %}
         <!--ARTICLE-->
@@ -176,29 +166,32 @@ Create a new reference
       <label class="col-sm-2" for="note">Note:</label>
       <input type="text" name="note" value="{{ reference.note }}">
       <br>
-
       <br>
+
+      {% else %}
+        No reference type selected.
+      {% endif %}
 
       {% if tags %}
       &nbsp;<br>
       <h4>Tags</h4>
       <br>
       <div class="form-group">
-        <select class="tags" name="tags" id="tags" size="5" width="20" multiple>
-        {% for tag in tags %}
-          <option value="{{ tag }}">{{ tag }}</option>
+        <select class="tags" name="tags" id="tags" size="5" multiple>
+        {% for id, tagname in tags.items() %}
+          <option value="{{ id }}">{{ tagname }}</option>
         {% endfor %}
         </select>
       </div>
+      {% else %}
+      Create tags first on page <a href="/manage_tags">Manage tags</a>.
       {% endif%}
+
       <br>&nbsp;
       <br>
       <input type="submit" class="btn btn-dark" name="create_reference_submit" value="Create">
-    </form>
+      </form>
 
-      {% else %}
-        No reference type selected.
-      {% endif %}
     {% else %}
 
 
