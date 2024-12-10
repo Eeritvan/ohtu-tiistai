@@ -51,22 +51,6 @@ class ReferenceService:
     def delete_reference(self,reference_id: int) -> str:
         return self._reference_repository.db_delete_reference(reference_id)
 
-<<<<<<< HEAD
-    def create_new_tag(self, color : str, tagname: str):
-        self._reference_repository.create_tag(color, tagname)
-
-    def get_all_tags(self):
-        return self._reference_repository.get_tags()
-
-    def get_references_tags(self, reference_id : int):
-        return self._reference_repository.get_ref_tags(reference_id)
-
-    def add_tag_to_ref(self, ref_id : int, tagname : str):
-        self._reference_repository.add_tagname(ref_id, tagname)
-
-    def delete_tag(self, tagname: str):
-        self._reference_repository.delete_tag(tagname)
-=======
     def get_bibtex_entries_for_all(self):
         references = self.get_references()
         bibtex_entries = [
@@ -93,4 +77,3 @@ class ReferenceService:
                 return Book(db_id = db_id, **request)
             case _:
                 return Article(db_id = db_id, **request)
->>>>>>> main
