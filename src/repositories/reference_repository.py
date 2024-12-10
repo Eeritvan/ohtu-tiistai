@@ -2,7 +2,6 @@ from sqlalchemy import text
 from config import db
 from entities.reference import Inproceedings, Book, Article
 
-# Tarkista mikä on tälle oikeampi paikka
 class UserInputError(Exception):
     pass
 
@@ -18,6 +17,7 @@ def get_tag_names():
         return tag_names
     except Exception as e:
         print(e)
+        raise UserInputError("Fetching tag name failed") from e
 
 class ReferenceRepository:
     """Class responsible of database operations."""
@@ -112,7 +112,7 @@ class ReferenceRepository:
         return [self._helper(row) for row in rows]
 
     def db_create_reference(self, reference):
-        """Inserts reference to the database and
+        """Inserts reference and tags to the database and
             updates database id to the object.
             Returns:
                 Reference object with db_id
@@ -122,7 +122,6 @@ class ReferenceRepository:
         try:
             columns = ', '.join(fields)
             placeholders = ', '.join(f":{key}" for key in fields)
-
             sql = text(f'''
                         INSERT INTO sources (
                         {columns}
@@ -131,8 +130,14 @@ class ReferenceRepository:
                         {placeholders}
                         )
                         RETURNING id''')
-            db.session.execute(sql, fields)
+            result = db.session.execute(sql, fields)
+            source_id = result.fetchone()[0]
             db.session.commit()
+
+            # Insert tags
+            for tag_id in reference.tags:
+                self.add_tag(source_id, tag_id)
+
         except Exception as e:
             print(e)
             raise UserInputError(
@@ -141,7 +146,7 @@ class ReferenceRepository:
 
     def db_edit_reference(self, reference):
         old_fields = reference.__dict__
-        excluded_keys = ['mandatory_fields', 'optional_fields']
+        excluded_keys = ['mandatory_fields', 'optional_fields', 'tags']
         fields = {
             key: (value if value != '' else None)
             for key, value in old_fields.items()
@@ -158,6 +163,13 @@ class ReferenceRepository:
 
             db.session.execute(sql, fields)
             db.session.commit()
+
+            # Delete old and insert new tags
+            source_id = reference.id
+            self.delete_refe_tags(source_id)
+            for tag_id in reference.tags:
+                self.add_tag(source_id, tag_id)
+
         except Exception as e:
             raise UserInputError(
                 f"Title '{reference.title}' already exists"
@@ -228,6 +240,21 @@ class ReferenceRepository:
 
         return rows
 
+    def get_ref_tag_ids(self, reference_id):
+        """Get all tags related to specific reference. """
+
+        sql = text(
+            '''
+            SELECT DISTINCT tag_id
+            FROM sources_tags
+            WHERE source_id = :source_id
+            '''
+        )
+        result = db.session.execute(sql, {"source_id":reference_id})
+        rows = result.fetchall()
+        tag_ids = [row[0] for row in rows]
+        return tag_ids
+
     def get_tag_id(self, tagname):
         """Get id for tag by name"""
         sql = text(
@@ -261,3 +288,14 @@ class ReferenceRepository:
             return result.fetchone()[0]
         except Exception as e:
             raise UserInputError("deletion failed") from e
+
+    def delete_refe_tags(self, reference_id : int):
+        """Deletes tags linked to reference. """
+        try:
+            sql = text("DELETE FROM sources_tags WHERE \
+                       source_id = :id RETURNING source_id")
+            result = db.session.execute(sql, {'id': reference_id})
+            db.session.commit()
+            return result.fetchone()[0]
+        except Exception as e:
+            raise UserInputError("deletion of tags in reference failed") from e
