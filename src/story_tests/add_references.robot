@@ -141,60 +141,54 @@ Filling Each Input Should Succeed
 Adding Too Short Author Should Fail
     Go To Add Reference Page
     Select Reference Type  inproceedings
-    Input Text  author  ab
     Input Text  title  Too Short
     Input Text  booktitle  Too Short
     Input Text  year  1920
     Submit Reference
-    Submit Should Fail With Message  Reference author length must be greater than 3
+    Submit Should Fail With Message  Reference author length must be greater than 1
 
     Go To Add Reference Page
     Select Reference Type  book
-    Input Text  author  ab
     Input Text  title  Too Short Again
     Input Text  year  1920
     Input Text  publisher  Too Short Again
     Input Text  address  Too Short Again
     Submit Reference
-    Submit Should Fail With Message  Reference author length must be greater than 3
+    Submit Should Fail With Message  Reference author length must be greater than 1
 
     Go To Add Reference Page
     Select Reference Type  article
-    Input Text  author  ab
     Input Text  title  Too Short Thrice
     Input Text  year  1920
     Input Text  journal  Too Short Thrice
     Submit Reference
-    Submit Should Fail With Message  Reference author length must be greater than 3
+    Submit Should Fail With Message  Reference author length must be greater than 1
 
 Adding Too Short Title Should Fail
     Go To Add Reference Page
     Select Reference Type  inproceedings
     Input Text  author  Too Short
-    Input Text  title  ab
     Input Text  booktitle  Too Short
     Input Text  year  1920
     Submit Reference
-    Submit Should Fail With Message  Reference title length must be greater than 3
+    Submit Should Fail With Message  Reference title length must be greater than 1
 
     Go To Add Reference Page
     Select Reference Type  book
     Input Text  author  Too Short Again
-    Input Text  title  ab
     Input Text  year  1920
     Input Text  publisher  Too Short Again
     Input Text  address  Too Short Again
     Submit Reference
-    Submit Should Fail With Message  Reference title length must be greater than 3
+    Submit Should Fail With Message  Reference title length must be greater than 1
 
     Go To Add Reference Page
     Select Reference Type  article
     Input Text  author  Too Short Thrice
-    Input Text  title  ab
     Input Text  year  1920
     Input Text  journal  Too Short Thrice
     Submit Reference
-    Submit Should Fail With Message  Reference title length must be greater than 3
+    Submit Should Fail With Message  Reference title length must be greater than 1
 
 *** Keywords ***
 Main Page Should Be Open
