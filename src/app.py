@@ -5,7 +5,6 @@ from services.reference_service import ReferenceService, get_all_tag_names
 from services.validate_tag import validate_tag
 
 ref_repo = ReferenceService()
-tags = get_all_tag_names()
 
 @app.route("/")
 def index():
@@ -22,6 +21,8 @@ def new():
         {"value": "book", "text": "Book"},
         {"value": "article", "text": "Article"}
         ]
+    tags = get_all_tag_names()
+
     if request.method == "POST":
         if 'select_type_submit' in request.form:
             # Handle when type is selected and submitted
@@ -31,6 +32,7 @@ def new():
             selected_type = request.form["ref_type"]
             # Handle when reference data is submitted
             reference = ref_repo.create_ref_type_object(request.form)
+            reference.add_tags(request.form.getlist("tags"))
             try:
                 ref_repo.create_reference(reference)
                 return redirect("/")
@@ -165,16 +167,20 @@ def download_bibtex(reference_id):
 
 @app.route("/edit_reference/<reference_id>", methods=["GET", "POST"])
 def edit_reference(reference_id):
+    tags = get_all_tag_names()
     if request.method == "GET":
         reference = ref_repo.get_references(reference_id)
         if not reference:
             flash("Reference not found")
             return redirect("/")
         non_empty = reference.filter_non_empty()
+        ref_tags = ref_repo.get_ref_tag_ids(reference_id)
         return render_template("edit_reference.html",
-                               reference=non_empty, tags=tags)
+                               reference=non_empty, tags=tags, ref_tags=ref_tags)
     if request.method == "POST":
         reference = ref_repo.create_ref_type_object(request.form, reference_id)
+        reference.delete_tags()
+        reference.add_tags(request.form.getlist("tags"))
         if not reference:
             flash("Reference not found")
             return redirect("/")
