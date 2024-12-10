@@ -1,10 +1,12 @@
 from flask import redirect, render_template, request, jsonify, flash, Response
 from db_helper import reset_db
 from config import app, test_env
-from services.reference_service import ReferenceService, get_all_tag_names
-from services.validate_tag import validate_tag
+from entities.tag import Tag
+from services.reference_service import ReferenceService
+from services.tag_service import TagService
 
 ref_repo = ReferenceService()
+tag_serv = TagService()
 
 @app.route("/")
 def index():
@@ -21,7 +23,7 @@ def new():
         {"value": "book", "text": "Book"},
         {"value": "article", "text": "Article"}
         ]
-    tags = get_all_tag_names()
+    tags = tag_serv.get_all_tag_names()
 
     if request.method == "POST":
         if 'select_type_submit' in request.form:
@@ -49,43 +51,16 @@ def new():
                             reference=None, ref_types= ref_types,
                             ref_type=selected_type, tags=tags)
 
-
-## TEMPORARY DICTIONARY for testing and displaying different colors
-TAGS = {'Red': "255, 0, 0",
-        'Green': "0, 128, 0",
-        'lue': '0, 0, 255',
-        'Cyan': '0, 255, 255',
-        'Magenta': '255, 0, 255',
-        'Yellow': '255, 255, 0',
-        'Orange': '255, 165, 0',
-        'Purple': '128, 0, 128',
-        'Lime': '0, 255, 0',
-        'Teal': '0, 128, 128',
-        'Navy': '0, 0, 128',
-        'Maroon': '128, 0, 0',
-        'Olive': '128, 128, 0',
-        'Gray': '128, 128, 128',
-        'Pink': '255, 192, 203',
-        'Brown': '165, 42, 42',
-        'Salmon': '250, 128, 114',
-        'DarkGoldenRod': '184, 134, 11',
-        'SlateBlue': '106, 90, 205',
-        'DarkGreen': '0, 100, 0',
-        }
-
 @app.route("/manage_tags", methods=["GET", "POST"])
 def manage_tags():
     if request.method == "POST":
         try:
-            new_tag = request.form["name"]
-            validate_tag(new_tag)
-            # create a new tag here
-            TAGS[new_tag] = '106, 90, 205' # here to test addition to the list
+            new_tag = Tag(name = request.form["name"])
+            tag_serv.create_new_tag(new_tag)
         except Exception as error:
             flash(str(error))
 
-    # 'tags' is expecting a dictionary e.g. {'name': 'color', ...}
-    return render_template("manage_tags.html", tags=TAGS) # tags=TAGS for colors
+    return render_template("manage_tags.html", tags={})
 
 @app.route("/delete_tag", methods=["POST"])
 def delete_tag():
@@ -167,7 +142,7 @@ def download_bibtex(reference_id):
 
 @app.route("/edit_reference/<reference_id>", methods=["GET", "POST"])
 def edit_reference(reference_id):
-    tags = get_all_tag_names()
+    tags = tag_serv.get_all_tag_names()
     if request.method == "GET":
         reference = ref_repo.get_references(reference_id)
         if not reference:
