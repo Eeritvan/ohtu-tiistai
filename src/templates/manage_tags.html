@@ -35,6 +35,7 @@ BibTeX Representation
           {{ tag_name }}
         </span>
         <form action="/delete_tag" method="POST">
+          <input type="hidden" name="tag_name" value="{{ tag_name }}">
           <button type="submit" class="btn btn-danger"> Delete </button>
         </form>
       </li>
