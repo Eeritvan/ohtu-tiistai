@@ -8,6 +8,13 @@ class Reference:
         self.id = db_id
         self.ref_type = ref_type
         self.citekey = citekey
+        self.tags = []
+
+    def add_tags(self, tags):
+        self.tags = tags
+
+    def delete_tags(self):
+        self.tags.clear()
 
     def __str__(self):
         """Creates a string which contains attribute values."""
@@ -54,7 +61,7 @@ class Inproceedings(Reference):
 
         for key, value in reference_dict.items():
             excluded_keys = ['mandatory_fields',
-                          'optional_fields']
+                          'optional_fields', 'tags']
             if key not in excluded_keys:
                 if value not in ("", None):
                     filtered_reference[key] = value
@@ -70,7 +77,7 @@ class Inproceedings(Reference):
                           'id',
                           'citekey',
                           'mandatory_fields',
-                          'optional_fields']
+                          'optional_fields', 'tags']
             if key not in excluded_keys:
                 if value not in ("", None):
                     filtered_reference[key] = value
@@ -122,7 +129,7 @@ class Article(Reference):
 
         for key, value in reference_dict.items():
             excluded_keys = ['mandatory_fields',
-              'optional_fields']
+              'optional_fields', 'tags']
             if key not in excluded_keys:
                 if value not in ("", None):
                     filtered_reference[key] = value
@@ -138,7 +145,7 @@ class Article(Reference):
                           'id',
                           'citekey',
                           'mandatory_fields',
-                          'optional_fields']
+                          'optional_fields', 'tags']
             if key not in excluded_keys:
                 if value not in ("", None):
                     filtered_reference[key] = value
@@ -183,7 +190,7 @@ class Book(Reference):
         filtered_reference = {}
 
         for key, value in reference_dict.items():
-            excluded_keys = ['mandatory_fields', 'optional_fields']
+            excluded_keys = ['mandatory_fields', 'optional_fields', 'tags']
             if key not in excluded_keys:
                 if value not in ("", None):
                     filtered_reference[key] = value
@@ -199,7 +206,7 @@ class Book(Reference):
                           'id',
                           'citekey',
                           'mandatory_fields',
-                          'optional_fields']
+                          'optional_fields', 'tags']
             if key not in excluded_keys:
                 if value not in ("", None):
                     filtered_reference[key] = value
