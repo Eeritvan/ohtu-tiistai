@@ -23,7 +23,7 @@ Edit reference
     {% if reference.ref_type %}
     <form action="/edit_reference/{{ reference.id }}" method="post">
 
-    <h2>Edit reference</h2>
+    <h2>Edit reference </h2>
       <h3>Reference type: {{reference.ref_type}}</h3>
       <br>
       <input type="hidden" name="ref_type" value="{{ reference.ref_type }}">
@@ -173,7 +173,11 @@ Edit reference
         <div class="form-group">
           <select class="tags" name="tags" id="tags" size="5" multiple>
           {% for id, tagname in tags.items() %}
+            {% if id in ref_tags %}
+            <option value="{{ id }}" selected>{{ tagname }}1</option>
+            {% else %}
             <option value="{{ id }}">{{ tagname }}</option>
+            {% endif %}
           {% endfor %}
           </select>
         </div>
