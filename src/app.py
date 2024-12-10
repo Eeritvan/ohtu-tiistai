@@ -2,7 +2,7 @@ from flask import redirect, render_template, request, jsonify, flash, Response
 from db_helper import reset_db
 from entities.reference import Inproceedings
 from config import app, test_env
-from services.reference_service import ReferenceService
+from services.reference_service import ReferenceService, get_tags_names
 from services.validate_tag import validate_tag
 
 ref_repo = ReferenceService()
@@ -23,7 +23,8 @@ def new(reference=None):
             return redirect("/")
         except Exception as error:
             flash(str(error))
-    return render_template("new_reference.html", reference=reference)
+    tags = get_tags_names()
+    return render_template("new_reference.html", reference=reference, tags=tags)
 
 ## TEMPORARY DICTIONARY for testing and displaying different colors
 TAGS = {'Red': "255, 0, 0",
@@ -152,15 +153,15 @@ def edit_reference(reference_id):
             )
     return redirect("/")
 
-@app.route("/delete_tag", methods=["POST"])
-def delete_tag():
-    try:
-        tag_name = request.form["tag_name"]
-        ref_repo.delete_tag(tag_name)
-        flash(f"Tag '{tag_name}' deleted successfully")
-    except Exception as error:
-        flash(str(error))
-    return redirect("/manage_tags")
+# @app.route("/delete_tag", methods=["POST"])
+# def delete_tag():
+#     try:
+#         tag_name = request.form["tag_name"]
+#         ref_repo.delete_tag(tag_name)
+#         flash(f"Tag '{tag_name}' deleted successfully")
+#     except Exception as error:
+#         flash(str(error))
+#     return redirect("/manage_tags")
 
 # testausta varten oleva reitti
 if test_env:

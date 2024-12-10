@@ -213,3 +213,16 @@ class ReferenceRepository:
             return result.fetchone()[0]
         except Exception as e:
             raise UserInputError("deletion failed") from e
+
+def get_tags_names():
+        print("Repo:Gettags")
+        """Get all tags in database.
+        Returns: result-object"""
+
+        sql = text('''Select tagname
+                   FROM tags
+                   ''')
+        result = db.session.execute(sql)
+        rows = result.fetchall()
+        tag_names = [row[0] for row in rows]
+        return tag_names

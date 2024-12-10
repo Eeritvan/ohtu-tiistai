@@ -7,18 +7,19 @@ Create a new reference
 {% block body %}
 <div class="container">
   <div class="jumbotron text-center bg-light">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
     <h2>Create a new reference</h2>
 
     <form class="form-container" action="/new_reference" method="post">
-      {% with messages = get_flashed_messages() %}
-      {% if messages %}
-      <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-      {% endwith %}
       <h3>Reference type: Inproceedings</h3>
       <input type="hidden" name="ref_type" value="inproceedings">
       <br>
@@ -81,6 +82,20 @@ Create a new reference
 
       <label class="col-sm-2" for="publisher">Publisher:</label>
       <input type="text" name="publisher" value="{{ reference.publisher }}">
+      <br>
+
+      {% if tags %}
+      &nbsp;<br>
+      <h4>Tags</h4>
+      <br>
+      <div class="form-group">
+        <select class="tags" name="tags" id="tags" size="5" width="20" multiple>
+        {% for tag in tags %}
+          <option value="{{ tag }}">{{ tag }}</option>
+        {% endfor %}
+        </select>
+      </div>
+      {% endif%}
       <br>&nbsp;
       <br>
       <button type="submit" class="btn btn-outline-success">

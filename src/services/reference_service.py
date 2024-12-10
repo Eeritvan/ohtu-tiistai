@@ -1,11 +1,16 @@
 from entities.reference import Inproceedings
-from repositories.reference_repository import ReferenceRepository
+from repositories.reference_repository import ReferenceRepository, get_tags_names
 from services.validate_reference import validate_reference
 from services.generate_citekey import generate_citekey
 from services.format_inproceedings import format_inproceedings
 
 class UserInputError(Exception):
     pass
+
+def get_all_tags_names():
+    print("Service:gettags")
+    return get_tags_names()
+
 
 class ReferenceService:
     """Class responsible of the app logic"""

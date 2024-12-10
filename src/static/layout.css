@@ -26,3 +26,10 @@ input {
   margin-right: 400px;
   padding-left: 20%;
 }
+
+select.tags {
+  margin-left: 0px;
+  padding-left: 0px;
+  text-align: left;
+  width: 220px;
+}
