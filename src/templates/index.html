@@ -24,6 +24,17 @@ Reference app
   Saved references: {{ unfinished }}
   <br>
 </div>
+
+{% if unfinished != 0 %}
+<div>
+  <form action="/export_bibtex/all" method="GET">
+    <button type="submit" class="btn btn-light">Export all</button>
+  </form>
+</div>
+<br>
+{% endif %}
+
+
 <ul class="list-group">
   {% for reference in references %}
   <li class="list-group-item d-flex justify-content-between align-items-center" style="display: flex">
@@ -31,7 +42,6 @@ Reference app
       <br>
       <h4 class="mb-1"> {{reference.title}}</h4>
       <br>
-
       <dl class="row">
 
         <dt class="col-sm-2"> Type </dt>
@@ -45,10 +55,11 @@ Reference app
 
         <dt class="col-sm-2"> Year </dt>
         <dd class="col-sm-10"> {{reference.year}}</dd>
-
+        
+        {% if reference.booktitle %}
         <dt class="col-sm-2"> Booktitle </dt>
         <dd class="col-sm-10"> {{reference.booktitle}}</dd>
-
+        {% endif %}
 
         {% if reference.editor %}
         <dt class="col-sm-2"> Editor </dt>
@@ -95,16 +106,27 @@ Reference app
         <dd class="col-sm-10"> {{reference.publisher}}</dd>
         {% endif %}
 
+        {% if reference.note %}
+        <dt class="col-sm-2"> note </dt>
+        <dd class="col-sm-10"> {{reference.note}}</dd>
+        {% endif %}
+
+        {% if reference.journal %}
+        <dt class="col-sm-2"> journal </dt>
+        <dd class="col-sm-10"> {{reference.journal}}</dd>
+        {% endif %}
+
+
 
         </form>
         <form action="/export_bibtex/{{reference.id}}" method="GET">
-          <button type="submit" class="btn btn-light">Export BibTeX</button>
+          <button type="submit" class="btn btn-outline-success">Export BibTeX</button>
         </form>
         <form action="/edit_reference/{{reference.id}}" method="GET">
-          <button type="submit" class="btn btn-light"> Edit </button>
+          <button type="submit" class="btn btn-outline-warning"> Edit </button>
         </form>
         <form action="/delete_reference/{{reference.id}}" method="POST">
-          <button type="submit" class="btn btn-light"> Delete </button>
+          <button type="submit" class="btn btn-outline-danger"> Delete </button>
         </form>
 
 

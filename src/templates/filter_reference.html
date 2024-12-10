@@ -34,8 +34,8 @@ Search reference
     <input type="text" name="title" value="{{ title }}">
     <br>
 
-    <label class="col-sm-1" for="booktitle">Book title:</label>
-    <input type="text" name="booktitle" value="{{ booktitle }}">
+    <label class="col-sm-1" for="ref_type">type:</label>
+    <input type="text" name="ref_type" value="{{ ref_type }}">
     <br>
 
     <label class="col-sm-1" for="year">Year:</label>
@@ -53,6 +53,16 @@ Search reference
     <br>
     <h4>Matching references: {{ references|length }}</h4>
   </div>
+
+  {% if references|length != 0 %}
+  <div>
+    <form action="/export_bibtex/filtered" method="GET">
+      <input type="hidden" name="reference_ids" value="{{ references | map(attribute='id') | join(',') }}">
+      <button type="submit" class="btn btn-light"> Export filtered </button>
+    </form>
+  </div>
+  <br>
+  {% endif %}
 <ul class="list-group">
   {% for reference in references %}
   <li class="list-group-item d-flex justify-content-between align-items-center" style="display: flex">
@@ -122,6 +132,16 @@ Search reference
         {% if reference.publisher %}
         <dt class="col-sm-2"> Publisher </dt>
         <dd class="col-sm-10"> {{reference.publisher}}</dd>
+        {% endif %}
+
+        {% if reference.journal %}
+        <dt class="col-sm-2"> journal </dt>
+        <dd class="col-sm-10"> {{reference.journal}}</dd>
+        {% endif %}
+
+        {% if reference.note %}
+        <dt class="col-sm-2"> note </dt>
+        <dd class="col-sm-10"> {{reference.note}}</dd>
         {% endif %}
 
         </form>

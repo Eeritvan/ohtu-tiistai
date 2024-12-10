@@ -16,49 +16,60 @@ def validate_month(month):
             "Reference month must be a number between 1 and 12"
         )
 
-def validate_reference(reference): # pylint: disable=too-many-statements
-    mandatory_fields = ['author', 'title', 'booktitle']
+def validate_reference(reference): # pylint: disable=too-many-statements, too-many-branches
+    mandatory_fields = reference.mandatory_fields
+    optional_fields = reference.optional_fields
+
     for field in mandatory_fields:
         value = getattr(reference, field)
-        if len(value) < 3:
-            raise UserInputError(
-                f"Reference {field} length must be greater than 3"
-            )
-        if len(value) > 255:
-            raise UserInputError(
-                f"Reference {field} length must be smaller than 255"
-            )
+        if not isinstance(value, int):
+            if len(value) < 1:
+                raise UserInputError(
+                    f"Reference {field} length must be greater than 1"
+                )
+            if len(value) > 255:
+                raise UserInputError(
+                    f"Reference {field} length must be smaller than 255"
+                )
 
     validate_year(int(reference.year))
-    validate_month(reference.month)
+    if 'month' in optional_fields:
+        validate_month(reference.month)
 
-    optional_fields = ["editor",
-                       "address",
-                       "organisation",
-                       "publisher",
-                       "series"]
-    for field in optional_fields:
-        value = getattr(reference, field)
-        if value and len(value) < 3:
-            raise UserInputError(
-                f"Reference {field} length must be greater than 3"
-            )
-        if value and len(value) > 255:
-            raise UserInputError(
-                f"Reference {field} length must be smaller than 255"
-            )
+    if len(optional_fields) > 0: # pylint: disable=too-many-nested-blocks
+        for field in optional_fields:
+            value = getattr(reference, field)
+            if not isinstance(value, int):
+                if value and len(value) < 1:
+                    raise UserInputError(
+                        f"Reference {field} length must be greater than 1"
+                    )
+                if value and len(value) > 255:
+                    raise UserInputError(
+                        f"Reference {field} length must be smaller than 255"
+                    )
 
-    if reference.pages and len(reference.pages) > 255:
+    if (
+        hasattr(reference, 'pages')
+        and reference.pages
+        and len(reference.pages) > 255
+    ):
         raise UserInputError(
             "Reference pages length must be smaller than 255"
         )
 
-    if reference.volume and int(reference.volume) < 0:
+    if (hasattr(reference, 'volume')
+        and reference.volume
+        and int(reference.volume) < 0
+    ):
         raise UserInputError(
             "Reference volume length must be positive integer"
         )
 
-    if reference.number and int(reference.number) < 0:
+    if (hasattr(reference, 'number')
+        and reference.number
+        and int(reference.number) < 0
+    ):
         raise UserInputError(
             "Reference number length must be positive integer"
         )

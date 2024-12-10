@@ -1,6 +1,5 @@
 from flask import redirect, render_template, request, jsonify, flash, Response
 from db_helper import reset_db
-from entities.reference import Inproceedings
 from config import app, test_env
 from services.reference_service import ReferenceService
 from services.validate_tag import validate_tag
@@ -15,15 +14,38 @@ def index():
                                          unfinished=references_all)
 
 @app.route("/new_reference", methods=["GET", "POST"])
-def new(reference=None):
+def new():
+    selected_type = None
+    ref_types = [
+        {"value": "inproceedings", "text": "Inproceeding"},
+        {"value": "book", "text": "Book"},
+        {"value": "article", "text": "Article"}
+        ]
     if request.method == "POST":
-        reference = Inproceedings(**request.form)
-        try:
-            ref_repo.create_reference(reference)
-            return redirect("/")
-        except Exception as error:
-            flash(str(error))
-    return render_template("new_reference.html", reference=reference)
+        if 'select_type_submit' in request.form:
+            # Handle when type is selected and submitted
+            selected_type = request.form["select_type"]
+
+        elif 'create_reference_submit' in request.form:
+            selected_type = request.form["ref_type"]
+            # Handle when reference data is submitted
+            reference = ref_repo.create_ref_type_object(request.form)
+            try:
+                ref_repo.create_reference(reference)
+                return redirect("/")
+
+            except Exception as error:
+                flash(str(error))
+                return render_template("new_reference.html",
+                            reference=reference, ref_types= ref_types,
+                            ref_type=selected_type)
+        else:
+            print("Unknown form submission")
+
+    return render_template("new_reference.html",
+                            reference=None, ref_types= ref_types,
+                            ref_type=selected_type)
+
 
 ## TEMPORARY DICTIONARY for testing and displaying different colors
 TAGS = {'Red': "255, 0, 0",
@@ -79,7 +101,7 @@ def search_reference():
     filters = {
         "author": request.args.get("author", ''),
         "title": request.args.get("title", ''),
-        "booktitle": request.args.get("booktitle", ''),
+        "type": request.args.get("ref_type", ''),
         "year": request.args.get("year", '')
     }
 
@@ -88,7 +110,7 @@ def search_reference():
             ref for ref in references
             if filters["author"] in ref.author
             and filters["title"] in ref.title
-            and filters["booktitle"] in ref.booktitle
+            and filters["type"] in ref.ref_type
             and (filters["year"] == '' or str(filters["year"]) == str(ref.year))
         ]
 
@@ -107,23 +129,34 @@ def del_reference(reference_id):
 
 @app.route("/export_bibtex/<reference_id>", methods=["GET"])
 def export_bibtex(reference_id):
-    reference = ref_repo.get_references(reference_id)
-    if not reference:
-        flash("Reference not found")
-        return redirect("/")
-
-    bibtex_entry = ref_repo.get_reference_bibtex(reference)
+    if reference_id == "all":
+        bibtex_entry = ref_repo.get_bibtex_entries_for_all()
+    elif reference_id == "filtered":
+        ids = request.args.get('reference_ids')
+        reference_id=f"filtered:{ids}"
+        bibtex_entry = ref_repo.get_bibtex_entries_for_filtered(ids)
+    else:
+        reference = ref_repo.get_references(reference_id)
+        if not reference:
+            flash("Reference not found")
+            return redirect("/")
+        bibtex_entry = ref_repo.get_reference_bibtex(reference)
     return render_template("bibtex.html", bibtex_entry=bibtex_entry,
                            reference_id=reference_id)
 
 @app.route("/download_bibtex/<reference_id>", methods=["GET"])
 def download_bibtex(reference_id):
-    reference = ref_repo.get_references(reference_id)
-    if not reference:
-        flash("Reference not found")
-        return redirect("/")
+    if reference_id == "all":
+        bibtex_entry = ref_repo.get_bibtex_entries_for_all()
+    elif "filtered" in reference_id:
+        bibtex_entry = ref_repo.get_bibtex_entries_for_filtered(reference_id)
+    else:
+        reference = ref_repo.get_references(reference_id)
+        if not reference:
+            flash("Reference not found")
+            return redirect("/")
+        bibtex_entry = ref_repo.get_reference_bibtex(reference)
 
-    bibtex_entry = ref_repo.get_reference_bibtex(reference)
     response = Response(bibtex_entry, mimetype='text/plain')
     response.headers.set("Content-Disposition", "attachment",
                          filename="Reference.bib")
@@ -139,8 +172,7 @@ def edit_reference(reference_id):
         non_empty = reference.filter_non_empty()
         return render_template("edit_reference.html", reference=non_empty)
     if request.method == "POST":
-        reference = Inproceedings(db_id = reference_id,
-                                  **request.form)
+        reference = ref_repo.create_ref_type_object(request.form, reference_id)
         if not reference:
             flash("Reference not found")
             return redirect("/")
