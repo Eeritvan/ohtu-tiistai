@@ -15,27 +15,37 @@ def index():
 @app.route("/new_reference", methods=["GET", "POST"])
 def new():
     selected_type = None
+    ref_types = [
+        {"value": "inproceedings", "text": "Inproceeding"},
+        {"value": "book", "text": "Book"},
+        {"value": "article", "text": "Article"}
+        ]
     if request.method == "POST":
         if 'select_type_submit' in request.form:
             # Handle when type is selected and submitted
             selected_type = request.form["select_type"]
 
         elif 'create_reference_submit' in request.form:
+            selected_type = request.form["ref_type"]
             # Handle when reference data is submitted
             reference = ref_repo.create_ref_type_object(request.form)
             try:
                 ref_repo.create_reference(reference)
                 return redirect("/")
+# Debug: replace return with this
+#                flash("Reference created successfully!")
+#                return render_template("new_reference.html",
+#                                       reference=reference, ref_types=ref_types,
+#                                       ref_type=selected_type)
+
             except Exception as error:
                 flash(str(error))
+                return render_template("new_reference.html",
+                            reference=reference, ref_types= ref_types,
+                            ref_type=selected_type)
         else:
             print("Unknown form submission")
 
-    ref_types = [
-        {"value": "inproceedings", "text": "Inproceeding"},
-        {"value": "book", "text": "Book"},
-        {"value": "article", "text": "Article"}
-        ]
     return render_template("new_reference.html",
                             reference=None, ref_types= ref_types,
                             ref_type=selected_type)
