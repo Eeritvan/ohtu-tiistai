@@ -9,22 +9,22 @@ Create a new reference
   <div class="jumbotron text-center bg-light">
     <h2>Create a new reference</h2>
     <br>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
 
     {% if ref_type %}
       <h3>Reference type: {{ ref_type }}</h3>
       <br>
 
-
       <form class="form-container" action="/new_reference" name="ref_content" method="POST">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-          {% for message in messages %}
-          <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
 
         <br>
         <input type="hidden" name="ref_type" value="{{ ref_type }}">
