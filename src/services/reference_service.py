@@ -81,3 +81,6 @@ class ReferenceService:
                 return Book(db_id = db_id, **request)
             case _:
                 return Article(db_id = db_id, **request)
+
+    def get_ref_tag_ids(self, reference_id):
+        return self._reference_repository.get_ref_tag_ids(reference_id)
