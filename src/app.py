@@ -1,10 +1,11 @@
 from flask import redirect, render_template, request, jsonify, flash, Response
 from db_helper import reset_db
 from config import app, test_env
-from services.reference_service import ReferenceService, get_tags_names
+from services.reference_service import ReferenceService, get_all_tag_names
 from services.validate_tag import validate_tag
 
 ref_repo = ReferenceService()
+tags = get_all_tag_names()
 
 @app.route("/")
 def index():
@@ -38,13 +39,13 @@ def new():
                 flash(str(error))
                 return render_template("new_reference.html",
                             reference=reference, ref_types= ref_types,
-                            ref_type=selected_type)
+                            ref_type=selected_type, tags=tags)
         else:
             print("Unknown form submission")
 
     return render_template("new_reference.html",
                             reference=None, ref_types= ref_types,
-                            ref_type=selected_type)
+                            ref_type=selected_type, tags=tags)
 
 
 ## TEMPORARY DICTIONARY for testing and displaying different colors
@@ -170,7 +171,8 @@ def edit_reference(reference_id):
             flash("Reference not found")
             return redirect("/")
         non_empty = reference.filter_non_empty()
-        return render_template("edit_reference.html", reference=non_empty)
+        return render_template("edit_reference.html",
+                               reference=non_empty, tags=tags)
     if request.method == "POST":
         reference = ref_repo.create_ref_type_object(request.form, reference_id)
         if not reference:
@@ -185,7 +187,7 @@ def edit_reference(reference_id):
             return render_template(
                 "/edit_reference.html",
                 reference = reference,
-                id = reference_id
+                id = reference_id, tags=tags
             )
     return redirect("/")
 
