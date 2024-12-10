@@ -64,8 +64,13 @@ def manage_tags():
 
 @app.route("/delete_tag", methods=["POST"])
 def delete_tag():
-    print("deleted...")
-    return redirect("/")
+    try:
+        tag_name = request.form["tag_name"]
+        ref_repo.delete_tag(tag_name)
+        flash(f"Tag '{tag_name}' deleted successfully")
+    except Exception as error:
+        flash(str(error))
+    return redirect("/manage_tags")
 
 @app.route("/search_reference")
 def search_reference():
@@ -151,16 +156,6 @@ def edit_reference(reference_id):
                 id = reference_id
             )
     return redirect("/")
-
-@app.route("/delete_tag", methods=["POST"])
-def delete_tag():
-    try:
-        tag_name = request.form["tag_name"]
-        ref_repo.delete_tag(tag_name)
-        flash(f"Tag '{tag_name}' deleted successfully")
-    except Exception as error:
-        flash(str(error))
-    return redirect("/manage_tags")
 
 # testausta varten oleva reitti
 if test_env:

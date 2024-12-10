@@ -62,3 +62,6 @@ class ReferenceService:
 
     def add_tag_to_ref(self, ref_id : int, tagname : str):
         self._reference_repository.add_tagname(ref_id, tagname)
+
+    def delete_tag(self, tagname: str):
+        self._reference_repository.delete_tag(tagname)
