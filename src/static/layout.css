@@ -26,3 +26,7 @@ input {
   margin-right: 400px;
   padding-left: 20%;
 }
+
+li.error {
+  color: #FF0033;
+}
