@@ -1,4 +1,4 @@
-from repositories.tag_repository import TagRepository, get_tag_names
+from repositories.tag_repository import TagRepository
 from services.validate_tag import validate_tag
 from services.generate_color import generate_color
 
@@ -10,10 +10,19 @@ class TagService():
         self._tag_repository = TagRepository()
 
     def get_all_tag_names(self):
-        return get_tag_names()
+        return self._tag_repository.db_get_tags()
 
     def create_new_tag(self, tag):
-        validate_tag(tag)
-        latest_id = self._tag_repository.db_get_latest_tag()
-        tag.color = generate_color(latest_id)
-        self._tag_repository.db_create_tag(tag)
+        try:
+            validate_tag(tag)
+            latest_id = self._tag_repository.db_get_latest_tag()
+            tag.color = generate_color(latest_id)
+            self._tag_repository.db_create_tag(tag)
+        except Exception as e:
+            raise UserInputError(e) from e
+
+    def delete_tag(self, tag_name):
+        try:
+            self._tag_repository.db_delete_tag(tag_name)
+        except Exception as e:
+            raise UserInputError(e) from e

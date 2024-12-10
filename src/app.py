@@ -52,21 +52,21 @@ def new():
                             ref_type=selected_type, tags=tags)
 
 @app.route("/manage_tags", methods=["GET", "POST"])
-def manage_tags():
+def manage_tags(tags={}):
     if request.method == "POST":
         try:
             new_tag = Tag(name = request.form["name"])
             tag_serv.create_new_tag(new_tag)
         except Exception as error:
             flash(str(error))
-
-    return render_template("manage_tags.html", tags={})
+    tags = tag_serv.get_all_tag_names()
+    return render_template("manage_tags.html", tags=tags)
 
 @app.route("/delete_tag", methods=["POST"])
 def delete_tag():
     try:
         tag_name = request.form["tag_name"]
-        ref_repo.delete_tag(tag_name)
+        tag_serv.delete_tag(tag_name)
         flash(f"Tag '{tag_name}' deleted successfully")
     except Exception as error:
         flash(str(error))
