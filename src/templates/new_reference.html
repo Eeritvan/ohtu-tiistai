@@ -7,49 +7,154 @@ Create a new reference
 {% block body %}
 <div class="container">
   <div class="jumbotron text-center bg-light">
+    <h2>Create a new reference</h2>
+    <br>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     <ul>
       {% for message in messages %}
-      <li>{{ message }}</li>
+      <li class="error">{{ message }}</li>
       {% endfor %}
     </ul>
     {% endif %}
     {% endwith %}
 
-    <h2>Create a new reference</h2>
 
-    <form class="form-container" action="/new_reference" method="post">
-      <h3>Reference type: Inproceedings</h3>
-      <input type="hidden" name="ref_type" value="inproceedings">
+    {% if ref_type %}
+      <h3>Reference type: {{ ref_type }}</h3>
       <br>
+
+      <form class="form-container" action="/new_reference" name="ref_content" method="POST">
+
+        <br>
+        <input type="hidden" name="ref_type" value="{{ ref_type }}">
+
+        {% if ref_type == 'inproceedings' %}
+        <!--INPROCEEDINGS-->
+
+        <h4>Mandatory fields</h4>
+        <br>
+        <div class="form-group">
+          <label class="col-sm-2" for="author">Author:</label>
+          <input type="text" name="author" value="{{ reference.author }}">
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2" for="title">Title:</label>
+          <input type="text" name="title" value="{{ reference.title }}">
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2" for="booktitle">Book title:</label>
+          <input type="text" name="booktitle" value="{{ reference.booktitle }}">
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2" for="year">Year:</label>
+          <input type="number" min=1900 max=2024 maxlength="4" name="year" value="{{ reference.year }}">
+        </div>
+        <br>
+
+        <h4>Optional fields</h4>
+        <br>
+
+        <label class="col-sm-2" for="editor">Editor:</label>
+        <input type="text" name="editor" value="{{ reference.editor }}">
+        <br>
+
+        <label class="col-sm-2" for="volume">Volume:</label>
+        <input type="number" min=1 name="volume" value="{{ reference.volume }}">
+        <br>
+
+        <label class="col-sm-2" for="number">Number:</label>
+        <input type="number" name="number" value="{{ reference.number }}">
+        <br>
+
+        <label class="col-sm-2" for="series">Series:</label>
+        <input type="text" name="series" value="{{ reference.series }}">
+        <br>
+
+        <label class="col-sm-2" for="pages">Pages:</label>
+        <input type="text" name="pages" value="{{ reference.pages }}">
+        <br>
+
+        <label class="col-sm-2" for="address">Address:</label>
+        <input type="text" name="address" value="{{ reference.address }}">
+        <br>
+
+        <label class="col-sm-2" for="month">Month:</label>
+        <input type="number" min=1 max=12 name="month" value="{{ reference.month }}">
+        <br>
+
+        <label class="col-sm-2" for="organisation">Organisation:</label>
+        <input type="text" name="organisation" value="{{ reference.organisation }}">
+        <br>
+
+        <label class="col-sm-2" for="publisher">Publisher:</label>
+        <input type="text" name="publisher" value="{{ reference.publisher }}">
+        <br>
+
+        <br>&nbsp;
+        <br>
+        <input type="submit" class="btn btn-dark" name="create_reference_submit" value="Create">
+      </form>
+
+      {% elif ref_type == 'book' %}
+        <!--BOOK-->
 
       <h4>Mandatory fields</h4>
       <br>
       <div class="form-group">
         <label class="col-sm-2" for="author">Author:</label>
-        <input type="text" name="author" value="{{ reference.author }}" required>
+        <input type="text" name="author" value="{{ reference.author }}">
       </div>
 
       <div class="form-group">
         <label class="col-sm-2" for="title">Title:</label>
-        <input type="text" name="title" value="{{ reference.title }}" required>
+        <input type="text" name="title" value="{{ reference.title }}">
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2" for="year">Year:</label>
+        <input type="number" min=1900 max=2024 maxlength="4" name="year" value="{{ reference.year }}">
+      </div>
+
+      <label class="col-sm-2" for="publisher">Publisher:</label>
+      <input type="text" name="publisher" value="{{ reference.publisher }}">
+      <br>
+
+      <br>
+      <label class="col-sm-2" for="address">Address:</label>
+      <input type="text" name="address" value="{{ reference.address }}">
+      <br>
+
+      <br>&nbsp;
+      <br>
+      <input type="submit" class="btn btn-dark" name="create_reference_submit" value="Create">
+      </form>
+
+      {% elif ref_type == 'article' %}
+        <!--ARTICLE-->
+
+      <h4>Mandatory fields</h4>
+      <br>
+      <div class="form-group">
+        <label class="col-sm-2" for="author">Author:</label>
+        <input type="text" name="author" value="{{ reference.author }}">
       </div>
       <div class="form-group">
-        <label class="col-sm-2" for="booktitle">Book title:</label>
-        <input type="text" name="booktitle" value="{{ reference.booktitle }}" required>
+        <label class="col-sm-2" for="title">Title:</label>
+        <input type="text" name="title" value="{{ reference.title }}">
       </div>
       <div class="form-group">
         <label class="col-sm-2" for="year">Year:</label>
-        <input type="number" min=1900 max=2024 maxlength="4" name="year" value="{{ reference.year }}" required>
+        <input type="number" min=1900 max=2024 maxlength="4" name="year" value="{{ reference.year }}">
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2" for="journal">Journal:</label>
+        <input type="text" name="journal" value="{{ reference.journal }}">
       </div>
       <br>
 
       <h4>Optional fields</h4>
-      <br>
-
-      <label class="col-sm-2" for="editor">Editor:</label>
-      <input type="text" name="editor" value="{{ reference.editor }}">
       <br>
 
       <label class="col-sm-2" for="volume">Volume:</label>
@@ -60,28 +165,18 @@ Create a new reference
       <input type="number" name="number" value="{{ reference.number }}">
       <br>
 
-      <label class="col-sm-2" for="series">Series:</label>
-      <input type="text" name="series" value="{{ reference.series }}">
-      <br>
-
       <label class="col-sm-2" for="pages">Pages:</label>
       <input type="text" name="pages" value="{{ reference.pages }}">
-      <br>
-
-      <label class="col-sm-2" for="address">Address:</label>
-      <input type="text" name="address" value="{{ reference.address }}">
       <br>
 
       <label class="col-sm-2" for="month">Month:</label>
       <input type="number" min=1 max=12 name="month" value="{{ reference.month }}">
       <br>
 
-      <label class="col-sm-2" for="organisation">Organisation:</label>
-      <input type="text" name="organisation" value="{{ reference.organisation }}">
+      <label class="col-sm-2" for="note">Note:</label>
+      <input type="text" name="note" value="{{ reference.note }}">
       <br>
 
-      <label class="col-sm-2" for="publisher">Publisher:</label>
-      <input type="text" name="publisher" value="{{ reference.publisher }}">
       <br>
 
       {% if tags %}
@@ -98,11 +193,27 @@ Create a new reference
       {% endif%}
       <br>&nbsp;
       <br>
-      <button type="submit" class="btn btn-outline-success">
-        Create
-      </button>
+      <input type="submit" class="btn btn-dark" name="create_reference_submit" value="Create">
     </form>
+
+      {% else %}
+        No reference type selected.
+      {% endif %}
+    {% else %}
+
+
+    <form action="/new_reference" name="ref_type" method="post">
+      <select name="select_type" id="ref_types" class="btn btn-dark">
+        {% for type in ref_types %}
+        <option value="{{ type.value }}">{{ type.text }}</option>
+        {% endfor %}
+      </select>
+      <input type="submit" class="btn btn-dark" name="select_type_submit"
+      value="Select reference type">
+    </form>
+
+    {% endif %}
+    </div>
   </div>
-</div>
 </class>
 {% endblock %}

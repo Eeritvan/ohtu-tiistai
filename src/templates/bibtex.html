@@ -6,13 +6,15 @@ BibTeX Representation
 <h2 id="pagetitle">BibTeX Representation</h2>
 <div class="jumbotron text-left bg-light" id="bibtexbox">
   <pre id="bibtex-content">{{ bibtex_entry }}</pre>
-  <button class="btn btn-outline-secondary" onclick="copyToClipboard()">Copy to Clipboard</button>
-  <form action="/download_bibtex/{{ reference_id }}" method="GET">
-    <button type="submit" class="btn btn-outline-secondary">Download File</button>
-  </form>
-  <form action="/" method="GET">
-    <button type="submit" class="btn btn-outline-secondary">Back</button>
-  </form>
+  <div class="d-flex">
+    <button class="btn btn-outline-secondary mr-2" onclick="copyToClipboard()">Copy to Clipboard</button>
+    <form action="/download_bibtex/{{ reference_id }}" method="GET" class="mr-2">
+      <button type="submit" class="btn btn-outline-secondary">Download File</button>
+    </form>
+    <form action="/" method="GET">
+      <button type="submit" class="btn btn-outline-secondary mr-2">Back</button>
+    </form>
+  </div>
 
   <script>
     function copyToClipboard() {
