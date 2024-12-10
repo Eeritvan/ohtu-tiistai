@@ -1,6 +1,5 @@
 from flask import redirect, render_template, request, jsonify, flash, Response
 from db_helper import reset_db
-from entities.reference import Inproceedings
 from config import app, test_env
 from services.reference_service import ReferenceService
 
@@ -14,15 +13,38 @@ def index():
                                          unfinished=references_all)
 
 @app.route("/new_reference", methods=["GET", "POST"])
-def new(reference=None):
+def new():
+    selected_type = None
+    ref_types = [
+        {"value": "inproceedings", "text": "Inproceeding"},
+        {"value": "book", "text": "Book"},
+        {"value": "article", "text": "Article"}
+        ]
     if request.method == "POST":
-        reference = Inproceedings(**request.form)
-        try:
-            ref_repo.create_reference(reference)
-            return redirect("/")
-        except Exception as error:
-            flash(str(error))
-    return render_template("new_reference.html", reference=reference)
+        if 'select_type_submit' in request.form:
+            # Handle when type is selected and submitted
+            selected_type = request.form["select_type"]
+
+        elif 'create_reference_submit' in request.form:
+            selected_type = request.form["ref_type"]
+            # Handle when reference data is submitted
+            reference = ref_repo.create_ref_type_object(request.form)
+            try:
+                ref_repo.create_reference(reference)
+                return redirect("/")
+
+            except Exception as error:
+                flash(str(error))
+                return render_template("new_reference.html",
+                            reference=reference, ref_types= ref_types,
+                            ref_type=selected_type)
+        else:
+            print("Unknown form submission")
+
+    return render_template("new_reference.html",
+                            reference=None, ref_types= ref_types,
+                            ref_type=selected_type)
+
 
 @app.route("/search_reference")
 def search_reference():
@@ -31,7 +53,7 @@ def search_reference():
     filters = {
         "author": request.args.get("author", ''),
         "title": request.args.get("title", ''),
-        "booktitle": request.args.get("booktitle", ''),
+        "type": request.args.get("ref_type", ''),
         "year": request.args.get("year", '')
     }
 
@@ -40,7 +62,7 @@ def search_reference():
             ref for ref in references
             if filters["author"] in ref.author
             and filters["title"] in ref.title
-            and filters["booktitle"] in ref.booktitle
+            and filters["type"] in ref.ref_type
             and (filters["year"] == '' or str(filters["year"]) == str(ref.year))
         ]
 
@@ -102,8 +124,7 @@ def edit_reference(reference_id):
         non_empty = reference.filter_non_empty()
         return render_template("edit_reference.html", reference=non_empty)
     if request.method == "POST":
-        reference = Inproceedings(db_id = reference_id,
-                                  **request.form)
+        reference = ref_repo.create_ref_type_object(request.form, reference_id)
         if not reference:
             flash("Reference not found")
             return redirect("/")

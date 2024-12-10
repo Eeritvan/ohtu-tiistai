@@ -1,8 +1,8 @@
-from entities.reference import Inproceedings
+from entities.reference import Inproceedings, Article, Book
 from repositories.reference_repository import ReferenceRepository
 from services.validate_reference import validate_reference
 from services.generate_citekey import generate_citekey
-from services.format_inproceedings import format_inproceedings
+from services.format_inproceedings import format_reference
 
 class UserInputError(Exception):
     pass
@@ -18,7 +18,7 @@ class ReferenceService:
         """
         self._reference_repository = ReferenceRepository()
 
-    def create_reference(self, reference: Inproceedings) -> None:
+    def create_reference(self, reference) -> None:
         """Creates new Reference/Inproceedings object.
         Funcions:
             validate_reference: validates input fields
@@ -47,7 +47,7 @@ class ReferenceService:
         return self._reference_repository.db_get_references(reference_id)
 
     def get_reference_bibtex(self, reference) -> str:
-        return format_inproceedings(reference)
+        return format_reference(reference)
 
     def delete_reference(self,reference_id: int) -> str:
         return self._reference_repository.db_delete_reference(reference_id)
@@ -69,3 +69,12 @@ class ReferenceService:
         ]
         bibtex_entry = '\n\n'.join(bibtex_entries)
         return bibtex_entry
+
+    def create_ref_type_object(self, request, db_id = None):
+        match request["ref_type"]:
+            case "inproceedings":
+                return Inproceedings(db_id = db_id, **request)
+            case "book":
+                return Book(db_id = db_id, **request)
+            case _:
+                return Article(db_id = db_id, **request)
