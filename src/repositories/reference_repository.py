@@ -6,6 +6,19 @@ from entities.reference import Inproceedings, Book, Article
 class UserInputError(Exception):
     pass
 
+def get_tag_names():
+    #Gets tags without object
+    sql = text('''Select id, tagname
+               FROM tags
+               ''')
+    try:
+        result = db.session.execute(sql)
+        rows = result.fetchall()
+        tag_names = {row[0]:row[1] for row in rows}
+        return tag_names
+    except Exception as e:
+        print(e)
+
 class ReferenceRepository:
     """Class responsible of database operations."""
 
@@ -248,16 +261,3 @@ class ReferenceRepository:
             return result.fetchone()[0]
         except Exception as e:
             raise UserInputError("deletion failed") from e
-
-def get_tags_names():
-        print("Repo:Gettags")
-        """Get all tags in database.
-        Returns: result-object"""
-
-        sql = text('''Select tagname
-                   FROM tags
-                   ''')
-        result = db.session.execute(sql)
-        rows = result.fetchall()
-        tag_names = [row[0] for row in rows]
-        return tag_names

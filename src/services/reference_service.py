@@ -1,5 +1,5 @@
 from entities.reference import Inproceedings, Article, Book
-from repositories.reference_repository import ReferenceRepository, get_tags_names
+from repositories.reference_repository import ReferenceRepository, get_tag_names
 from services.validate_reference import validate_reference
 from services.generate_citekey import generate_citekey
 from services.format_inproceedings import format_reference
@@ -7,9 +7,8 @@ from services.format_inproceedings import format_reference
 class UserInputError(Exception):
     pass
 
-def get_all_tags_names():
-    print("Service:gettags")
-    return get_tags_names()
+def get_all_tag_names():
+    return get_tag_names()
 
 
 class ReferenceService:
