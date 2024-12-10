@@ -27,13 +27,13 @@ input {
   padding-left: 15%;
 }
 
+li.error {
+  color: #FF0033;
+}
+
 select.tags {
   margin-left: 0px;
   padding-left: 0px;
   text-align: left;
   width: 220px;
-}
-
-li.error {
-  color: #FF0033;
 }
