@@ -176,7 +176,7 @@ def edit_reference(reference_id):
         non_empty = reference.filter_non_empty()
         ref_tags = ref_repo.get_ref_tag_ids(reference_id)
         return render_template("edit_reference.html",
-                               reference=non_empty, tags=tags, ref_tags=ref_tags)
+                            reference=non_empty, tags=tags, ref_tags=ref_tags)
     if request.method == "POST":
         reference = ref_repo.create_ref_type_object(request.form, reference_id)
         reference.delete_tags()
