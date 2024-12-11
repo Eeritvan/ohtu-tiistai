@@ -12,6 +12,8 @@ tag_serv = TagService()
 def index():
     references = ref_repo.get_references()
     references_all = len(references)
+    for i in references:
+        pass
     return render_template("index.html", references=references,
                                          unfinished=references_all)
 
@@ -52,7 +54,7 @@ def new():
                             ref_type=selected_type, tags=tags)
 
 @app.route("/manage_tags", methods=["GET", "POST"])
-def manage_tags(tags={}):
+def manage_tags():
     if request.method == "POST":
         try:
             new_tag = Tag(name = request.form["name"])

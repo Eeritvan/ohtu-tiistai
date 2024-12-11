@@ -37,6 +37,7 @@ class TagRepository:
             tag_names = [Tag(row[1], row[0], row[2]) for row in rows]
             return tag_names
         except Exception as e:
+            db.session.rollback()
             raise UserInputError("Fetching tag name failed") from e
 
     def db_get_tag_id(self, tagname: str):
@@ -61,4 +62,5 @@ class TagRepository:
             db.session.commit()
             return result.fetchone()[0]
         except Exception as e:
+            db.session.rollback()
             raise UserInputError("deletion failed") from e

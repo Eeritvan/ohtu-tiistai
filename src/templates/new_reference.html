@@ -178,8 +178,8 @@ Create a new reference
       <br>
       <div class="form-group">
         <select class="tags" name="tags" id="tags" size="5" multiple>
-        {% for id, tagname in tags.items() %}
-          <option value="{{ id }}">{{ tagname }}</option>
+        {% for tag in tags %}
+          <option value="{{ tag.id }}">{{ tag.name }}</option>
         {% endfor %}
         </select>
       </div>

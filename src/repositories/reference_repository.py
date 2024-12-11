@@ -104,10 +104,10 @@ class ReferenceRepository:
                 Reference object with db_id
         """
         fields = reference.filter_non_empty()
-
         try:
             columns = ', '.join(fields)
             placeholders = ', '.join(f":{key}" for key in fields)
+
             sql = text(f'''
                         INSERT INTO sources (
                         {columns}
@@ -116,16 +116,16 @@ class ReferenceRepository:
                         {placeholders}
                         )
                         RETURNING id''')
+            
             result = db.session.execute(sql, fields)
             source_id = result.fetchone()[0]
             db.session.commit()
 
-            # Insert tags
             for tag_id in reference.tags:
-                self.add_tag(source_id, tag_id)
+                self.db_add_tag(source_id, tag_id)
 
         except Exception as e:
-            print(e)
+            db.session.rollback()
             raise UserInputError(
                 f"Title '{reference.title}' already exists"
             ) from e
@@ -150,13 +150,13 @@ class ReferenceRepository:
             db.session.execute(sql, fields)
             db.session.commit()
 
-            # Delete old and insert new tags
             source_id = reference.id
-            self.delete_refe_tags(source_id)
+            self.db_delete_refe_tags(source_id)
             for tag_id in reference.tags:
-                self.add_tag(source_id, tag_id)
+                self.db_add_tag(source_id, tag_id)
 
         except Exception as e:
+            db.session.rollback()
             raise UserInputError(
                 f"Title '{reference.title}' already exists"
             ) from e
@@ -171,6 +171,7 @@ class ReferenceRepository:
             db.session.commit()
             return result.fetchone()[0]
         except Exception as e:
+            db.session.rollback()
             raise UserInputError("deletion failed") from e
 
     def db_get_ref_tags(self, reference_id):
@@ -229,10 +230,9 @@ class ReferenceRepository:
     def db_delete_refe_tags(self, reference_id : int):
         """Deletes tags linked to reference. """
         try:
-            sql = text("DELETE FROM sources_tags WHERE \
-                       source_id = :id RETURNING source_id")
-            result = db.session.execute(sql, {'id': reference_id})
+            sql = text("DELETE FROM sources_tags WHERE source_id = :id")
+            db.session.execute(sql, {'id': reference_id})
             db.session.commit()
-            return result.fetchone()[0]
         except Exception as e:
+            db.session.rollback()
             raise UserInputError("deletion of tags in reference failed") from e

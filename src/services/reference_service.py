@@ -79,4 +79,4 @@ class ReferenceService:
                 return Article(db_id = db_id, **request)
 
     def get_ref_tag_ids(self, reference_id):
-        return self._reference_repository.get_ref_tag_ids(reference_id)
+        return self._reference_repository.db_get_ref_tag_ids(reference_id)
