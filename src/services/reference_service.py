@@ -80,3 +80,6 @@ class ReferenceService:
 
     def get_ref_tag_ids(self, reference_id):
         return self._reference_repository.db_get_ref_tag_ids(reference_id)
+
+    def get_ref_tags(self, reference):
+        return self._reference_repository.db_get_ref_tags(reference.id)

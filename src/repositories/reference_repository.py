@@ -1,6 +1,7 @@
 from sqlalchemy import text
 from config import db
 from entities.reference import Inproceedings, Book, Article
+from entities.tag import Tag
 
 class UserInputError(Exception):
     pass
@@ -191,7 +192,8 @@ class ReferenceRepository:
         result = db.session.execute(sql, {"source_id":reference_id})
         rows = result.fetchall()
 
-        return rows
+
+        return [Tag(row[0], None, row[1]) for row in rows]
 
     def db_get_ref_tag_ids(self, reference_id):
         """Get all tags related to specific reference. """
