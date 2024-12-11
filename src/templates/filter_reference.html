@@ -58,7 +58,7 @@ Search reference
   <div>
     <form action="/export_bibtex/filtered" method="GET">
       <input type="hidden" name="reference_ids" value="{{ references | map(attribute='id') | join(',') }}">
-      <button type="submit" class="btn btn-light"> Export filtered </button>
+      <button type="submit" class="btn btn-success"> Export filtered </button>
     </form>
   </div>
   <br>
@@ -148,13 +148,13 @@ Search reference
         <br>
         <br>
         <form action="/export_bibtex/{{reference.id}}" method="GET">
-          <button type="submit" class="btn btn-light">Export BibTeX</button>
+          <button type="submit" class="btn btn-success">Export BibTeX</button>
         </form>
         <form action="/edit_reference/{{reference.id}}" method="GET">
-          <button type="submit" class="btn btn-light"> Edit </button>
+          <button type="submit" class="btn btn-warning"> Edit </button>
         </form>
         <form action="/delete_reference/{{reference.id}}" method="POST">
-          <button type="submit" class="btn btn-light"> Delete </button>
+          <button type="submit" class="btn btn-danger"> Delete </button>
         </form>
 
 
