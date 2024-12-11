@@ -8,4 +8,7 @@ omit = src/**/__init__.py
        src/app.py,
        src/repositories/reference_repository.py,
        src/entities/reference.py,
-       src/services/reference_service.py
+       src/services/reference_service.py,
+       src/services/tag_service.py,
+       src/repositories/tag_repository.py,
+       src/entities/tag.py
