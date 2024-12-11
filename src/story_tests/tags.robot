@@ -20,7 +20,11 @@ User Can Delete A Tag
     Click Button  Delete
     Page Should Contain  Tag 'Test Tag' deleted successfully
 
+#User Can Attach a Tag To The Reference
 
+#User Can Search By Tag
+
+#Tags Use Different Colors
 
 *** Keywords ***
 Main Page Should Be Open
