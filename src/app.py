@@ -14,7 +14,6 @@ def index():
     references_all = len(references)
     for i in references:
         i.tags = ref_repo.get_ref_tags(i)
-    #TODO: tags are accessible via i.tags for each reference
     return render_template("index.html", references=references,
                                          unfinished=references_all)
 
@@ -97,7 +96,6 @@ def search_reference():
 
     for i in references:
         i.tags = ref_repo.get_ref_tags(i)
-    #TODO: tags are accessible via i.tags for each reference
     return render_template("filter_reference.html", references=references,
                                                     filters=filters,
                                                     total=references_all)
