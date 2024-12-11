@@ -168,8 +168,6 @@ class Article(Reference):
             f"note: {self.note}"
             )
 
-
-
 class Book(Reference):
     def __init__(self, **kwargs):
         super().__init__(

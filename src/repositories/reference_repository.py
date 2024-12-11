@@ -117,7 +117,7 @@ class ReferenceRepository:
                         {placeholders}
                         )
                         RETURNING id''')
-            
+
             result = db.session.execute(sql, fields)
             source_id = result.fetchone()[0]
             db.session.commit()
@@ -192,7 +192,6 @@ class ReferenceRepository:
         result = db.session.execute(sql, {"source_id":reference_id})
         rows = result.fetchall()
 
-
         return [Tag(row[0], None, row[1]) for row in rows]
 
     def db_get_ref_tag_ids(self, reference_id):
@@ -213,16 +212,6 @@ class ReferenceRepository:
     def db_add_tag(self, reference_id : int, tag_id : int):
         """Add tag to a specific reference. Uses tag_id"""
 
-        sql = text('''INSERT INTO sources_tags(source_id, tag_id)
-                    VALUES (:source_id, :tag_id)
-                    ''')
-        db.session.execute(sql,{"source_id":reference_id, "tag_id":tag_id})
-        db.session.commit()
-
-    def db_add_tagname(self, reference_id : int, tagname : str):
-        """Add tag for specific reference. Uses tagname instead of id """
-
-        tag_id = self.get_tag_id(tagname)
         sql = text('''INSERT INTO sources_tags(source_id, tag_id)
                     VALUES (:source_id, :tag_id)
                     ''')

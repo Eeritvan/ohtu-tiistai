@@ -26,6 +26,3 @@ class TagService():
             self._tag_repository.db_delete_tag(tag_name)
         except Exception as e:
             raise UserInputError(e) from e
-
-    def get_reference_tags(self, reference):
-        testi = self._tag_repository.db_get_tags

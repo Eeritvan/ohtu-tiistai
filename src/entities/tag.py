@@ -1,4 +1,4 @@
-class Tag:
+class Tag: # pylint: disable=redefined-builtin
     def __init__(self, name, id = None, color=None):
         self.id = id
         self.name = name

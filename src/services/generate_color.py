@@ -1,6 +1,3 @@
-    # TODO KESKEN: odottaa tietokantamuutoksia
-# from services.tag_service import TagService
-
 def generate_color(latest_id=None):
     """Generates CSS color for a tag.
     Takes latest tag_id from database or
@@ -31,17 +28,8 @@ def generate_color(latest_id=None):
         19: "0, 100, 0"        # DarkGreen
     }
 
-    # Kysy tietokannasta viimeisin id
-    # tag_service = TagService()
-    # latest_id = tag_service.get_latest_id()
-
-    # Selects from color dictionary based on modulo operator
-    # Default is Black
     color = "Black"
     if latest_id is not None:
         remainder = (latest_id+1)%20
         color = colors.get(remainder, "Black")
     return color
-
-# For testing
-# print("Color:", generate_color())

@@ -9,7 +9,7 @@ class TagRepository:
     def db_get_latest_tag(self):
         sql = text('SELECT id FROM tags ORDER BY id DESC LIMIT 1')
         result = db.session.execute(sql).fetchone()
-        if result == None:
+        if result is None:
             return 0
         return result[0]
 

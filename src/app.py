@@ -19,7 +19,7 @@ def index():
                                          unfinished=references_all)
 
 @app.route("/new_reference", methods=["GET", "POST"])
-def new():
+def new(): # pylint: disable=too-many-statements
     selected_type = None
     ref_types = [
         {"value": "inproceedings", "text": "Inproceeding"},
@@ -147,7 +147,7 @@ def download_bibtex(reference_id):
     return response
 
 @app.route("/edit_reference/<reference_id>", methods=["GET", "POST"])
-def edit_reference(reference_id):
+def edit_reference(reference_id): # pylint: disable=too-many-statements
     tags = tag_serv.get_all_tag_names()
     if request.method == "GET":
         reference = ref_repo.get_references(reference_id)
