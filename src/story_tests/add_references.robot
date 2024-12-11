@@ -15,7 +15,7 @@ After each added reference the counter in the main page should increase by one
     Submit Reference
     Submit Should Succeed
     Page Should Contain  Saved references: 1
-    
+
     Go To Add Reference Page
     Select Reference Type  inproceedings
     Input Text  author  Test Author2
@@ -61,7 +61,7 @@ Adding Duplicate Title Should Fail
     Submit Reference
     Submit Should Succeed
     Page Should Contain  Saved references: 1
-    
+
     Go To Add Reference Page
     Select Reference Type  inproceedings
     Input Text  author  Test
@@ -189,6 +189,10 @@ Adding Too Short Title Should Fail
     Input Text  journal  Too Short Thrice
     Submit Reference
     Submit Should Fail With Message  Reference title length must be greater than 1
+
+# user can add book and article
+# user can edit book and article
+# user can search book and article
 
 *** Keywords ***
 Main Page Should Be Open
