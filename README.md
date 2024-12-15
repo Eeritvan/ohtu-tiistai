@@ -5,6 +5,8 @@
 
 This project uses [Bootstrap](https://getbootstrap.com/) for styling and layout.
 
+### [Loppuraportti](https://github.com/Eeritvan/ohtu-tiistai/blob/main/raportti.md)
+
 ### [backlog](https://github.com/users/Eeritvan/projects/5/views/1)
 ### [sprint-backlog](https://github.com/users/Eeritvan/projects/5/views/2)
 ### [burndown](https://helsinkifi-my.sharepoint.com/:x:/g/personal/jkuusto_ad_helsinki_fi/EfSoYL13xWhPjvn_zf2wny0B3ATpEZ6BFviF9YFYQLmAfQ?e=2bQM5q)
@@ -13,7 +15,6 @@ This project uses [Bootstrap](https://getbootstrap.com/) for styling and layout.
 ## Contents
 - [Running locally](#running-locally)
 - [Definition of done](#definition-of-done)
-- [Loppuraportti](https://github.com/Eeritvan/ohtu-tiistai/blob/main/raportti.md)
 
 ## Running locally
 **Prerequisites**
