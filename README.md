@@ -13,6 +13,7 @@ This project uses [Bootstrap](https://getbootstrap.com/) for styling and layout.
 ## Contents
 - [Running locally](#running-locally)
 - [Definition of done](#definition-of-done)
+- [Loppuraportti](https://github.com/Eeritvan/ohtu-tiistai/blob/main/raportti.md)
 
 ## Running locally
 **Prerequisites**
